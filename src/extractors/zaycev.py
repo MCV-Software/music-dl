@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
-import baseFile
 import re
 import json
 import requests
 from bs4 import BeautifulSoup
+from . import baseFile
 
 class interface(object):
 
