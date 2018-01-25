@@ -11,6 +11,7 @@ class song(object):
 		self.duration = ""
 		self.size = 0
 		self.url = ""
+		self.download_url = ""
 
 	def format_track(self):
 		return "{0}. {1}. {2}".format(self.title, self.duration, self.size)

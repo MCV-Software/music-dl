@@ -10,7 +10,6 @@ class mainWindow(wx.Frame):
 		mb.Append(app_, _(u"Application"))
 		player = wx.Menu()
 		self.player_play = player.Append(wx.NewId(), _(u"Play"))
-		self.player_play_all = player.Append(wx.NewId(), _(u"Play all"))
 		self.player_stop = player.Append(wx.NewId(), _(u"Stop"))
 		self.player_previous = player.Append(wx.NewId(), _(u"Previous"))
 		self.player_next = player.Append(wx.NewId(), _(u"Next"))

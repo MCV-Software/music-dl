@@ -44,10 +44,9 @@ class Controller(object):
 		widgetUtils.connect_event(self.window.search, widgetUtils.BUTTON_PRESSED, self.on_search)
 		widgetUtils.connect_event(self.window.list, widgetUtils.LISTBOX_ITEM_ACTIVATED, self.on_activated)
 		widgetUtils.connect_event(self.window.list, widgetUtils.KEYPRESS, self.on_keypress)
-		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.on_play_pause, menuitem=self.window.player_play)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.on_play, menuitem=self.window.player_play)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.on_next, menuitem=self.window.player_next)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.on_previous, menuitem=self.window.player_previous)
-		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.on_play_all, menuitem=self.window.player_play_all)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.on_stop, menuitem=self.window.player_stop)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.on_volume_down, menuitem=self.window.player_volume_down)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.on_volume_up, menuitem=self.window.player_volume_up)
@@ -59,23 +58,28 @@ class Controller(object):
 		utils.call_threaded(self.search)
 
 	def on_activated(self, *args, **kwargs):
-		utils.call_threaded(self.play)
+		self.on_play()
 
 	def on_keypress(self, ev):
 		if ev.GetKeyCode() == wx.WXK_RETURN:
-			utils.call_threaded(self.play)
+			self.on_play()
+		elif ev.GetKeyCode() == wx.WXK_SPACE:
+			self.on_play_pause()
 		ev.Skip()
 
 	def on_play_pause(self, *args, **kwargs):
 		if player.player.check_is_playing() != False:
 			return player.player.pause()
-		return utils.call_threaded(self.play)
+		elif player.player.stream != None:
+			player.player.stream.play()
+		else:
+			self.on_play()
 
 	def on_next(self, *args, **kwargs):
 		if len(self.results) == 0:
 			return
 		item = self.window.get_item()
-		if item <= len(self.results):
+		if item < len(self.results)-1:
 			self.window.list.SetSelection(item+1)
 		else:
 			self.window.list.SetSelection(0)
@@ -91,8 +95,10 @@ class Controller(object):
 			self.window.list.SetSelection(len(self.results)-1)
 		return utils.call_threaded(self.play)
 
-	def on_play_all(self, *args, **kwargs):
-		pass
+	def on_play(self, *args, **kwargs):
+		items = self.results[self.window.get_item():]
+		return utils.call_threaded(player.player.play_all, items, shuffle=self.window.player_shuffle.IsChecked(), extractor=self.extractor)
+
 
 	def on_stop(self, *args, **kwargs):
 		player.player.stop()
@@ -122,14 +128,3 @@ class Controller(object):
 		for i in self.results:
 			self.window.list.Append(i.format_track())
 		self.change_status("")
-
-	def play(self):
-		if len(self.results) == 0:
-			return
-		self.change_status(_("Loading song..."))
-		url = self.extractor.get_download_url(self.results[self.window.get_item()].url)
-		player.player.play(url)
-
-	def play_audios(self, audios):
-		player.player.play_all(audios, shuffle=self.window.player_shuffle.IsChecked())
-

@@ -27,7 +27,7 @@ class audioPlayer(object):
 		self.queue = []
 		self.stopped = True
 
-	def play(self, url):
+	def play(self, item):
 		if self.stream != None and self.stream.is_playing == True:
 			try:
 				self.stream.stop()
@@ -42,14 +42,17 @@ class audioPlayer(object):
 		# Make sure  there are no other sounds trying to be played.
 		if self.is_working == False:
 			self.is_working = True
+			if item.download_url == "" and hasattr(self, "extractor"):
+				item.download_url = self.extractor.get_download_url(item.url)
 			try:
-				self.stream = URLStream(url=url)
+				self.stream = URLStream(url=item.download_url)
 			except BassError:
-				log.debug("Error when playing the file {0}".format(url,))
+				log.debug("Error when playing the file {0}".format(item.title,))
 				pub.sendMessage("change_status", status=_("Error playing last file"))
 				return
 			self.stream.volume = self.vol/100.0
 			self.stream.play()
+			pub.sendMessage("change_status", status=_("Playing {0}.").format(item.title))
 			self.stopped = False
 			self.is_working = False
 
@@ -76,8 +79,8 @@ class audioPlayer(object):
 
 	@property
 	def volume(self):
-		if self.stream != None:
-			return self.vol
+#		if self.stream != None:
+		return self.vol
 
 	@volume.setter
 	def volume(self, vol):
@@ -86,9 +89,10 @@ class audioPlayer(object):
 		if self.stream != None:
 			self.stream.volume = self.vol/100.0
 
-	def play_all(self, list_of_urls, shuffle=False):
+	def play_all(self, list_of_urls, shuffle=False, extractor=None):
 		self.stop()
 		self.queue = list_of_urls
+		self.extractor = extractor
 		if shuffle:
 			random.shuffle(self.queue)
 		self.play(self.queue[0])
