@@ -2,7 +2,7 @@ wxpython
 requests
 bs4
 pypubsub
-py2exe
+pyinstaller
 hg+http://hg.q-continuum.net/platform_utils#egg=platform_utils
 hg+http://hg.q-continuum.net/libloader#egg=libloader
 hg+http://hg.q-continuum.net/sound_lib
