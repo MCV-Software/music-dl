@@ -72,6 +72,8 @@ class Controller(object):
 		return utils.call_threaded(self.play)
 
 	def on_next(self, *args, **kwargs):
+		if len(self.results) == 0:
+			return
 		item = self.window.get_item()
 		if item <= len(self.results):
 			self.window.list.SetSelection(item+1)
@@ -80,6 +82,8 @@ class Controller(object):
 		return utils.call_threaded(self.play)
 
 	def on_previous(self, *args, **kwargs):
+		if len(self.results) == 0:
+			return
 		item = self.window.get_item()
 		if item > 0:
 			self.window.list.SetSelection(item-1)
@@ -120,6 +124,8 @@ class Controller(object):
 		self.change_status("")
 
 	def play(self):
+		if len(self.results) == 0:
+			return
 		self.change_status(_("Loading song..."))
 		url = self.extractor.get_download_url(self.results[self.window.get_item()].url)
 		player.player.play(url)
