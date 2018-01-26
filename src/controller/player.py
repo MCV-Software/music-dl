@@ -22,7 +22,7 @@ class audioPlayer(object):
 	def __init__(self):
 		self.is_playing = False
 		self.stream = None
-		self.vol = 100
+		self.vol = 50
 		self.is_working = False
 		self.queue = []
 		self.stopped = True
