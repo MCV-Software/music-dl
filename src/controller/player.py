@@ -26,6 +26,7 @@ class audioPlayer(object):
 		self.is_working = False
 		self.queue = []
 		self.stopped = True
+		self.queue_pos = 0
 
 	def play(self, item):
 		if self.stream != None and self.stream.is_playing == True:
@@ -33,22 +34,20 @@ class audioPlayer(object):
 				self.stream.stop()
 			except BassError:
 				log.exception("error when stopping the file")
-				self.stream = None
 			self.stopped = True
-			if hasattr(self, "worker") and self.worker != None:
-				self.worker.cancel()
-				self.worker = None
-				self.queue = []
 		# Make sure  there are no other sounds trying to be played.
 		if self.is_working == False:
 			self.is_working = True
-			if item.download_url == "" and hasattr(self, "extractor"):
-				item.download_url = self.extractor.get_download_url(item.url)
+			if item.download_url == "":
+				item.get_download_url()
 			try:
 				self.stream = URLStream(url=item.download_url)
-			except BassError:
+			except BassError as e:
 				log.debug("Error when playing the file {0}".format(item.title,))
-				pub.sendMessage("change_status", status=_("Error playing last file"))
+				pub.sendMessage("change_status", status=_("Error playing {0}. {1}.").format(item.title, e.description))
+				self.stopped = True
+				self.is_working = False
+				self.next()
 				return
 			self.stream.volume = self.vol/100.0
 			self.stream.play()
@@ -56,14 +55,32 @@ class audioPlayer(object):
 			self.stopped = False
 			self.is_working = False
 
+	def next(self):
+		if len(self.queue) > 0:
+			if self.shuffle:
+				self.queue_pos = random.randint(0, len(self.queue)-1)
+			else:
+				if self.queue_pos < len(self.queue)-1:
+					self.queue_pos += 1
+				else:
+					self.queue_pos = 0
+			self.play(self.queue[self.queue_pos])
+
+	def previous(self):
+		if len(self.queue) > 0:
+			if self.shuffle:
+				self.queue_pos = random.randint(0, len(self.queue)-1)
+			else:
+				if self.queue_pos > 0:
+					self.queue_pos -= 1
+				else:
+					self.queue_pos = len(self.queue)-1
+			self.play(self.queue[self.queue_pos])
+
 	def stop(self):
 		if self.stream != None and self.stream.is_playing == True:
 			self.stream.stop()
 			self.stopped = True
-		if hasattr(self, "worker") and self.worker != None:
-			self.worker.cancel()
-			self.worker = None
-			self.queue = []
 
 	def pause(self):
 		if self.stream != None:
@@ -89,24 +106,21 @@ class audioPlayer(object):
 		if self.stream != None:
 			self.stream.volume = self.vol/100.0
 
-	def play_all(self, list_of_urls, shuffle=False, extractor=None):
-		self.stop()
-		self.queue = list_of_urls
-		self.extractor = extractor
-		if shuffle:
-			random.shuffle(self.queue)
-		self.play(self.queue[0])
-		self.queue.remove(self.queue[0])
-		self.worker = RepeatingTimer(5, self.player_function)
-		self.worker.start()
+	def play_all(self, list_of_items, playing=0, shuffle=False):
+		if list_of_items != self.queue:
+			self.queue = list_of_items
+		self.shuffle = shuffle
+		self.queue_pos = playing
+		self.play(self.queue[self.queue_pos])
+		if not hasattr(self, "worker"):
+			self.worker = RepeatingTimer(5, self.player_function)
+			self.worker.start()
 
 	def player_function(self):
 		if self.stream != None and self.stream.is_playing == False and self.stopped == False and len(self.stream) == self.stream.position:
 			if len(self.queue) == 0:
-				self.worker.cancel()
 				return
-			self.play(self.queue[0])
-			self.queue.remove(self.queue[0])
+			self.next()
 
 	def check_is_playing(self):
 		if self.stream == None:

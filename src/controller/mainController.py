@@ -76,29 +76,15 @@ class Controller(object):
 			self.on_play()
 
 	def on_next(self, *args, **kwargs):
-		if len(self.results) == 0:
-			return
-		item = self.window.get_item()
-		if item < len(self.results)-1:
-			self.window.list.SetSelection(item+1)
-		else:
-			self.window.list.SetSelection(0)
-		return utils.call_threaded(self.play)
+		return utils.call_threaded(player.player.next)
 
 	def on_previous(self, *args, **kwargs):
-		if len(self.results) == 0:
-			return
-		item = self.window.get_item()
-		if item > 0:
-			self.window.list.SetSelection(item-1)
-		else:
-			self.window.list.SetSelection(len(self.results)-1)
-		return utils.call_threaded(self.play)
+		return utils.call_threaded(player.player.previous)
 
 	def on_play(self, *args, **kwargs):
-		items = self.results[self.window.get_item():]
-		return utils.call_threaded(player.player.play_all, items, shuffle=self.window.player_shuffle.IsChecked(), extractor=self.extractor)
-
+		items = self.results[::]
+		playing_item = self.window.get_item()
+		return utils.call_threaded(player.player.play_all, items, playing=playing_item, shuffle=self.window.player_shuffle.IsChecked())
 
 	def on_stop(self, *args, **kwargs):
 		player.player.stop()
