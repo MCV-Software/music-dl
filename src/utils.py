@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
+import os
+import requests
 import threading
 import logging
+from pubsub import pub
 
 log = logging.getLogger("utils")
 
@@ -44,3 +47,20 @@ class RepeatingTimer(threading.Thread):
 					self.function(*self.args, **self.kwargs)
 				except:
 					log.exception("Execution failed. Function: %r args: %r and kwargs: %r" % (self.function, self.args, self.kwargs))
+
+def download_file(url, local_filename):
+	r = requests.get(url, stream=True)
+	pub.sendMessage("change_status", status=_(u"Downloading {0}.").format(local_filename,))
+	total_length = r.headers.get("content-length")
+	dl = 0
+	total_length = int(total_length)
+	with open(local_filename, 'wb') as f:
+		for chunk in r.iter_content(chunk_size=64): 
+			if chunk: # filter out keep-alive new chunks
+				dl += len(chunk)
+				f.write(chunk)
+				done = int(100 * dl / total_length)
+				msg = _(u"Downloading {0} ({1}%).").format(os.path.basename(local_filename), done)
+				pub.sendMessage("change_status", status=msg)
+	pub.sendMessage("change_status", status="")
+	return local_filename

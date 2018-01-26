@@ -5,7 +5,7 @@ import logging
 import widgetUtils
 import utils
 from pubsub import pub
-from wxUI import mainWindow
+from wxUI import mainWindow, menus
 from extractors import zaycev
 from . import player
 
@@ -56,6 +56,9 @@ class Controller(object):
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.on_volume_up, menuitem=self.window.player_volume_up)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.on_mute, menuitem=self.window.player_mute)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.on_shuffle, menuitem=self.window.player_shuffle)
+		self.window.list.Bind(wx.EVT_LISTBOX_DCLICK, self.on_play)
+		self.window.list.Bind(wx.EVT_CONTEXT_MENU, self.on_context)
+
 		pub.subscribe(self.change_status, "change_status")
 
 	# Event functions. These functions will call other functions in a thread and are bound to widget events.
@@ -114,6 +117,26 @@ class Controller(object):
 	def on_shuffle(self, *args, **kwargs):
 		player.player.shuffle = self.window.player_shuffle.IsChecked()
 
+	def on_context(self, *args, **kwargs):
+		item = self.window.get_item()
+		if item == -1:
+			return wx.Bell()
+		menu = menus.contextMenu()
+		widgetUtils.connect_event(menu, widgetUtils.MENU, self.on_play, menuitem=menu.play)
+		widgetUtils.connect_event(menu, widgetUtils.MENU, self.on_download, menuitem=menu.download)
+		self.window.PopupMenu(menu, wx.GetMousePosition())
+		menu.Destroy()
+
+	def on_download(self, *args, **kwargs):
+		item = self.results[self.window.get_item()]
+		f = "{0}.mp3".format(item.title)
+		if item.download_url == "":
+			item.get_download_url()
+		path = self.window.get_destination_path(f)
+		if path != None:
+			log.debug("downloading %s URL to %s filename" % (item.download_url, path,))
+			utils.call_threaded(utils.download_file, item.download_url, path)
+
 	def change_status(self, status):
 		""" Function used for changing the status bar from outside the main controller module."""
 		self.window.change_status("{0} {1}".format(status, self.get_status_info()))
@@ -130,3 +153,4 @@ class Controller(object):
 		for i in self.results:
 			self.window.list.Append(i.format_track())
 		self.change_status("")
+

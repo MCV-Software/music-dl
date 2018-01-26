@@ -70,3 +70,9 @@ class mainWindow(wx.Frame):
 
 	def get_item(self):
 		return self.list.GetSelection()
+
+	def get_destination_path(self, filename):
+		saveFileDialog = wx.FileDialog(self, _(u"Save this file"), "", filename, _(u"Audio Files(*.mp3)|*.mp3"), wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT)
+		if saveFileDialog.ShowModal() == wx.ID_OK:
+			return saveFileDialog.GetPath()
+		saveFileDialog.Destroy()
