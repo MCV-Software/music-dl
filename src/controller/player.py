@@ -27,6 +27,7 @@ class audioPlayer(object):
 		self.queue = []
 		self.stopped = True
 		self.queue_pos = 0
+		self.shuffle = False
 
 	def play(self, item):
 		if self.stream != None and self.stream.is_playing == True:

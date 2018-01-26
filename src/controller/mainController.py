@@ -36,7 +36,11 @@ class Controller(object):
 			results = _("Showing {0} results.").format(len(self.results))
 		else:
 			results = ""
-		final = results+" "
+		if player.player.shuffle:
+			shuffle = _("Shuffle on")
+		else:
+			shuffle = ""
+		final = "{0} {1}".format(results, shuffle)
 		return final
 
 	def connect_events(self):
@@ -51,6 +55,7 @@ class Controller(object):
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.on_volume_down, menuitem=self.window.player_volume_down)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.on_volume_up, menuitem=self.window.player_volume_up)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.on_mute, menuitem=self.window.player_mute)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.on_shuffle, menuitem=self.window.player_shuffle)
 		pub.subscribe(self.change_status, "change_status")
 
 	# Event functions. These functions will call other functions in a thread and are bound to widget events.
@@ -97,6 +102,9 @@ class Controller(object):
 
 	def on_mute(self, *args, **kwargs):
 		player.player.volume = 0
+
+	def on_shuffle(self, *args, **kwargs):
+		player.player.shuffle = self.window.player_shuffle.IsChecked()
 
 	def change_status(self, status):
 		""" Function used for changing the status bar from outside the main controller module."""
