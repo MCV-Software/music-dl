@@ -74,6 +74,10 @@ class Controller(object):
 			return self.on_volume_up()
 		elif ev.GetKeyCode() == wx.WXK_DOWN and ev.ControlDown():
 			return self.on_volume_down()
+		elif ev.GetKeyCode() == wx.WXK_LEFT and ev.AltDown():
+			return self.on_previous()
+		elif ev.GetKeyCode() == wx.WXK_RIGHT and ev.AltDown():
+			return self.on_next()
 		ev.Skip()
 
 	def on_play_pause(self, *args, **kwargs):
