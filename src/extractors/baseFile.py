@@ -4,7 +4,8 @@
 class song(object):
 	""" Represents a song in all services. Data will be filled by the service itself"""
 
-	def __init__(self):
+	def __init__(self, extractor):
+		self.extractor = extractor
 		self.bitrate = 0
 		self.title = ""
 		self.artist = ""
@@ -15,3 +16,6 @@ class song(object):
 
 	def format_track(self):
 		return "{0}. {1}. {2}".format(self.title, self.duration, self.size)
+
+	def get_download_url(self):
+		self.download_url = self.extractor.get_download_url(self.url)

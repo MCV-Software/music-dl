@@ -22,7 +22,7 @@ class interface(object):
 		self.hd = [{'duration': re.search(D, str(x)).group()[13:], 'size': re.search(R, str(x)).group()[7:], 'bitrate': re.search(B, str(x)).group()[8:]} for x in soup.find_all('div', {'class': "result__snp"})]
 		self.results = []
 		for i in range(len(self.hd)):
-			s = baseFile.song()
+			s = baseFile.song(self)
 			s.title = self.dh[i][0]
 			s.url = self.dh[i][1]
 			s.duration = self.hd[i]["duration"]
