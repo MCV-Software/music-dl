@@ -67,9 +67,13 @@ class Controller(object):
 
 	def on_keypress(self, ev):
 		if ev.GetKeyCode() == wx.WXK_RETURN:
-			self.on_play()
+			return self.on_play()
 		elif ev.GetKeyCode() == wx.WXK_SPACE:
-			self.on_play_pause()
+			return self.on_play_pause()
+		elif ev.GetKeyCode() == wx.WXK_UP and ev.ControlDown():
+			return self.on_volume_up()
+		elif ev.GetKeyCode() == wx.WXK_DOWN and ev.ControlDown():
+			return self.on_volume_down()
 		ev.Skip()
 
 	def on_play_pause(self, *args, **kwargs):
