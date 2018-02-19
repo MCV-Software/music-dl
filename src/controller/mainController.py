@@ -27,6 +27,9 @@ class Controller(object):
 		# Here we will save results for searches as song objects.
 		self.results = []
 		self.connect_events()
+		self.timer = wx.Timer(self.window)
+		self.window.Bind(wx.EVT_TIMER, self.on_timer, self.timer)
+		self.timer.Start()
 		# Shows window.
 		self.window.Show()
 
@@ -56,9 +59,16 @@ class Controller(object):
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.on_volume_up, menuitem=self.window.player_volume_up)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.on_mute, menuitem=self.window.player_mute)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.on_shuffle, menuitem=self.window.player_shuffle)
+		widgetUtils.connect_event(self.window.previous, widgetUtils.BUTTON_PRESSED, self.on_previous)
+		widgetUtils.connect_event(self.window.play, widgetUtils.BUTTON_PRESSED, self.on_play_pause)
+		widgetUtils.connect_event(self.window.stop, widgetUtils.BUTTON_PRESSED, self.on_stop)
+		widgetUtils.connect_event(self.window.next, widgetUtils.BUTTON_PRESSED, self.on_next)
+		self.window.Bind(wx.EVT_COMMAND_SCROLL_THUMBTRACK, self.on_set_volume, self.window.vol_slider)
+		self.window.Bind(wx.EVT_COMMAND_SCROLL_CHANGED, self.on_set_volume, self.window.vol_slider)
+		self.window.Bind(wx.EVT_COMMAND_SCROLL_THUMBTRACK, self.on_time_change, self.window.time_slider)
+		self.window.Bind(wx.EVT_COMMAND_SCROLL_CHANGED, self.on_time_change, self.window.time_slider)
 		self.window.list.Bind(wx.EVT_LISTBOX_DCLICK, self.on_play)
 		self.window.list.Bind(wx.EVT_CONTEXT_MENU, self.on_context)
-
 		pub.subscribe(self.change_status, "change_status")
 
 	# Event functions. These functions will call other functions in a thread and are bound to widget events.
@@ -87,7 +97,7 @@ class Controller(object):
 		if player.player.player.is_playing() == 1:
 			return player.player.pause()
 		else:
-			player.player.player.play()
+			return self.on_play()
 
 	def on_next(self, *args, **kwargs):
 		return utils.call_threaded(player.player.next)
@@ -134,6 +144,21 @@ class Controller(object):
 		if path != None:
 			log.debug("downloading %s URL to %s filename" % (item.download_url, path,))
 			utils.call_threaded(utils.download_file, item.download_url, path)
+
+	def on_set_volume(self, *args, **kwargs):
+		volume = self.window.vol_slider.GetValue()
+		player.player.player.audio_set_volume(volume)
+
+	def on_time_change(self, *args, **kwargs):
+		p = self.window.time_slider.GetValue()/100000.0
+		print(p)
+		player.player.player.set_position(p)
+
+	def on_timer(self, *args, **kwargs):
+		length = player.player.player.get_length()
+		self.window.time_slider.SetRange(-1, length)
+		time = player.player.player.get_time()
+		self.window.time_slider.SetValue(time)
 
 	def change_status(self, status):
 		""" Function used for changing the status bar from outside the main controller module."""
