@@ -84,12 +84,10 @@ class Controller(object):
 		ev.Skip()
 
 	def on_play_pause(self, *args, **kwargs):
-		if player.player.check_is_playing() != False:
+		if player.player.player.is_playing() == 1:
 			return player.player.pause()
-		elif player.player.stream != None:
-			player.player.stream.play()
 		else:
-			self.on_play()
+			player.player.player.play()
 
 	def on_next(self, *args, **kwargs):
 		return utils.call_threaded(player.player.next)
