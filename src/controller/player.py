@@ -3,7 +3,7 @@ import random
 import vlc
 import logging
 from pubsub import pub
-from utils import RepeatingTimer
+from utils import call_threaded
 
 player = None
 log = logging.getLogger("player")
@@ -25,10 +25,11 @@ class audioPlayer(object):
 		self.shuffle = False
 		self.instance = vlc.Instance()
 		self.player = self.instance.media_player_new()
+		self.event_manager = self.player.event_manager()
+		self.event_manager.event_attach(vlc.EventType.MediaPlayerEndReached, self.end_callback)
 
 	def play(self, item):
 		self.stopped = True
-		# Make sure  there are no other sounds trying to be played.
 		if self.is_working == False:
 			self.is_working = True
 			if item.download_url == "":
@@ -96,12 +97,10 @@ class audioPlayer(object):
 		self.shuffle = shuffle
 		self.queue_pos = playing
 		self.play(self.queue[self.queue_pos])
-		if not hasattr(self, "worker"):
-			self.worker = RepeatingTimer(5, self.player_function)
-			self.worker.start()
 
-	def player_function(self):
-		if self.player.is_playing() == 0 and self.stopped == False:
-			if len(self.queue) == 0:
-				return
-			self.next()
+	def end_callback(self, event, *args, **kwargs):
+		#https://github.com/ZeBobo5/Vlc.DotNet/issues/4
+		call_threaded(self.next)
+
+	def __del__(self):
+		self.event_manager.event_detach(vlc.EventType.MediaPlayerEndReached)
