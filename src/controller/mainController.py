@@ -29,7 +29,8 @@ class Controller(object):
 		self.connect_events()
 		self.timer = wx.Timer(self.window)
 		self.window.Bind(wx.EVT_TIMER, self.on_timer, self.timer)
-		self.timer.Start()
+		self.timer.Start(75)
+		self.window.vol_slider.SetValue(player.player.volume)
 		# Shows window.
 		self.window.Show()
 
@@ -69,6 +70,7 @@ class Controller(object):
 		self.window.Bind(wx.EVT_COMMAND_SCROLL_CHANGED, self.on_time_change, self.window.time_slider)
 		self.window.list.Bind(wx.EVT_LISTBOX_DCLICK, self.on_play)
 		self.window.list.Bind(wx.EVT_CONTEXT_MENU, self.on_context)
+		self.window.Bind(wx.EVT_CLOSE, self.on_close)
 		pub.subscribe(self.change_status, "change_status")
 
 	# Event functions. These functions will call other functions in a thread and are bound to widget events.
@@ -97,7 +99,7 @@ class Controller(object):
 		if player.player.player.is_playing() == 1:
 			return player.player.pause()
 		else:
-			return self.on_play()
+			return player.player.player.play()
 
 	def on_next(self, *args, **kwargs):
 		return utils.call_threaded(player.player.next)
@@ -114,10 +116,10 @@ class Controller(object):
 		player.player.stop()
 
 	def on_volume_down(self, *args, **kwargs):
-		player.player.volume = player.player.volume-5
+		self.window.vol_slider.SetValue(self.window.volume_slider.GetValue()-5)
 
 	def on_volume_up(self, *args, **kwargs):
-		player.player.volume = player.player.volume+5
+		self.window.vol_slider.SetValue(self.window.volume_slider.GetValue()-5)
 
 	def on_mute(self, *args, **kwargs):
 		player.player.volume = 0
@@ -149,16 +151,19 @@ class Controller(object):
 		volume = self.window.vol_slider.GetValue()
 		player.player.player.audio_set_volume(volume)
 
-	def on_time_change(self, *args, **kwargs):
-		p = self.window.time_slider.GetValue()/100000.0
-		print(p)
-		player.player.player.set_position(p)
+	def on_time_change(self, event, *args, **kwargs):
+		p = event.GetPosition()
+		player.player.player.set_position(p/100.0)
+		event.Skip()
 
 	def on_timer(self, *args, **kwargs):
-		length = player.player.player.get_length()
-		self.window.time_slider.SetRange(-1, length)
-		time = player.player.player.get_time()
-		self.window.time_slider.SetValue(time)
+		if not self.window.time_slider.HasFocus():
+			progress = player.player.player.get_position()*100
+			self.window.time_slider.SetValue(progress)
+
+	def on_close(self, event):
+		self.timer.Stop()
+		event.Skip()
 
 	def change_status(self, status):
 		""" Function used for changing the status bar from outside the main controller module."""
