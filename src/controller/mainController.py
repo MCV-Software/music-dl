@@ -116,13 +116,16 @@ class Controller(object):
 		player.player.stop()
 
 	def on_volume_down(self, *args, **kwargs):
-		self.window.vol_slider.SetValue(self.window.volume_slider.GetValue()-5)
+		self.window.vol_slider.SetValue(self.window.vol_slider.GetValue()-5)
+		self.on_set_volume()
 
 	def on_volume_up(self, *args, **kwargs):
-		self.window.vol_slider.SetValue(self.window.volume_slider.GetValue()-5)
+		self.window.vol_slider.SetValue(self.window.vol_slider.GetValue()+5)
+		self.on_set_volume()
 
 	def on_mute(self, *args, **kwargs):
-		player.player.volume = 0
+		self.window.vol_slider.SetValue(0)
+		self.on_set_volume()
 
 	def on_shuffle(self, *args, **kwargs):
 		player.player.shuffle = self.window.player_shuffle.IsChecked()
