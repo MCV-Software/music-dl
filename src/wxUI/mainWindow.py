@@ -6,8 +6,8 @@ import widgetUtils
 class mainWindow(wx.Frame):
 	def makeMenu(self):
 		mb = wx.MenuBar()
-		app_ = wx.Menu()
-		mb.Append(app_, _(u"Application"))
+#		app_ = wx.Menu()
+#		mb.Append(app_, _(u"Application"))
 		player = wx.Menu()
 		self.player_play = player.Append(wx.NewId(), _(u"Play"))
 		self.player_stop = player.Append(wx.NewId(), _(u"Stop"))
