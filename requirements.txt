@@ -3,5 +3,7 @@ requests
 bs4
 pypubsub
 python-vlc
+google-api-python-client
+youtube-dl
 pyinstaller
 hg+http://hg.q-continuum.net/platform_utils#egg=platform_utils
