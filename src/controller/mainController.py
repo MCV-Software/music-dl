@@ -6,7 +6,7 @@ import widgetUtils
 import utils
 from pubsub import pub
 from wxUI import mainWindow, menus
-from extractors import zaycev
+from extractors import zaycev, youtube
 from . import player
 
 log = logging.getLogger("controller.main")
@@ -19,7 +19,6 @@ class Controller(object):
 		# Setting up the player object
 		player.setup()
 		# Instantiate the only available extractor for now.
-		self.extractor = zaycev.interface()
 		# Get main window
 		self.window = mainWindow.mainWindow()
 		log.debug("Main window created")
@@ -176,6 +175,13 @@ class Controller(object):
 	def search(self, *args, **kwargs):
 		text = self.window.get_text()
 		if text == "":
+			return
+		extractor = self.window.extractor.GetValue()
+		if extractor == "youtube":
+			self.extractor = youtube.interface()
+		elif extractor == "zaycev.net":
+			self.extractor = zaycev.interface()
+		elif extractor == "":
 			return
 		self.window.list.Clear()
 		self.change_status(_("Searching {0}... ").format(text,))

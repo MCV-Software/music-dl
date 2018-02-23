@@ -24,7 +24,6 @@ class interface(object):
 				s = baseFile.song(self)
 				s.title = search_result["snippet"]["title"]
 				s.url = "https://www.youtube.com/watch?v="+search_result["id"]["videoId"]
-				print(search_result.keys())
 				self.results.append(s)
 
 	def get_download_url(self, url):
