@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import os
 import random
 import vlc
 import logging
@@ -101,6 +102,32 @@ class audioPlayer(object):
 	def end_callback(self, event, *args, **kwargs):
 		#https://github.com/ZeBobo5/Vlc.DotNet/issues/4
 		call_threaded(self.next)
+
+	def transcode_audio(self, item, path):
+		""" Converts given item to mp3. This method will be available when needed automatically."""
+		if item.download_url == "":
+			item.get_download_url()
+		temporary_filename = "chunk_{0}".format(random.randint(0,2000000))
+		temporary_path = os.path.join(os.path.dirname(path), temporary_filename)
+		# Let's get a new VLC instance for transcoding this file.
+		transcoding_instance = vlc.Instance(*["--sout=#transcode{acodec=mp3,ab=192}:file{mux=raw,dst=\"%s\"}"% (temporary_path,)])
+		transcoder = transcoding_instance.media_player_new()
+		transcoder.set_mrl(item.download_url)
+		pub.sendMessage("change_status", status=_(u"Downloading {0}.").format(item.title,))
+		media = transcoder.get_media()
+		transcoder.play()
+		while True:
+			state = media.get_state()
+			pub.sendMessage("change_status", status=_("Downloading {0} ({1}%).").format(item.title, int(transcoder.get_position()*100)))
+			if str(state) == 'State.Ended':
+				break
+			elif str(state) == 'state.error':
+				os.remove(temporary_path)
+				break
+		transcoder.release()
+		os.rename(temporary_path, path)
+		pub.sendMessage("change_status", status="")
+#			print(state)
 
 	def __del__(self):
 		self.event_manager.event_detach(vlc.EventType.MediaPlayerEndReached)
