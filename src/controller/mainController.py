@@ -96,8 +96,10 @@ class Controller(object):
 
 	def on_play_pause(self, *args, **kwargs):
 		if player.player.player.is_playing() == 1:
+			self.window.play.SetLabel(_("Play"))
 			return player.player.pause()
 		else:
+			self.window.play.SetLabel(_("Pause"))
 			return player.player.player.play()
 
 	def on_next(self, *args, **kwargs):
@@ -109,10 +111,12 @@ class Controller(object):
 	def on_play(self, *args, **kwargs):
 		items = self.results[::]
 		playing_item = self.window.get_item()
+		self.window.play.SetLabel(_("Pause"))
 		return utils.call_threaded(player.player.play_all, items, playing=playing_item, shuffle=self.window.player_shuffle.IsChecked())
 
 	def on_stop(self, *args, **kwargs):
 		player.player.stop()
+		self.window.play.SetLabel(_("Play"))
 
 	def on_volume_down(self, *args, **kwargs):
 		self.window.vol_slider.SetValue(self.window.vol_slider.GetValue()-5)
