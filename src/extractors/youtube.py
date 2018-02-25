@@ -12,6 +12,8 @@ class interface(object):
 
 	def __init__(self):
 		self.results = []
+		self.name = "youtube"
+		self.needs_transcode = True
 
 	def search(self, text, page=1):
 		type = "video"

@@ -10,6 +10,8 @@ class interface(object):
 
 	def __init__(self):
 		self.results = []
+		self.name = "zaycev"
+		self.needs_transcode = False
 
 	def search(self, text, page=1):
 		site = 'http://go.mail.ru/zaycev?q=%s&page=%s' % (text, page)
