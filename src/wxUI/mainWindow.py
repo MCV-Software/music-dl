@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import wx
+import wx.adv
 import application
 import widgetUtils
 
@@ -74,15 +75,15 @@ class mainWindow(wx.Frame):
 		self.sb.SetStatusText(status)
 
 	def about_dialog(self, *args, **kwargs):
-		info = wx.AboutDialogInfo()
+		info = wx.adv.AboutDialogInfo()
 		info.SetName(application.name)
 		info.SetVersion(application.version)
 		info.SetDescription(application.description)
 		info.SetCopyright(application.copyright)
-		info.SetTranslators(application.translators)
+#		info.SetTranslators(application.translators)
 #  info.SetLicence(application.licence)
 		info.AddDeveloper(application.author)
-		wx.AboutBox(info)
+		wx.adv.AboutBox(info)
 
 	def get_text(self):
 		t = self.text.GetValue()
