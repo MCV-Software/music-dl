@@ -146,8 +146,11 @@ class Controller(object):
 			item.get_download_url()
 		path = self.window.get_destination_path(f)
 		if path != None:
-			log.debug("downloading %s URL to %s filename" % (item.download_url, path,))
-			utils.call_threaded(utils.download_file, item.download_url, path)
+			if self.extractor.needs_transcode == True: # Send download to vlc based transcoder
+				utils.call_threaded(player.player.transcode_audio, item, path)
+			else:
+				log.debug("downloading %s URL to %s filename" % (item.download_url, path,))
+				utils.call_threaded(utils.download_file, item.download_url, path)
 
 	def on_set_volume(self, *args, **kwargs):
 		volume = self.window.vol_slider.GetValue()
