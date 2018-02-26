@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import wx
 import application
-import utils
+from .import utils
 
 progress_dialog = None
 
