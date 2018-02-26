@@ -1,9 +1,11 @@
 # -*- coding: utf-8 -*-
 """ main controller for MusicDL"""
+import webbrowser
 import wx
 import logging
 import widgetUtils
 import utils
+import application
 from pubsub import pub
 from wxUI import mainWindow, menus
 from extractors import zaycev, youtube
@@ -61,6 +63,8 @@ class Controller(object):
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.on_mute, menuitem=self.window.player_mute)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.on_shuffle, menuitem=self.window.player_shuffle)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.window.about_dialog, menuitem=self.window.about)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.on_check_for_updates, menuitem=self.window.check_for_updates)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.on_visit_website, menuitem=self.window.website)
 		widgetUtils.connect_event(self.window.previous, widgetUtils.BUTTON_PRESSED, self.on_previous)
 		widgetUtils.connect_event(self.window.play, widgetUtils.BUTTON_PRESSED, self.on_play_pause)
 		widgetUtils.connect_event(self.window.stop, widgetUtils.BUTTON_PRESSED, self.on_stop)
@@ -179,6 +183,12 @@ class Controller(object):
 	def change_status(self, status):
 		""" Function used for changing the status bar from outside the main controller module."""
 		self.window.change_status("{0} {1}".format(status, self.get_status_info()))
+
+	def on_visit_website(self, *args, **kwargs):
+		webbrowser.open_new_tab(application.url)
+
+	def on_check_for_updates(self, *args, **kwargs):
+		utils.call_threaded(updater.do_update)
 
 	# real functions. These functions really are doing the work.
 	def search(self, *args, **kwargs):
