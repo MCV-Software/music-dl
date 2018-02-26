@@ -7,6 +7,7 @@ import utils
 from pubsub import pub
 from wxUI import mainWindow, menus
 from extractors import zaycev, youtube
+from update import updater
 from . import player
 
 log = logging.getLogger("controller.main")
@@ -18,7 +19,6 @@ class Controller(object):
 		log.debug("Starting main controller...")
 		# Setting up the player object
 		player.setup()
-		# Instantiate the only available extractor for now.
 		# Get main window
 		self.window = mainWindow.mainWindow()
 		log.debug("Main window created")
@@ -31,6 +31,7 @@ class Controller(object):
 		self.timer.Start(75)
 		self.window.vol_slider.SetValue(player.player.volume)
 		# Shows window.
+		utils.call_threaded(updater.do_update)
 		self.window.Show()
 
 	def get_status_info(self):
