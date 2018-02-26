@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 name = "MusicDL"
-version = "0.1"
+version = "0.2"
 author = "Manuel Cortéz"
 authorEmail = "manuel@manuelcortez.net"
 copyright = "Copyright (C) 2018, Manuel Cortez"
