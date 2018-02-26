@@ -1,14 +1,13 @@
 # -*- mode: python -*-
-#import application
 
 block_cipher = None
 
-
 a = Analysis(['main.py'],
              pathex=['.'],
-             binaries=[("C:/Program Files (x86)/VideoLAN/VLC/plugins", "plugins"),
-("C:/Program Files (x86)/VideoLAN/VLC/libvlc.dll", "."),
-("C:/Program Files (x86)/VideoLAN/VLC/libvlccore.dll", "."),],
+             binaries=[("plugins", "plugins"),
+("libvlc.dll", "."),
+("libvlccore.dll", "."),
+("bootstrap.exe", ".")],
              datas=[],
              hiddenimports=[],
              hookspath=[],
