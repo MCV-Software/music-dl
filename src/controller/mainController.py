@@ -164,7 +164,7 @@ class Controller(object):
 
 	def on_set_volume(self, *args, **kwargs):
 		volume = self.window.vol_slider.GetValue()
-		player.player.player.audio_set_volume(volume)
+		player.player.volume = volume
 
 	def on_time_change(self, event, *args, **kwargs):
 		p = event.GetPosition()
