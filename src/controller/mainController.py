@@ -77,6 +77,7 @@ class Controller(object):
 		self.window.list.Bind(wx.EVT_CONTEXT_MENU, self.on_context)
 		self.window.Bind(wx.EVT_CLOSE, self.on_close)
 		pub.subscribe(self.change_status, "change_status")
+		pub.subscribe(self.on_download_finished, "download_finished")
 
 	# Event functions. These functions will call other functions in a thread and are bound to widget events.
 	def on_search(self, *args, **kwargs):
@@ -178,7 +179,9 @@ class Controller(object):
 
 	def on_close(self, event):
 		self.timer.Stop()
+		pub.unsubscribe(self.on_download_finished, "download_finished")
 		event.Skip()
+		widgetUtils.exit_application()
 
 	def change_status(self, status):
 		""" Function used for changing the status bar from outside the main controller module."""
@@ -189,6 +192,11 @@ class Controller(object):
 
 	def on_check_for_updates(self, *args, **kwargs):
 		utils.call_threaded(updater.do_update)
+
+	def on_download_finished(self, file):
+		title = "MusicDL"
+		msg = _("File downloaded: {0}").format(file,)
+		self.window.notify(title, msg)
 
 	# real functions. These functions really are doing the work.
 	def search(self, *args, **kwargs):
@@ -208,5 +216,8 @@ class Controller(object):
 		self.results = self.extractor.results
 		for i in self.results:
 			self.window.list.Append(i.format_track())
-		self.change_status("")
-
+		if len(self.results) == 0:
+			self.change_status(_("No results found. "))
+		else:
+			self.change_status("")
+			wx.CallAfter(self.window.list.SetFocus)
