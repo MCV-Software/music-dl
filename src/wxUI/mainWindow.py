@@ -100,3 +100,7 @@ class mainWindow(wx.Frame):
 		if saveFileDialog.ShowModal() == wx.ID_OK:
 			return saveFileDialog.GetPath()
 		saveFileDialog.Destroy()
+
+	def notify(self, title, text):
+		self.notification = wx.adv.NotificationMessage(title, text, parent=self)
+		self.notification.Show()

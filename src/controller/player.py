@@ -126,7 +126,7 @@ class audioPlayer(object):
 				break
 		transcoder.release()
 		os.rename(temporary_path, path)
-		pub.sendMessage("change_status", status="")
+		pub.sendMessage("download_finished", file=os.path.basename(path))
 #			print(state)
 
 	def __del__(self):
