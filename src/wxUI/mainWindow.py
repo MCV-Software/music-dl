@@ -82,7 +82,7 @@ class mainWindow(wx.Frame):
 		info.SetDescription(application.description)
 		info.SetCopyright(application.copyright)
 		info.SetWebSite(application.url)
-#		info.SetTranslators(application.translators)
+		info.SetTranslators(application.translators)
 #  info.SetLicence(application.licence)
 		info.AddDeveloper(application.author)
 		wx.adv.AboutBox(info)
