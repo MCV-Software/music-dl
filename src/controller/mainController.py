@@ -8,7 +8,7 @@ import utils
 import application
 from pubsub import pub
 from wxUI import mainWindow, menus
-from extractors import zaycev, youtube
+from extractors import zaycev, youtube, vk
 from update import updater
 from . import player
 
@@ -206,6 +206,8 @@ class Controller(object):
 		extractor = self.window.extractor.GetValue()
 		if extractor == "youtube":
 			self.extractor = youtube.interface()
+		elif extractor == "vk":
+			self.extractor = vk.interface()
 		elif extractor == "zaycev.net":
 			self.extractor = zaycev.interface()
 		elif extractor == "":
