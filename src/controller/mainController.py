@@ -64,6 +64,7 @@ class Controller(object):
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.on_shuffle, menuitem=self.window.player_shuffle)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.window.about_dialog, menuitem=self.window.about)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.on_check_for_updates, menuitem=self.window.check_for_updates)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.on_visit_changelog, menuitem=self.window.changelog)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.on_visit_website, menuitem=self.window.website)
 		widgetUtils.connect_event(self.window.previous, widgetUtils.BUTTON_PRESSED, self.on_previous)
 		widgetUtils.connect_event(self.window.play, widgetUtils.BUTTON_PRESSED, self.on_play_pause)
@@ -91,6 +92,16 @@ class Controller(object):
 			return self.on_play()
 		elif ev.GetKeyCode() == wx.WXK_SPACE:
 			return self.on_play_pause()
+		elif ev.GetKeyCode() == wx.WXK_LEFT and ev.ShiftDown():
+			position = player.player.player.get_time()
+			if position > 5000:
+				player.player.player.set_time(position-5000)
+			else:
+				player.player.player.set_time(0)
+		elif ev.GetKeyCode() == wx.WXK_RIGHT and ev.ShiftDown():
+			position = player.player.player.get_time()
+			player.player.player.set_time(position+5000)
+
 		elif ev.GetKeyCode() == wx.WXK_UP and ev.ControlDown():
 			return self.on_volume_up()
 		elif ev.GetKeyCode() == wx.WXK_DOWN and ev.ControlDown():
@@ -189,6 +200,9 @@ class Controller(object):
 
 	def on_visit_website(self, *args, **kwargs):
 		webbrowser.open_new_tab(application.url)
+
+	def on_visit_changelog(self, *args, **kwargs):
+		webbrowser.open_new_tab(application.url+"/news")
 
 	def on_check_for_updates(self, *args, **kwargs):
 		utils.call_threaded(updater.do_update)
