@@ -28,6 +28,7 @@ class audioPlayer(object):
 		self.player = self.instance.media_player_new()
 		self.event_manager = self.player.event_manager()
 		self.event_manager.event_attach(vlc.EventType.MediaPlayerEndReached, self.end_callback)
+		self.event_manager.event_attach(vlc.EventType.MediaPlayerEncounteredError, self.playback_error)
 
 	def play(self, item):
 		self.stopped = True
@@ -127,7 +128,10 @@ class audioPlayer(object):
 		transcoder.release()
 		os.rename(temporary_path, path)
 		pub.sendMessage("download_finished", file=os.path.basename(path))
-#			print(state)
+
+	def playback_error(self, event):
+		pub.sendMessage("notify", title=_("Error"), message=_("There was an error while trying to access the file you have requested."))
 
 	def __del__(self):
 		self.event_manager.event_detach(vlc.EventType.MediaPlayerEndReached)
+		self.event_manager.event_detach(vlc.EventType.MediaPlayerEncounteredError, self.playback_error)
