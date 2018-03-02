@@ -8,7 +8,7 @@ import utils
 import application
 from pubsub import pub
 from wxUI import mainWindow, menus
-from extractors import zaycev, youtube, vk
+from extractors import zaycev, youtube, vk, mailru
 from update import updater
 from . import player
 
@@ -79,6 +79,7 @@ class Controller(object):
 		self.window.Bind(wx.EVT_CLOSE, self.on_close)
 		pub.subscribe(self.change_status, "change_status")
 		pub.subscribe(self.on_download_finished, "download_finished")
+		pub.subscribe(self.on_notify, "notify")
 
 	# Event functions. These functions will call other functions in a thread and are bound to widget events.
 	def on_search(self, *args, **kwargs):
@@ -212,6 +213,9 @@ class Controller(object):
 		msg = _("File downloaded: {0}").format(file,)
 		self.window.notify(title, msg)
 
+	def on_notify(self, title, message):
+		self.window.notify(title, message)
+
 	# real functions. These functions really are doing the work.
 	def search(self, *args, **kwargs):
 		text = self.window.get_text()
@@ -222,6 +226,8 @@ class Controller(object):
 			self.extractor = youtube.interface()
 		elif extractor == "vk":
 			self.extractor = vk.interface()
+		elif extractor == "mail.ru":
+			self.extractor = mailru.interface()
 		elif extractor == "zaycev.net":
 			self.extractor = zaycev.interface()
 		elif extractor == "":
