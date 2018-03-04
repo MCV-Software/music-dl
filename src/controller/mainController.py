@@ -100,10 +100,11 @@ class Controller(object):
 				player.player.player.set_time(position-5000)
 			else:
 				player.player.player.set_time(0)
+			return
 		elif ev.GetKeyCode() == wx.WXK_RIGHT and ev.ShiftDown():
 			position = player.player.player.get_time()
 			player.player.player.set_time(position+5000)
-
+			return
 		elif ev.GetKeyCode() == wx.WXK_UP and ev.ControlDown():
 			return self.on_volume_up()
 		elif ev.GetKeyCode() == wx.WXK_DOWN and ev.ControlDown():
