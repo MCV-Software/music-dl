@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """ main controller for MusicDL"""
+from __future__ import unicode_literals    # at top of module
 import webbrowser
 import wx
 import logging

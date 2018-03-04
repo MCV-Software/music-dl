@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals    # at top of module
 import wx
-import wx.adv
+try:
+	import wx.adv
+except ImportError:
+	pass
 import application
 import widgetUtils
 
@@ -77,7 +81,10 @@ class mainWindow(wx.Frame):
 		self.sb.SetStatusText(status)
 
 	def about_dialog(self, *args, **kwargs):
-		info = wx.adv.AboutDialogInfo()
+		try:
+			info = wx.adv.AboutDialogInfo()
+		except:
+			info = wx.AboutDialogInfo()
 		info.SetName(application.name)
 		info.SetVersion(application.version)
 		info.SetDescription(application.description)
@@ -86,7 +93,10 @@ class mainWindow(wx.Frame):
 		info.SetTranslators(application.translators)
 #  info.SetLicence(application.licence)
 		info.AddDeveloper(application.author)
-		wx.adv.AboutBox(info)
+		try:
+			wx.adv.AboutBox(info)
+		except:
+			wx.AboutBox(info)
 
 	def get_text(self):
 		t = self.text.GetValue()
@@ -103,5 +113,8 @@ class mainWindow(wx.Frame):
 		saveFileDialog.Destroy()
 
 	def notify(self, title, text):
-		self.notification = wx.adv.NotificationMessage(title, text, parent=self)
+		try:
+			self.notification = wx.adv.NotificationMessage(title, text, parent=self)
+		except AttributeError:
+			self.notification = wx.NotificationMessage(title, text, parent=self)
 		self.notification.Show()

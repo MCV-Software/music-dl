@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals    # at top of module
 import isodate
 import youtube_dl
 from googleapiclient.discovery import build

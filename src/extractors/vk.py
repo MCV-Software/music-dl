@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals    # at top of module
 import requests
 from .import baseFile
 from update.utils import seconds_to_string

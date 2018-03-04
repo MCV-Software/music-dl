@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
-import urllib.parse
+from __future__ import unicode_literals    # at top of module
+try:
+	import urllib.parse as urlparse
+except ImportError:
+	import urllib as urlparse
 import requests
 import youtube_dl
 from bs4 import BeautifulSoup
@@ -25,7 +29,7 @@ class interface(object):
 			s.title = data[0].text.replace("\n", "").replace("\t", "")
 #			s.artist = data[1].text.replace("\n", "").replace("\t", "")
 #			print(data)
-			s.url = u"https://my.mail.ru"+urllib.parse.quote(data[0].__dict__["attrs"]["href"])
+			s.url = u"https://my.mail.ru"+urlparse.quote(data[0].__dict__["attrs"]["href"])
 			self.results.append(s)
 
 	def get_download_url(self, url):

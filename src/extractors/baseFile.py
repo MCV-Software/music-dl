@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
+from __future__ import unicode_literals    # at top of module
 
 class song(object):
 	""" Represents a song in all services. Data will be filled by the service itself"""

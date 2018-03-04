@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals    # at top of module
 import wx
 import application
 from .import utils
