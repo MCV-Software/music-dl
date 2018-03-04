@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
-"POT-Creation-Date: 2018-02-28 15:02+Hora estandar central (Mexico)\n"
+"POT-Creation-Date: 2018-03-03 09:38+Hora estándar central (México)\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -35,35 +35,51 @@ msgstr ""
 msgid "Shuffle on"
 msgstr ""
 
-#: ../src\controller\mainController.py:105
-#: ../src\controller\mainController.py:125 ../src\wxUI\mainWindow.py:13
-#: ../src\wxUI\mainWindow.py:61
+#: ../src\controller\mainController.py:118
+#: ../src\controller\mainController.py:138 ../src\wxUI\mainWindow.py:13
+#: ../src\wxUI\mainWindow.py:62
 msgid "Play"
 msgstr ""
 
-#: ../src\controller\mainController.py:108
-#: ../src\controller\mainController.py:120
+#: ../src\controller\mainController.py:121
+#: ../src\controller\mainController.py:133
 msgid "Pause"
 msgstr ""
 
-#: ../src\controller\mainController.py:206
+#: ../src\controller\mainController.py:213
+msgid "File downloaded: {0}"
+msgstr ""
+
+#: ../src\controller\mainController.py:236
 msgid "Searching {0}... "
 msgstr ""
 
-#: ../src\controller\player.py:42
+#: ../src\controller\mainController.py:242
+msgid "No results found. "
+msgstr ""
+
+#: ../src\controller\player.py:43
 msgid "Error playing {0}. {1}."
 msgstr ""
 
-#: ../src\controller\player.py:48
+#: ../src\controller\player.py:49
 msgid "Playing {0}."
 msgstr ""
 
-#: ../src\controller\player.py:116 ../src\utils.py:53
+#: ../src\controller\player.py:117 ../src\utils.py:53
 msgid "Downloading {0}."
 msgstr ""
 
-#: ../src\controller\player.py:121 ../src\utils.py:63
+#: ../src\controller\player.py:122 ../src\utils.py:63
 msgid "Downloading {0} ({1}%)."
+msgstr ""
+
+#: ../src\controller\player.py:133
+msgid "Error"
+msgstr ""
+
+#: ../src\controller\player.py:133
+msgid "There was an error while trying to access the file you have requested."
 msgstr ""
 
 #: ../src\update\utils.py:27
@@ -132,15 +148,15 @@ msgstr ""
 msgid "The update has been downloaded and installed successfully. Press OK to continue."
 msgstr ""
 
-#: ../src\wxUI\mainWindow.py:14 ../src\wxUI\mainWindow.py:62
+#: ../src\wxUI\mainWindow.py:14 ../src\wxUI\mainWindow.py:63
 msgid "Stop"
 msgstr ""
 
-#: ../src\wxUI\mainWindow.py:15 ../src\wxUI\mainWindow.py:60
+#: ../src\wxUI\mainWindow.py:15 ../src\wxUI\mainWindow.py:61
 msgid "Previous"
 msgstr ""
 
-#: ../src\wxUI\mainWindow.py:16 ../src\wxUI\mainWindow.py:63
+#: ../src\wxUI\mainWindow.py:16 ../src\wxUI\mainWindow.py:64
 msgid "Next"
 msgstr ""
 
@@ -169,46 +185,50 @@ msgid "Check for updates"
 msgstr ""
 
 #: ../src\wxUI\mainWindow.py:24
-msgid "Visit website"
+msgid "What's new in this version?"
 msgstr ""
 
 #: ../src\wxUI\mainWindow.py:25
-msgid "Player"
+msgid "Visit website"
 msgstr ""
 
 #: ../src\wxUI\mainWindow.py:26
+msgid "Player"
+msgstr ""
+
+#: ../src\wxUI\mainWindow.py:27
 msgid "Help"
 msgstr ""
 
-#: ../src\wxUI\mainWindow.py:36
+#: ../src\wxUI\mainWindow.py:37
 msgid "search"
 msgstr ""
 
-#: ../src\wxUI\mainWindow.py:41
+#: ../src\wxUI\mainWindow.py:42
 msgid "Search in"
 msgstr ""
 
-#: ../src\wxUI\mainWindow.py:44
+#: ../src\wxUI\mainWindow.py:45
 msgid "Search"
 msgstr ""
 
-#: ../src\wxUI\mainWindow.py:48
+#: ../src\wxUI\mainWindow.py:49
 msgid "Results"
 msgstr ""
 
-#: ../src\wxUI\mainWindow.py:54
+#: ../src\wxUI\mainWindow.py:55
 msgid "Position"
 msgstr ""
 
-#: ../src\wxUI\mainWindow.py:57
+#: ../src\wxUI\mainWindow.py:58
 msgid "Volume"
 msgstr ""
 
-#: ../src\wxUI\mainWindow.py:99
+#: ../src\wxUI\mainWindow.py:100
 msgid "Audio Files(*.mp3)|*.mp3"
 msgstr ""
 
-#: ../src\wxUI\mainWindow.py:99
+#: ../src\wxUI\mainWindow.py:100
 msgid "Save this file"
 msgstr ""
 
