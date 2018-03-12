@@ -2,8 +2,9 @@
 from __future__ import unicode_literals    # at top of module
 import sys
 if sys.version[0] == "2":
-	import fixes
-	fixes.setup()
+	if hasattr(sys, "frozen"):
+		import fixes
+		fixes.setup()
 import i18n
 i18n.setup()
 import widgetUtils
