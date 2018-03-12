@@ -25,7 +25,7 @@ class Controller(object):
 		# Get main window
 		self.window = mainWindow.mainWindow()
 		log.debug("Main window created")
-		self.window.change_status(_("Ready"))
+		self.window.change_status(_(u"Ready"))
 		# Here we will save results for searches as song objects.
 		self.results = []
 		self.connect_events()
@@ -40,14 +40,14 @@ class Controller(object):
 	def get_status_info(self):
 		""" Formatting string for status bar messages """
 		if len(self.results) > 0:
-			results = _("Showing {0} results.").format(len(self.results))
+			results = _(u"Showing {0} results.").format(len(self.results))
 		else:
-			results = ""
+			results = u""
 		if player.player.shuffle:
-			shuffle = _("Shuffle on")
+			shuffle = _(u"Shuffle on")
 		else:
-			shuffle = ""
-		final = "{0} {1}".format(results, shuffle)
+			shuffle = u""
+		final = u"{0} {1}".format(results, shuffle)
 		return final
 
 	def connect_events(self):
@@ -117,10 +117,10 @@ class Controller(object):
 
 	def on_play_pause(self, *args, **kwargs):
 		if player.player.player.is_playing() == 1:
-			self.window.play.SetLabel(_("Play"))
+			self.window.play.SetLabel(_(u"Play"))
 			return player.player.pause()
 		else:
-			self.window.play.SetLabel(_("Pause"))
+			self.window.play.SetLabel(_(u"Pause"))
 			return player.player.player.play()
 
 	def on_next(self, *args, **kwargs):
@@ -132,12 +132,12 @@ class Controller(object):
 	def on_play(self, *args, **kwargs):
 		items = self.results[::]
 		playing_item = self.window.get_item()
-		self.window.play.SetLabel(_("Pause"))
+		self.window.play.SetLabel(_(u"Pause"))
 		return utils.call_threaded(player.player.play_all, items, playing=playing_item, shuffle=self.window.player_shuffle.IsChecked())
 
 	def on_stop(self, *args, **kwargs):
 		player.player.stop()
-		self.window.play.SetLabel(_("Play"))
+		self.window.play.SetLabel(_(u"Play"))
 
 	def on_volume_down(self, *args, **kwargs):
 		self.window.vol_slider.SetValue(self.window.vol_slider.GetValue()-5)
@@ -199,7 +199,7 @@ class Controller(object):
 
 	def change_status(self, status):
 		""" Function used for changing the status bar from outside the main controller module."""
-		self.window.change_status("{0} {1}".format(status, self.get_status_info()))
+		self.window.change_status(u"{0} {1}".format(status, self.get_status_info()))
 
 	def on_visit_website(self, *args, **kwargs):
 		webbrowser.open_new_tab(application.url)
@@ -212,7 +212,7 @@ class Controller(object):
 
 	def on_download_finished(self, file):
 		title = "MusicDL"
-		msg = _("File downloaded: {0}").format(file,)
+		msg = _(u"File downloaded: {0}").format(file,)
 		self.window.notify(title, msg)
 
 	def on_notify(self, title, message):
@@ -235,13 +235,13 @@ class Controller(object):
 		elif extractor == "":
 			return
 		self.window.list.Clear()
-		self.change_status(_("Searching {0}... ").format(text,))
+		self.change_status(_(u"Searching {0}... ").format(text))
 		self.extractor.search(text)
 		self.results = self.extractor.results
 		for i in self.results:
 			self.window.list.Append(i.format_track())
 		if len(self.results) == 0:
-			self.change_status(_("No results found. "))
+			self.change_status(_(u"No results found. "))
 		else:
-			self.change_status("")
+			self.change_status(u"")
 			wx.CallAfter(self.window.list.SetFocus)
