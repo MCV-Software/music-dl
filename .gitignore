@@ -97,3 +97,4 @@ test.py
 installer.iss
 errors.txt
 transform.py
+src/info.log
