@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals    # at top of module
 import requests
+try:
+	import urllib.parse as urlparse
+except ImportError:
+	import urllib as urlparse
 from .import baseFile
 from update.utils import seconds_to_string
 
@@ -15,7 +19,8 @@ class interface(object):
 
 	def search(self, text, page=1):
 		self.results = []
-		search_results = requests.get("{0}/search?q={1}&page={2}".format(api_endpoint, text, page))
+		url = "{0}/search?q={1}".format(api_endpoint, text)
+		search_results = requests.get(url)
 		search_results = search_results.json()["data"]
 		for i in search_results:
 			s = baseFile.song(self)
