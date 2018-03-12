@@ -4,8 +4,11 @@ from __future__ import unicode_literals    # at top of module
 import re
 import json
 import requests
+import logging
 from bs4 import BeautifulSoup
 from . import baseFile
+
+log = logging.getLogger("extractors.zaycev.net")
 
 class interface(object):
 
@@ -13,9 +16,11 @@ class interface(object):
 		self.results = []
 		self.name = "zaycev"
 		self.needs_transcode = False
+		log.debug("Started extraction service for zaycev.net")
 
 	def search(self, text, page=1):
 		site = 'http://go.mail.ru/zaycev?q=%s&page=%s' % (text, page)
+		log.debug("Retrieving data from {0}...".format(site,))
 		r = requests.get(site)
 		soup = BeautifulSoup(r.text, 'html.parser')
 		D = r'длительность.(\d+\:\d+\:\d+)'
@@ -32,8 +37,14 @@ class interface(object):
 			s.size = self.hd[i]["size"]
 			s.bitrate = self.hd[i]["bitrate"]
 			self.results.append(s)
+		log.debug("{0} results found.".format(len(self.results)))
 
 	def get_download_url(self, url):
+		log.debug("Getting download URL for {0}".format(url,))
 		soups = BeautifulSoup(requests.get(url).text, 'html.parser')
 		data = json.loads(requests.get('http://zaycev.net' + soups.find('div', {'class':"musicset-track"}).get('data-url')).text)
+		log.debug("Download URL: {0}".format(data["url"]))
 		return data["url"]
+
+	def format_track(self, item):
+		return "{0}. {1}. {2}".format(item.title, item.duration, item.size)

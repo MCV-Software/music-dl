@@ -4,12 +4,12 @@ import os
 import logging
 import storage
 import traceback
+import sys
 storage.setup()
 logging.basicConfig(filename=os.path.join(storage.data_directory, "info.log"), level=logging.DEBUG, filemode="w")
 sys.excepthook = lambda x, y, z: logging.critical(''.join(traceback.format_exception(x, y, z)))
 log = logging.getLogger("main")
 log.debug("Logger initialized. Saving debug to {0}".format(storage.data_directory,))
-import sys
 log.debug("Using Python version {0}".format(sys.version,))
 if sys.version[0] == "2":
 	if hasattr(sys, "frozen"):

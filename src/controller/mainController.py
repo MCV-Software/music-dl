@@ -35,6 +35,7 @@ class Controller(object):
 		self.window.vol_slider.SetValue(player.player.volume)
 		# Shows window.
 		utils.call_threaded(updater.do_update)
+		log.debug("Music DL is ready")
 		self.window.Show()
 
 	def get_status_info(self):
@@ -52,6 +53,7 @@ class Controller(object):
 
 	def connect_events(self):
 		""" connects all widgets to their corresponding events."""
+		log.debug("Binding events...")
 		widgetUtils.connect_event(self.window.search, widgetUtils.BUTTON_PRESSED, self.on_search)
 		widgetUtils.connect_event(self.window.list, widgetUtils.LISTBOX_ITEM_ACTIVATED, self.on_activated)
 		widgetUtils.connect_event(self.window.list, widgetUtils.KEYPRESS, self.on_keypress)
@@ -166,11 +168,13 @@ class Controller(object):
 
 	def on_download(self, *args, **kwargs):
 		item = self.results[self.window.get_item()]
+		log.debug("Starting requested download: {0} (using extractor: {1})".format(item.title, self.extractor.name))
 		f = "{0}.mp3".format(item.title)
 		if item.download_url == "":
 			item.get_download_url()
 		path = self.window.get_destination_path(f)
 		if path != None:
+			log.debug("User has requested the following path: {0}".format(path,))
 			if self.extractor.needs_transcode == True: # Send download to vlc based transcoder
 				utils.call_threaded(player.player.transcode_audio, item, path)
 			else:
@@ -192,6 +196,7 @@ class Controller(object):
 			self.window.time_slider.SetValue(progress)
 
 	def on_close(self, event):
+		log.debug("Exiting...")
 		self.timer.Stop()
 		pub.unsubscribe(self.on_download_finished, "download_finished")
 		event.Skip()
@@ -234,6 +239,7 @@ class Controller(object):
 			self.extractor = zaycev.interface()
 		elif extractor == "":
 			return
+		log.debug("Started search for {0} (selected extractor: {1})".format(text, self.extractor.name))
 		self.window.list.Clear()
 		self.change_status(_(u"Searching {0}... ").format(text))
 		self.extractor.search(text)

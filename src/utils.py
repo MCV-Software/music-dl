@@ -49,11 +49,13 @@ class RepeatingTimer(threading.Thread):
 					log.exception("Execution failed. Function: %r args: %r and kwargs: %r" % (self.function, self.args, self.kwargs))
 
 def download_file(url, local_filename):
+	log.debug("Download started: filename={0}, url={1}".format(local_filename, url))
 	r = requests.get(url, stream=True)
 	pub.sendMessage("change_status", status=_(u"Downloading {0}.").format(local_filename,))
 	total_length = r.headers.get("content-length")
 	dl = 0
 	total_length = int(total_length)
+	log.debug("Downloading file of {0} bytes".format(total_length))
 	with open(local_filename, 'wb') as f:
 		for chunk in r.iter_content(chunk_size=64): 
 			if chunk: # filter out keep-alive new chunks
@@ -63,4 +65,5 @@ def download_file(url, local_filename):
 				msg = _(u"Downloading {0} ({1}%).").format(os.path.basename(local_filename), done)
 				pub.sendMessage("change_status", status=msg)
 	pub.sendMessage("download_finished", file=os.path.basename(local_filename))
+	log.debug("Download finished successfully")
 	return local_filename

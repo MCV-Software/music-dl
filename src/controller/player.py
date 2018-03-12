@@ -8,7 +8,7 @@ from pubsub import pub
 from utils import call_threaded
 
 player = None
-log = logging.getLogger("player")
+log = logging.getLogger("controller.player")
 
 def setup():
 	global player
@@ -27,9 +27,11 @@ class audioPlayer(object):
 		self.shuffle = False
 		self.instance = vlc.Instance()
 		self.player = self.instance.media_player_new()
+		log.debug("Media player instantiated.")
 		self.event_manager = self.player.event_manager()
 		self.event_manager.event_attach(vlc.EventType.MediaPlayerEndReached, self.end_callback)
 		self.event_manager.event_attach(vlc.EventType.MediaPlayerEncounteredError, self.playback_error)
+		log.debug("Bound media playback events.")
 
 	def play(self, item):
 		self.stopped = True
@@ -37,6 +39,7 @@ class audioPlayer(object):
 			self.is_working = True
 			if item.download_url == "":
 				item.get_download_url()
+			log.debug("playing {0}...".format(item.download_url,))
 			self.stream_new = self.instance.media_new(item.download_url)
 			self.player.set_media(self.stream_new)
 			if self.player.play() == -1:
@@ -109,6 +112,7 @@ class audioPlayer(object):
 		""" Converts given item to mp3. This method will be available when needed automatically."""
 		if item.download_url == "":
 			item.get_download_url()
+		log.debug("Download started: filename={0}, url={1}".format(path, item.download_url))
 		temporary_filename = "chunk_{0}".format(random.randint(0,2000000))
 		temporary_path = os.path.join(os.path.dirname(path), temporary_filename)
 		# Let's get a new VLC instance for transcoding this file.
@@ -128,6 +132,7 @@ class audioPlayer(object):
 				break
 		transcoder.release()
 		os.rename(temporary_path, path)
+		log.debug("Download finished sucsessfully.")
 		pub.sendMessage("download_finished", file=os.path.basename(path))
 
 	def playback_error(self, event):
