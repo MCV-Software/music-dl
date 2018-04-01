@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """ main controller for MusicDL"""
 from __future__ import unicode_literals    # at top of module
+import types
 import webbrowser
 import wx
 import logging
@@ -9,11 +10,17 @@ import utils
 import application
 from pubsub import pub
 from wxUI import mainWindow, menus
-from extractors import zaycev, youtube, vk, mailru
 from update import updater
 from . import player
 
 log = logging.getLogger("controller.main")
+
+def get_extractors():
+	""" Function for importing everything wich is located in the extractors package and has a class named interface."""
+	import extractors
+	module_type = types.ModuleType
+	classes = [m.interface for m in extractors.__dict__.values() if type(m) == module_type and hasattr(m, 'interface')]
+	return sorted(classes, key=lambda c: c.name)
 
 class Controller(object):
 
@@ -229,16 +236,11 @@ class Controller(object):
 		if text == "":
 			return
 		extractor = self.window.extractor.GetValue()
-		if extractor == "youtube":
-			self.extractor = youtube.interface()
-		elif extractor == "vk":
-			self.extractor = vk.interface()
-		elif extractor == "mail.ru":
-			self.extractor = mailru.interface()
-		elif extractor == "zaycev.net":
-			self.extractor = zaycev.interface()
-		elif extractor == "":
-			return
+		extractors = get_extractors()
+		for i in extractors:
+			if extractor == i.name:
+				self.extractor = i()
+				break
 		log.debug("Started search for {0} (selected extractor: {1})".format(text, self.extractor.name))
 		self.window.list.Clear()
 		self.change_status(_(u"Searching {0}... ").format(text))
