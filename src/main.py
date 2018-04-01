@@ -7,6 +7,10 @@ import traceback
 import sys
 storage.setup()
 logging.basicConfig(filename=os.path.join(storage.data_directory, "info.log"), level=logging.DEBUG, filemode="w")
+# Let's mute the google discovery_cache logger as we won't use it and we'll avoid some tracebacks.
+glog = logging.getLogger("googleapiclient.discovery_cache")
+glog.setLevel(logging.CRITICAL)
+# Let's capture all exceptions raised in our log file (especially useful for pyinstaller builds).
 sys.excepthook = lambda x, y, z: logging.critical(''.join(traceback.format_exception(x, y, z)))
 log = logging.getLogger("main")
 log.debug("Logger initialized. Saving debug to {0}".format(storage.data_directory,))
