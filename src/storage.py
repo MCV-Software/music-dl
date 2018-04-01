@@ -13,4 +13,6 @@ def setup():
 			paths.prepare_app_data_path("musicDL")
 			data_directory = paths.app_data_path("musicDL")
 	else:
-		data_directory = paths.app_path()
+		data_directory = os.path.join(paths.app_path(), "data")
+		if os.path.exists(data_directory) == False:
+			os.mkdir(data_directory)
