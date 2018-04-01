@@ -169,7 +169,7 @@ class Controller(object):
 	def on_download(self, *args, **kwargs):
 		item = self.results[self.window.get_item()]
 		log.debug("Starting requested download: {0} (using extractor: {1})".format(item.title, self.extractor.name))
-		f = "{0}.mp3".format(item.title)
+		f = "{0}.mp3".format(item.format_track())
 		if item.download_url == "":
 			item.get_download_url()
 		path = self.window.get_destination_path(f)
