@@ -15,10 +15,11 @@ YOUTUBE_API_VERSION = "v3"
 log = logging.getLogger("extractors.youtube.com")
 
 class interface(object):
+	name = "youtube"
 
 	def __init__(self):
 		self.results = []
-		self.name = "youtube"
+
 		self.needs_transcode = True
 		log.debug("started extraction service for {0}".format(self.name,))
 

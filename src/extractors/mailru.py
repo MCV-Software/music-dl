@@ -14,10 +14,11 @@ from . import baseFile
 log = logging.getLogger("extractors.mail.ru")
 
 class interface(object):
+	name = "mailru"
 
 	def __init__(self):
 		self.results = []
-		self.name = "mailru"
+
 		self.needs_transcode = False
 		log.debug("Started extraction service for mail.ru music")
 

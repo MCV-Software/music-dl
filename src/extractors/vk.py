@@ -13,10 +13,10 @@ api_endpoint = "https://api-2.datmusic.xyz"
 log = logging.getLogger("extractors.vk.com")
 
 class interface(object):
+	name = "vk"
 
 	def __init__(self):
 		self.results = []
-		self.name = "vk"
 		self.needs_transcode = False
 		log.debug("started extraction service for {0}".format(self.name,))
 

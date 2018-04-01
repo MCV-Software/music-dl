@@ -11,10 +11,10 @@ from . import baseFile
 log = logging.getLogger("extractors.zaycev.net")
 
 class interface(object):
+	name = "zaycev"
 
 	def __init__(self):
 		self.results = []
-		self.name = "zaycev"
 		self.needs_transcode = False
 		log.debug("Started extraction service for zaycev.net")
 
