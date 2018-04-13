@@ -1,0 +1,254 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR ORGANIZATION
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2018-03-03 09:38+Hora estándar central (México)\n"
+"PO-Revision-Date: 2018-03-12 01:35+0400\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: pygettext.py 1.5\n"
+"X-Generator: Poedit 1.5.7\n"
+
+#: ../src\application.py:7
+msgid ""
+" Is an application that will allow you to download music from popular sites "
+"such as youtube, zaycev.net."
+msgstr ""
+" Это приложение, позволяющее скачивать музыку с таких популярных сайтов как "
+"Youtube, zaycev.net."
+
+#: ../src\application.py:12
+msgid "Manuel Cortez (Spanish)"
+msgstr "Manuel Cortez (Испанский)"
+
+#: ../src\controller\mainController.py:27
+msgid "Ready"
+msgstr "Готово"
+
+#: ../src\controller\mainController.py:42
+msgid "Showing {0} results."
+msgstr "Показано {0} результатов."
+
+#: ../src\controller\mainController.py:46
+msgid "Shuffle on"
+msgstr "Случайный порядок включён"
+
+#: ../src\controller\mainController.py:118
+#: ../src\controller\mainController.py:138 ../src\wxUI\mainWindow.py:13
+#: ../src\wxUI\mainWindow.py:62
+msgid "Play"
+msgstr "Воспроизвести"
+
+#: ../src\controller\mainController.py:121
+#: ../src\controller\mainController.py:133
+msgid "Pause"
+msgstr "Приостановить"
+
+#: ../src\controller\mainController.py:213
+msgid "File downloaded: {0}"
+msgstr "Файл загружен: {0}"
+
+#: ../src\controller\mainController.py:236
+msgid "Searching {0}... "
+msgstr "Поиск {0}... "
+
+#: ../src\controller\mainController.py:242
+msgid "No results found. "
+msgstr "Нет результатов."
+
+#: ../src\controller\player.py:43
+msgid "Error playing {0}. {1}."
+msgstr "Ошибка воспроизведения {0}. {1}."
+
+#: ../src\controller\player.py:49
+msgid "Playing {0}."
+msgstr "Сейчас играет {0}."
+
+#: ../src\controller\player.py:117 ../src\utils.py:53
+msgid "Downloading {0}."
+msgstr "Сейчас загружается {0}."
+
+#: ../src\controller\player.py:122 ../src\utils.py:63
+msgid "Downloading {0} ({1}%)."
+msgstr "Загрузка {0} ({1}%)."
+
+#: ../src\controller\player.py:133
+msgid "Error"
+msgstr "Ошибка"
+
+#: ../src\controller\player.py:133
+msgid "There was an error while trying to access the file you have requested."
+msgstr "Произошла ошибка при попытке открыть запрашиваемый файл."
+
+#: ../src\update\utils.py:27
+msgid "%d day, "
+msgstr "%d день, "
+
+#: ../src\update\utils.py:29
+msgid "%d days, "
+msgstr "%d дней, "
+
+#: ../src\update\utils.py:31
+msgid "%d hour, "
+msgstr "%d час, "
+
+#: ../src\update\utils.py:33
+msgid "%d hours, "
+msgstr "%d часов, "
+
+#: ../src\update\utils.py:35
+msgid "%d minute, "
+msgstr "%d минута, "
+
+#: ../src\update\utils.py:37
+msgid "%d minutes, "
+msgstr "%d минут, "
+
+#: ../src\update\utils.py:39
+msgid "%s second"
+msgstr "%s секунда"
+
+#: ../src\update\utils.py:41
+msgid "%s seconds"
+msgstr "%s секунд"
+
+#: ../src\update\wxUpdater.py:9
+msgid "New version for %s"
+msgstr "Новая версия %s"
+
+#: ../src\update\wxUpdater.py:9
+msgid ""
+"There's a new %s version available. Would you like to download it now?\n"
+"\n"
+" %s version: %s\n"
+"\n"
+"Changes:\n"
+"%s"
+msgstr ""
+"Доступна новая версия %s. Желаете скачать её?\n"
+"\n"
+" %s версия: %s\n"
+"\n"
+"Изменения:\n"
+"%s"
+
+#: ../src\update\wxUpdater.py:16
+msgid "Download in Progress"
+msgstr "Процесс скачивания"
+
+#: ../src\update\wxUpdater.py:16
+msgid "Downloading the new version..."
+msgstr "Скачивание новой версии..."
+
+#: ../src\update\wxUpdater.py:26
+msgid "Updating... %s of %s"
+msgstr "Обновление... %s из %s"
+
+#: ../src\update\wxUpdater.py:29
+msgid "Done!"
+msgstr "Готово!"
+
+#: ../src\update\wxUpdater.py:29
+msgid ""
+"The update has been downloaded and installed successfully. Press OK to "
+"continue."
+msgstr ""
+"Обновление было успешно загружено и установлено. Нажмите ОК для продолжения."
+
+#: ../src\wxUI\mainWindow.py:14 ../src\wxUI\mainWindow.py:63
+msgid "Stop"
+msgstr "Остановить"
+
+#: ../src\wxUI\mainWindow.py:15 ../src\wxUI\mainWindow.py:61
+msgid "Previous"
+msgstr "Предыдущая композиция"
+
+#: ../src\wxUI\mainWindow.py:16 ../src\wxUI\mainWindow.py:64
+msgid "Next"
+msgstr "Следующая композиция"
+
+#: ../src\wxUI\mainWindow.py:17
+msgid "Shuffle"
+msgstr "Перемешать"
+
+#: ../src\wxUI\mainWindow.py:18
+msgid "Volume down"
+msgstr "Уменьшить громкость"
+
+#: ../src\wxUI\mainWindow.py:19
+msgid "Volume up"
+msgstr "Увеличить громкость"
+
+#: ../src\wxUI\mainWindow.py:20
+msgid "Mute"
+msgstr "Выключить звук"
+
+#: ../src\wxUI\mainWindow.py:22
+msgid "About {0}"
+msgstr "О {0}"
+
+#: ../src\wxUI\mainWindow.py:23
+msgid "Check for updates"
+msgstr "Проверить на наличие обновлений"
+
+#: ../src\wxUI\mainWindow.py:24
+msgid "What's new in this version?"
+msgstr "Что нового в этой версии?"
+
+#: ../src\wxUI\mainWindow.py:25
+msgid "Visit website"
+msgstr "Посетить вебсайт"
+
+#: ../src\wxUI\mainWindow.py:26
+msgid "Player"
+msgstr "Плеер"
+
+#: ../src\wxUI\mainWindow.py:27
+msgid "Help"
+msgstr "Помощь"
+
+#: ../src\wxUI\mainWindow.py:37
+msgid "search"
+msgstr "Поиск"
+
+#: ../src\wxUI\mainWindow.py:42
+msgid "Search in"
+msgstr "Искать с помощью"
+
+#: ../src\wxUI\mainWindow.py:45
+msgid "Search"
+msgstr "Поиск"
+
+#: ../src\wxUI\mainWindow.py:49
+msgid "Results"
+msgstr "Результаты"
+
+#: ../src\wxUI\mainWindow.py:55
+msgid "Position"
+msgstr "Позиция"
+
+#: ../src\wxUI\mainWindow.py:58
+msgid "Volume"
+msgstr "Громкость"
+
+#: ../src\wxUI\mainWindow.py:100
+msgid "Audio Files(*.mp3)|*.mp3"
+msgstr "Аудио Файлы(*.mp3)|*.mp3"
+
+#: ../src\wxUI\mainWindow.py:100
+msgid "Save this file"
+msgstr "Сохранить этот файл"
+
+#: ../src\wxUI\menus.py:7
+msgid "Play/Pause"
+msgstr "Воспроизвести/Приостановить"
+
+#: ../src\wxUI\menus.py:9
+msgid "Download"
+msgstr "Скачать"
