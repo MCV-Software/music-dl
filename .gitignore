@@ -9,9 +9,9 @@ src/*$py.class
 # Distribution / packaging
 .Python
 env/
-build/
+src/build/
 develop-eggs/
-dist/
+src/dist/
 downloads/
 eggs/
 .eggs/
@@ -44,10 +44,6 @@ nosetests.xml
 coverage.xml
 *,cover
 .hypothesis/
-
-# Translations
-*.mo
-*.pot
 
 # Django stuff:
 *.log
