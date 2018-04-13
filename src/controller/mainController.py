@@ -236,6 +236,7 @@ class Controller(object):
 		if text == "":
 			return
 		extractor = self.window.extractor.GetValue()
+		self.change_status(_(u"Searching {0}... ").format(text))
 		extractors = get_extractors()
 		for i in extractors:
 			if extractor == i.name:
@@ -243,7 +244,6 @@ class Controller(object):
 				break
 		log.debug("Started search for {0} (selected extractor: {1})".format(text, self.extractor.name))
 		self.window.list.Clear()
-		self.change_status(_(u"Searching {0}... ").format(text))
 		self.extractor.search(text)
 		self.results = self.extractor.results
 		for i in self.results:
