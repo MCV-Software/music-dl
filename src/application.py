@@ -2,7 +2,7 @@
 import sys
 python_version = int(sys.version[0])
 name = "MusicDL"
-version = "0.2"
+version = "0.3"
 author = "Manuel Cortéz"
 authorEmail = "manuel@manuelcortez.net"
 copyright = "Copyright (C) 2018, Manuel Cortez"
