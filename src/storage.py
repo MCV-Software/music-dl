@@ -11,7 +11,7 @@ def setup():
 	if len(glob.glob("Uninstall.exe")) > 0: # installed copy
 		if os.path.exists(paths.app_data_path("musicDL")) == False:
 			paths.prepare_app_data_path("musicDL")
-			data_directory = paths.app_data_path("musicDL")
+		data_directory = paths.app_data_path("musicDL")
 	else:
 		data_directory = os.path.join(paths.app_path(), "data")
 		if os.path.exists(data_directory) == False:
