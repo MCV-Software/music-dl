@@ -1,3 +1,3 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
-from . import mailru, vk, youtube, zaycev
+from . import mailru, youtube, zaycev
