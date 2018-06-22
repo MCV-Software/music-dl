@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals    # at top of module
+""" this package Uses Alashow's Datmusic API, read more at https://github.com/alashow/datmusic-api"""
 import requests
 import logging
 try:
@@ -9,7 +9,7 @@ except ImportError:
 from .import baseFile
 from update.utils import seconds_to_string
 
-api_endpoint = "https://api-2.datmusic.xyz"
+api_endpoint = "http://datmusicapiendpoint.com"
 log = logging.getLogger("extractors.vk.com")
 
 class interface(object):
