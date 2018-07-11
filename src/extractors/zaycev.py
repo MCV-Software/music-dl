@@ -11,7 +11,7 @@ from . import baseFile
 log = logging.getLogger("extractors.zaycev.net")
 
 class interface(object):
-	name = "zaycev"
+	name = "zaycev.net"
 
 	def __init__(self):
 		self.results = []

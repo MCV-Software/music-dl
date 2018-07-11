@@ -14,7 +14,7 @@ from . import baseFile
 log = logging.getLogger("extractors.mail.ru")
 
 class interface(object):
-	name = "mailru"
+	name = "mail.ru"
 
 	def __init__(self):
 		self.results = []
