@@ -2,7 +2,7 @@
 import requests
 import os
 import logging
-from platform_utils import paths
+import paths
 
 log = logging.getLogger("fixes.fix_requests")
 
