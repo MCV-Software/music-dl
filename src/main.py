@@ -24,7 +24,7 @@ import i18n
 i18n.setup()
 import application
 import widgetUtils
-from platform_utils import paths
+import paths
 
 def setup():
 	log.debug("Starting music-dl %s" % (application.version,))
