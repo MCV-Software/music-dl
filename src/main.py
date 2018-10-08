@@ -1,5 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals    # at top of module
+# this is the first fix we have to import just before the paths module would.
+# it changes a call from wintypes to ctypes.
+from fixes import fix_winpaths
+fix_winpaths.fix()
 import os
 import logging
 import storage
