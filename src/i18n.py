@@ -4,7 +4,7 @@ import gettext
 import locale
 import sys
 import logging
-from platform_utils import paths
+import paths
 
 log = logging.getLogger("i18n")
 

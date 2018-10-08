@@ -12,7 +12,7 @@ try:
 except ImportError:
 	import zipfile
 
-from platform_utils import paths
+import paths
 
 def perform_update(endpoint, current_version, app_name='', password=None, update_available_callback=None, progress_callback=None, update_complete_callback=None):
 	requests_session = create_requests_session(app_name=app_name, version=current_version)
