@@ -1,5 +1,15 @@
 ## Changelog
 
+## Version 0.4
+
+* Fixed an error when creating a directory located in %appdata%, when using MusicDL as an installed version. MusicDL should be able to work normally again.
+* Removed VK from the list of supported services for now.
+* MusicDL will no longer set volume at 50% when it starts. It will save the volume in a settings file, so it will remember volume settings across restarts.
+* changes in Youtube module:
+    * Updated YoutubeDL to version 2018.10.05
+
+## Version 0.3
+
 * MusicDL is built with two different Python versions, for supporting older operating systems. If the version 0.2 works for you, you don't need to do anything. If that version never worked for your system, you may try MusicDL built with Python 2.
 * Added new translations: Russian and Serbian.
 * Fixed a bug introduced by keystrokes for changing position while using MusicDL with NVDA.
