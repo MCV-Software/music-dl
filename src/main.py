@@ -10,6 +10,8 @@ import storage
 import traceback
 import sys
 storage.setup()
+# Let's import config module here as it is dependent on storage being setup.
+import config
 logging.basicConfig(filename=os.path.join(storage.data_directory, "info.log"), level=logging.DEBUG, filemode="w")
 # Let's mute the google discovery_cache logger as we won't use it and we'll avoid some tracebacks.
 glog = logging.getLogger("googleapiclient.discovery_cache")
@@ -26,6 +28,7 @@ if sys.version[0] == "2":
 		fixes.setup()
 import i18n
 i18n.setup()
+config.setup()
 import application
 import widgetUtils
 import paths

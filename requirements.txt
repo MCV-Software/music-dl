@@ -7,3 +7,4 @@ google-api-python-client
 youtube-dl
 pyinstaller
 isodate
+configobj
