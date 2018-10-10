@@ -8,6 +8,7 @@ import logging
 import widgetUtils
 import utils
 import application
+import config
 from pubsub import pub
 from wxUI import mainWindow, menus
 from update import updater
@@ -206,6 +207,7 @@ class Controller(object):
 		log.debug("Exiting...")
 		self.timer.Stop()
 		pub.unsubscribe(self.on_download_finished, "download_finished")
+		config.app.write()
 		event.Skip()
 		widgetUtils.exit_application()
 

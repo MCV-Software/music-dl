@@ -4,6 +4,7 @@ import os
 import random
 import vlc
 import logging
+import config
 from pubsub import pub
 from utils import call_threaded
 
@@ -19,7 +20,7 @@ class audioPlayer(object):
 
 	def __init__(self):
 		self.is_playing = False
-		self.vol = 50
+		self.vol = config.app["main"]["volume"]
 		self.is_working = False
 		self.queue = []
 		self.stopped = True
@@ -94,6 +95,7 @@ class audioPlayer(object):
 	@volume.setter
 	def volume(self, vol):
 		if vol <= 100 and vol >= 0:
+			config.app["main"]["volume"] = vol
 			self.vol = vol
 		self.player.audio_set_volume(self.vol)
 
