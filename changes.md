@@ -5,6 +5,7 @@
 * Fixed an error when creating a directory located in %appdata%, when using MusicDL as an installed version. MusicDL should be able to work normally again.
 * Removed VK from the list of supported services for now.
 * MusicDL will no longer set volume at 50% when it starts. It will save the volume in a settings file, so it will remember volume settings across restarts.
+* Added an option in the help menu to report an issue. You can use this feature for sending reports of problems you have encountered while using the application. You will need to provide your email address, though it will not be public anywhere. Your email address will be used only for contacting you if necessary.
 * changes in Youtube module:
     * Updated YoutubeDL to version 2018.10.05
 
