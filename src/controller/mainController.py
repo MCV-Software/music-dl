@@ -10,6 +10,7 @@ import utils
 import application
 import config
 from pubsub import pub
+from issueReporter import issueReporter
 from wxUI import mainWindow, menus
 from update import updater
 from . import player
@@ -77,6 +78,7 @@ class Controller(object):
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.on_check_for_updates, menuitem=self.window.check_for_updates)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.on_visit_changelog, menuitem=self.window.changelog)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.on_visit_website, menuitem=self.window.website)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.on_report_error, menuitem=self.window.report)
 		widgetUtils.connect_event(self.window.previous, widgetUtils.BUTTON_PRESSED, self.on_previous)
 		widgetUtils.connect_event(self.window.play, widgetUtils.BUTTON_PRESSED, self.on_play_pause)
 		widgetUtils.connect_event(self.window.stop, widgetUtils.BUTTON_PRESSED, self.on_stop)
@@ -217,6 +219,9 @@ class Controller(object):
 
 	def on_visit_website(self, *args, **kwargs):
 		webbrowser.open_new_tab(application.url)
+
+	def on_report_error(self, *args, **kwargs):
+		r = issueReporter.reportBug()
 
 	def on_visit_changelog(self, *args, **kwargs):
 		webbrowser.open_new_tab(application.url+"/news")

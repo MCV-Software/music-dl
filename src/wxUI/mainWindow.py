@@ -27,6 +27,7 @@ class mainWindow(wx.Frame):
 		self.check_for_updates = help_.Append(wx.NewId(), _(u"Check for updates"))
 		self.changelog = help_.Append(wx.NewId(), _(u"What's new in this version?"))
 		self.website = help_.Append(wx.NewId(), _(u"Visit website"))
+		self.report = help_.Append(wx.NewId(), _(u"Report an error"))
 		mb.Append(player, _(u"Player"))
 		mb.Append(help_, _(u"Help"))
 		self.SetMenuBar(mb)
