@@ -108,7 +108,6 @@ build_py2:
     - src\\dist
     expire_in: 30 mins
   only:
-    - master
     - tags
     - schedule_pipelines
 
@@ -117,7 +116,6 @@ zip_py2:
   tags:
     - windows7
   only:
-    - master
     - tags
     - schedule_pipelines
   dependencies:
