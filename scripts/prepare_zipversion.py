@@ -11,8 +11,8 @@ def create_archive():
 	else:
 		folder = "dist"
 	shutil.make_archive("music_dl", "zip", folder)
-	if os.path.exists("dist"):
-		shutil.rmtree("dist")
+#	if os.path.exists("dist"):
+#		shutil.rmtree("dist")
 	if os.path.exists("build"):
 		shutil.rmtree("build")
 	os.chdir("..\\scripts")
