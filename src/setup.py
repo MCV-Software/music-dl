@@ -25,7 +25,9 @@ from glob import glob
 from requests import certs
 
 def get_data():
-	return [("", ["libvlccore.dll", "libvlc.dll", "cacerts.txt"]), ("", [certs.where()]),]+get_locales()
+	return [("", ["libvlccore.dll", "libvlc.dll", "cacerts.txt"]),
+	("", [certs.where(),
+	("plugins", glob("plugins/*/*.dll"))]),]+get_locales()
 
 def get_locales():
 	answer = []
