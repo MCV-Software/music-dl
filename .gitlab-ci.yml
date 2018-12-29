@@ -27,7 +27,7 @@ python3_version:
     - master
   cache:
     paths:
-    - src\dist
+    - src\\dist
   artifacts:
     paths:
     - music_dl.zip
