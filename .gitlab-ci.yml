@@ -1,5 +1,6 @@
 variables:
   PYTHON3: "C:\\python37\\python.exe"
+  PYINSTALLER: "C:\\python37\\scripts\\pyinstaller.exe"
   PYTHON2: "C:\\python27\\python.ex3"
 alpha:
   type: deploy
@@ -9,7 +10,7 @@ alpha:
     - '%PYTHON3% -m pip install --upgrade pip'
     - '%PYTHON3% -m pip install --upgrade -r requirements.txt'
     - cd src
-    - '%PYTHON3% -m pyinstaller main.spec'
+    - '%PYINSTALLER% main.spec'
     - cd ..
     - cd scripts
     - '%PYTHON3% prepare_zipversion.py'
