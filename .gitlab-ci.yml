@@ -6,13 +6,13 @@ alpha:
   tags:
     - windows
   script:
-    - $PYTHON3 -m pip install --upgrade pip
-    - $PYTHON3 -m pip install --upgrade -r requirements.txt
+    - %PYTHON3% -m pip install --upgrade pip
+    - %PYTHON3% -m pip install --upgrade -r requirements.txt
     - cd src
-    - $PYTHON3 -m pyinstaller main.spec
+    - %PYTHON3% -m pyinstaller main.spec
     - cd ..
     - cd scripts
-    - $PYTHON3 prepare_zipversion.py
+    - %PYTHON3% prepare_zipversion.py
     - cd ..
     - move src\music_dl.zip music_dl.zip
   only:
