@@ -56,10 +56,10 @@ build_setup:
     - cd src
     - '%NSIS% installer.nsi'
     - cd ..
-    - move src\music_dl_setup* .
+    - move src\music_dl* .
   artifacts:
     paths:
-    - music_dl_setup
+    - music_dl_
     name: music_dl
     expire_in: 1 day
 
