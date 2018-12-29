@@ -6,7 +6,7 @@ variables:
   PYTHON2: "C:\\python27\\python.exe"
 
 stages:
-  - build
+    - build
     - pack
 
 build_py3:
