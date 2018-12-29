@@ -1,14 +1,19 @@
 # Declare some variables dependent on the operating system where the runner is installed.
+# This CI file assumes we install everything in C:\ (Python 2.7, 3.7 and Nsis).
 variables:
   PYTHON3: "C:\\python37\\python.exe"
   PYINSTALLER: "C:\\python37\\scripts\\pyinstaller.exe"
   NSIS: "C:\\nsis\\makensis.exe"
   PYTHON2: "C:\\python27\\python.exe"
 
+### Stage list
+# Build: This will be the main stage generating stuff in the dist folder. Jobs present in this stage will run py2exe or pyinstaller files accordingly.
+# pack: Jobs in this stage will take the dist folder and zip it or generate an exe file.
 stages:
     - build
     - pack
 
+# Python 3 version. This is generated under Windows server 2016 Standard edition.
 build_py3:
   stage: build
   tags:
@@ -21,6 +26,9 @@ build_py3:
     - '%PYINSTALLER% main.spec'
   only:
     - master
+    - tags
+    - schedule_pipelines
+  # Make the dist folder available to other jobs.
   artifacts:
     paths:
     - src\\dist
@@ -32,6 +40,8 @@ zip_py3:
     - windows10
   only:
     - master
+    - tags
+    - schedule_pipelines
   dependencies:
     - build_py3
   script:
@@ -50,6 +60,8 @@ build_setup:
     - windows10
   only:
     - master
+    - tags
+    - schedule_pipelines
   dependencies:
     - build_py3
   script:
@@ -63,7 +75,7 @@ build_setup:
     name: music_dl
     expire_in: 1 day
 
-python2_version:
+build_py2:
   stage: build
   tags:
     - windows7
@@ -74,15 +86,32 @@ python2_version:
   script:
     - cd src
     - '%PYTHON2% setup.py py2exe'
-    - cd ..
+  # Make the dist folder available to other jobs.
+  artifacts:
+    paths:
+    - src\\dist
+    expire_in: 15 mins
+  only:
+    - master
+    - tags
+    - schedule_pipelines
+
+zip_py2:
+  stage: pack
+  tags:
+    - windows7
+  only:
+    - master
+    - tags
+    - schedule_pipelines
+  dependencies:
+    - build_py2
+  script:
     - cd scripts
     - '%PYTHON2% prepare_zipversion.py'
     - cd ..
     - move src\music_dl.zip music_dl_py2.zip
-  only:
-    - master
   artifacts:
     paths:
     - music_dl_py2.zip
-    name: music_dl_py2
-    expire_in: 1 day
+    expire_in: 1 hour
