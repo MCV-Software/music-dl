@@ -1,3 +1,10 @@
+# This CI configuration file is used to build all available versions of MusicDL. It's intended to launch a new version when a tag is pushed to master.
+# In order to work, A Gitlab Runner with Windows Server 2016 Standard with the following packages is used:
+# * Latest python for both 2.7 and 3.x branches.
+# * Py2exe for Python 2.7
+# * Microsoft Visual C++ 2015 redistributable files
+# * Nsis
+
 # Declare some variables dependent on the operating system where the runner is installed.
 # This CI file assumes we install everything in C:\ (Python 2.7, 3.7 and Nsis).
 variables:
@@ -13,33 +20,37 @@ stages:
     - build
     - pack
 
-# Python 3 version. This is generated under Windows server 2016 Standard edition.
+# Python 3 version. During this job, the dist folder, containing all files to distribute, will be generated
+# and passed to build_zip and build_setup jobs.
 build_py3:
   stage: build
   tags:
     - windows10
+  # Update stuff before building versions
   before_script:
+    - '%PYTHON3% -v
     - '%PYTHON3% -m pip install --upgrade pip'
     - '%PYTHON3% -m pip install --upgrade -r requirements.txt'
   script:
     - cd src
     - '%PYINSTALLER% main.spec'
+  # Build this automatically only when tags are pushed to master or when a pipeline has been scheduled by Gitlab.
   only:
-    - master
     - tags
     - schedule_pipelines
   # Make the dist folder available to other jobs.
+  # It will expire in 30 mins as we won't need the dist folder after the pipeline is completed.
   artifacts:
     paths:
     - src\\dist
-    expire_in: 15 mins
+    expire_in: 30 mins
 
+# This job takes the src\\dist folder generated in build_py3 and creates a zip file, which will be uploaded to the repository's artifacts.
 zip_py3:
   stage: pack
   tags:
     - windows10
   only:
-    - master
     - tags
     - schedule_pipelines
   dependencies:
@@ -49,17 +60,17 @@ zip_py3:
     - '%PYTHON3% prepare_zipversion.py'
     - cd ..
     - move src\music_dl.zip music_dl.zip
+  # No expiry date as there will be only releases in the artifacts.
   artifacts:
     paths:
     - music_dl.zip
-    expire_in: 1 hour
 
+# This job takes the src\\dist generated in build_py3 and creates a setup installer file.
 build_setup:
   stage: pack
   tags:
     - windows10
   only:
-    - master
     - tags
     - schedule_pipelines
   dependencies:
@@ -73,13 +84,18 @@ build_setup:
     paths:
     - "music_dl_*"
     name: music_dl
-    expire_in: 1 day
+
+### Python 2 version
+# this version exists for compatibility reasons with Windows XP and old operating systems and may be deleted any time soon.
+# Automatic updates and generation of a windows installer file are not supported for this version.
+# The following jobs are not documented as they are basically the same than those used for python 3.
 
 build_py2:
   stage: build
   tags:
     - windows7
   before_script:
+    - '%PYTHON2% -v
     - '%PYTHON2% -m pip install --upgrade pip'
     - '%PYTHON2% -m pip install --upgrade -r requirements.txt'
     - '%PYTHON2% -m pip install --upgrade pypubsub==3.3.0 PySocks win_inet_pton'
@@ -90,7 +106,7 @@ build_py2:
   artifacts:
     paths:
     - src\\dist
-    expire_in: 15 mins
+    expire_in: 30 mins
   only:
     - master
     - tags
@@ -114,4 +130,3 @@ zip_py2:
   artifacts:
     paths:
     - music_dl_py2.zip
-    expire_in: 1 hour
