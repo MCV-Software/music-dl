@@ -48,7 +48,7 @@ python2_version:
     - move src\music_dl.zip music_dl_py2.zip
   only:
     - master
-      artifacts:
+  artifacts:
     paths:
     - music_dl_py2.zip
     name: music_dl_py2
