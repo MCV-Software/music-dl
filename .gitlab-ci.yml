@@ -22,4 +22,4 @@ alpha:
     paths:
     - music_dl.zip
     name: music_dl
-    expire_in: 1 week
+    expire_in: 1 day
