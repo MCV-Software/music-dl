@@ -7,7 +7,7 @@ stages:
   - build_py3
   - build_py2
 python3_version:
-  type: build_python3
+  type: build_py3
   tags:
     - windows10
   before_script:
