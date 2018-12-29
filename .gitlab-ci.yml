@@ -1,14 +1,19 @@
+# Declare some variables dependent on the operating system where the runner is installed.
 variables:
   PYTHON3: "C:\\python37\\python.exe"
   PYINSTALLER: "C:\\python37\\scripts\\pyinstaller.exe"
-  PYTHON2: "C:\\python27\\python.ex3"
-alpha:
-  type: deploy
+  PYTHON2: "C:\\python27\\python.exe"
+stages:
+  - build_py3
+  - build_py2
+python3_version:
+  type: build_python3
   tags:
-    - windows
-  script:
+    - windows10
+  before_script:
     - '%PYTHON3% -m pip install --upgrade pip'
     - '%PYTHON3% -m pip install --upgrade -r requirements.txt'
+  script:
     - cd src
     - '%PYINSTALLER% main.spec'
     - cd ..
@@ -22,4 +27,29 @@ alpha:
     paths:
     - music_dl.zip
     name: music_dl
+    expire_in: 1 day
+
+python2_version:
+  type: build_py2
+  tags:
+    - windows7
+  before_script:
+    - '%PYTHON2% -m pip install --upgrade pip'
+    - '%PYTHON2% -m pip install --upgrade -r requirements.txt'
+    # Additionally, install py2exe for Py2 as it is not listed in requirements.
+    - '%PYTHON2% -m pip install --upgrade py2exe'
+  script:
+    - cd src
+    - '%PYTHON2% setup.py py2exe'
+    - cd ..
+    - cd scripts
+    - '%PYTHON2% prepare_zipversion.py'
+    - cd ..
+    - move src\music_dl.zip music_dl_py2.zip
+  only:
+    - master
+      artifacts:
+    paths:
+    - music_dl_py2.zip
+    name: music_dl_py2
     expire_in: 1 day
