@@ -39,6 +39,7 @@ zip_py3:
     - '%PYTHON3% prepare_zipversion.py'
     - cd ..
     - move src\music_dl.zip music_dl.zip
+  artifacts:
     paths:
     - music_dl.zip
     expire_in: 1 hour
