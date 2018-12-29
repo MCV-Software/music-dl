@@ -8,3 +8,4 @@ youtube-dl
 pyinstaller
 isodate
 configobj
+winpaths
