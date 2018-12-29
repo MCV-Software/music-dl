@@ -5,7 +5,7 @@ import os
 def create_archive():
 	os.chdir("..\\src")
 	print("Creating zip archive...")
-	shutil.make_archive("socializer", "zip", "dist/main")
+	shutil.make_archive("music_dl", "zip", "dist/main")
 	if os.path.exists("dist"):
 		shutil.rmtree("dist")
 	if os.path.exists("build"):
