@@ -5,6 +5,7 @@ block_cipher = None
 a = Analysis(['main.py'],
              pathex=['.'],
              binaries=[("plugins", "plugins"),
+("locales", "locale"),
 ("libvlc.dll", "."),
 ("libvlccore.dll", "."),
 ("bootstrap.exe", "."),
