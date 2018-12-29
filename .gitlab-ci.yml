@@ -36,8 +36,7 @@ python2_version:
   before_script:
     - '%PYTHON2% -m pip install --upgrade pip'
     - '%PYTHON2% -m pip install --upgrade -r requirements.txt'
-    # Additionally, reinstall the right version of pypubsub (3.3.0).
-    - '%PYTHON2% -m pip install --upgrade pypubsub==3.3.0'
+    - '%PYTHON2% -m pip install --upgrade pypubsub==3.3.0 PySocks win_inet_pton'
   script:
     - cd src
     - '%PYTHON2% setup.py py2exe'
