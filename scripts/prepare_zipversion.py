@@ -1,11 +1,16 @@
 #! /usr/bin/env python# -*- coding: iso-8859-1 -*-
 import  shutil
 import os
+import sys
 
 def create_archive():
 	os.chdir("..\\src")
 	print("Creating zip archive...")
-	shutil.make_archive("music_dl", "zip", "dist/main")
+	if sys.version[0] == "3":
+		folder = "dist/main"
+	else:
+		folder = "dist"
+	shutil.make_archive("music_dl", "zip", folder)
 	if os.path.exists("dist"):
 		shutil.rmtree("dist")
 	if os.path.exists("build"):
