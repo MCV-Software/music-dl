@@ -4,10 +4,10 @@ variables:
   PYINSTALLER: "C:\\python37\\scripts\\pyinstaller.exe"
   PYTHON2: "C:\\python27\\python.exe"
 stages:
-  - build_py3
-  - build_py2
+  - build
+
 python3_version:
-  type: build_py3
+  type: build
   tags:
     - windows10
   before_script:
@@ -30,14 +30,14 @@ python3_version:
     expire_in: 1 day
 
 python2_version:
-  type: build_py2
+  type: build
   tags:
     - windows7
   before_script:
     - '%PYTHON2% -m pip install --upgrade pip'
     - '%PYTHON2% -m pip install --upgrade -r requirements.txt'
-    # Additionally, install py2exe for Py2 as it is not listed in requirements.
-    - '%PYTHON2% -m pip install --upgrade py2exe'
+    # Additionally, reinstall the right version of pypubsub (3.3.0).
+    - '%PYTHON2% -m pip install --upgrade pypubsub==3.3.0'
   script:
     - cd src
     - '%PYTHON2% setup.py py2exe'
