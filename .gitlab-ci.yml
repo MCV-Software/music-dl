@@ -28,7 +28,7 @@ build_py3:
     - windows10
   # Update stuff before building versions
   before_script:
-    - '%PYTHON3% -v
+    - '%PYTHON3% -v'
     - '%PYTHON3% -m pip install --upgrade pip'
     - '%PYTHON3% -m pip install --upgrade -r requirements.txt'
   script:
@@ -95,7 +95,7 @@ build_py2:
   tags:
     - windows7
   before_script:
-    - '%PYTHON2% -v
+    - '%PYTHON2% -v'
     - '%PYTHON2% -m pip install --upgrade pip'
     - '%PYTHON2% -m pip install --upgrade -r requirements.txt'
     - '%PYTHON2% -m pip install --upgrade pypubsub==3.3.0 PySocks win_inet_pton'
