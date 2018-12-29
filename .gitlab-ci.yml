@@ -1,6 +1,6 @@
 variables:
-  PYTHON3: "C:\python37\python.exe"
-  PYTHON2: "C:\python27\python.ex3"
+  PYTHON3: "C:\\python37\\python.exe"
+  PYTHON2: "C:\\python27\\python.ex3"
 alpha:
   type: deploy
   tags:
