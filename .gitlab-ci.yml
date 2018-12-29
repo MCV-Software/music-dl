@@ -4,11 +4,12 @@ variables:
   PYINSTALLER: "C:\\python37\\scripts\\pyinstaller.exe"
   NSIS: "C:\\nsis\\makensis.exe"
   PYTHON2: "C:\\python27\\python.exe"
+
 stages:
   - build
-  - make_installer
+    - pack
 
-python3_version:
+build_py3:
   stage: build
   tags:
     - windows10
@@ -18,28 +19,38 @@ python3_version:
   script:
     - cd src
     - '%PYINSTALLER% main.spec'
-    - cd ..
-    - cd scripts
-    - '%PYTHON3% prepare_zipversion.py'
-    - cd ..
-    - move src\music_dl.zip music_dl.zip
   only:
     - master
-  cache:
-    paths:
-    - src\\dist
   artifacts:
     paths:
-    - music_dl.zip
-    name: music_dl
-    expire_in: 1 day
+    - src\\dist
+    expire_in: 15 mins
 
-build_setup:
-  stage: make_installer
+zip_py3:
+  stage: pack
   tags:
     - windows10
   only:
     - master
+  dependencies:
+    - build_py3
+  script:
+    - cd scripts
+    - '%PYTHON3% prepare_zipversion.py'
+    - cd ..
+    - move src\music_dl.zip music_dl.zip
+    paths:
+    - music_dl.zip
+    expire_in: 1 hour
+
+build_setup:
+  stage: pack
+  tags:
+    - windows10
+  only:
+    - master
+  dependencies:
+    - build_py3
   script:
     - cd src
     - '%NSIS% installer.nsi'
