@@ -59,7 +59,7 @@ build_setup:
     - move src\music_dl* .
   artifacts:
     paths:
-    - music_dl_
+    - "music_dl_*"
     name: music_dl
     expire_in: 1 day
 
