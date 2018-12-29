@@ -2,7 +2,7 @@
 variables:
   PYTHON3: "C:\\python37\\python.exe"
   PYINSTALLER: "C:\\python37\\scripts\\pyinstaller.exe"
-  NSIS: "C:\\nsis\\Unicode\\makensis.exe"
+  NSIS: "C:\\nsis\\makensis.exe"
   PYTHON2: "C:\\python27\\python.exe"
 stages:
   - build
