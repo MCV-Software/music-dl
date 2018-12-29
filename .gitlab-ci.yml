@@ -25,6 +25,9 @@ python3_version:
     - move src\music_dl.zip music_dl.zip
   only:
     - master
+  cache:
+    paths:
+    - src\dist
   artifacts:
     paths:
     - music_dl.zip
