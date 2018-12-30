@@ -57,6 +57,10 @@ class extractorsTestCase(unittest.TestCase):
 		""" Testing a Youtube search. """
 		self.search("youtube")
 
+	def test_youtube_search_unicode(self):
+		""" Testing a Youtube search using unicode characters. """
+		self.search("youtube", "Пианино")
+
 	def test_youtube_search_blank(self):
 		""" Testing a youtube search when text is blank or not passed. """
 		self.search_blank("youtube")
@@ -73,6 +77,10 @@ class extractorsTestCase(unittest.TestCase):
 		""" Testing a mail.ru search. """
 		self.search("mailru")
 
+	def test_mailru_search_unicode(self):
+		""" Testing a mail.ru search with unicode characters. """
+		self.search("mailru", "Пианино")
+
 	def test_mailru_search_blank(self):
 		""" Testing a mail.ru search when text is blank. """
 		self.search_blank("mailru")
@@ -80,6 +88,10 @@ class extractorsTestCase(unittest.TestCase):
 	def test_zaycev_search(self):
 		""" Testing a search made in zaycev.net """
 		self.search("zaycev")
+
+	def test_zaycev_search_unicode(self):
+		""" Testing a search made in zaycev.net with unicode characters. """
+		self.search("zaycev", "Пианино")
 
 	def test_zaycev_search_blank(self):
 		""" Testing a search in zaycev.net when text is blank. """
