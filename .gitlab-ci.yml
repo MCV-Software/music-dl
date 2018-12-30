@@ -17,8 +17,26 @@ variables:
 # Build: This will be the main stage generating stuff in the dist folder. Jobs present in this stage will run py2exe or pyinstaller files accordingly.
 # pack: Jobs in this stage will take the dist folder and zip it or generate an exe file.
 stages:
+    - test
     - build
     - pack
+
+# Python 3 tests
+test_py3:
+  stage: test
+  tags:
+    - windows10
+  before_script:
+    - '%PYTHON3% -v'
+    - '%PYTHON3% -m pip install --upgrade pip'
+    - '%PYTHON3% -m pip install --upgrade -r requirements.txt'
+  script:
+    - cd src
+    - '%PYTHON3% run_tests.py'
+  only:
+    - master
+    - tags
+    - schedule_pipelines
 
 # Python 3 version. During this job, the dist folder, containing all files to distribute, will be generated
 # and passed to build_zip and build_setup jobs.
@@ -89,6 +107,23 @@ build_setup:
 # this version exists for compatibility reasons with Windows XP and old operating systems and may be deleted any time soon.
 # Automatic updates and generation of a windows installer file are not supported for this version.
 # The following jobs are not documented as they are basically the same than those used for python 3.
+
+# Python 3 tests
+test_py2:
+  stage: test
+  tags:
+    - windows7
+  before_script:
+    - '%PYTHON2% -v'
+    - '%PYTHON2% -m pip install --upgrade pip'
+    - '%PYTHON2% -m pip install --upgrade -r requirements.txt'
+  script:
+    - cd src
+    - '%PYTHON2% run_tests.py'
+  only:
+    - master
+    - tags
+    - schedule_pipelines
 
 build_py2:
   stage: build
