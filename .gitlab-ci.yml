@@ -32,7 +32,10 @@ test_py3:
     - '%PYTHON3% -m pip install --upgrade -r requirements.txt'
   script:
     - cd src
-    - '%PYTHON3% run_tests.py'
+    - '%PYTHON3% -m coverage run_tests.py'
+    - '%PYTHON3% -m coverage report'
+  coverage: '/TOTAL.+ ([0-9]{1,3}%)/'
+
   only:
     - master
     - tags
@@ -119,7 +122,9 @@ test_py2:
     - '%PYTHON2% -m pip install --upgrade -r requirements.txt'
   script:
     - cd src
-    - '%PYTHON2% run_tests.py'
+    - '%PYTHON2% -m coverage run_tests.py'
+    - '%PYTHON2% -m coverage report'
+  coverage: '/TOTAL.+ ([0-9]{1,3}%)/'
   only:
     - master
     - tags
