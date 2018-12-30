@@ -19,6 +19,8 @@ class interface(object):
 		log.debug("Started extraction service for zaycev.net")
 
 	def search(self, text, page=1):
+		if text == "" or text == None:
+			raise ValueError("Text must be passed and should not be blank.")
 		site = "http://zaycev.net/search.html?query_search=%s" % (text,)
 		log.debug("Retrieving data from {0}...".format(site,))
 		r = requests.get(site)

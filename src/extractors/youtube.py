@@ -23,6 +23,8 @@ class interface(object):
 		log.debug("started extraction service for {0}".format(self.name,))
 
 	def search(self, text, page=1):
+		if text == "" or text == None:
+			raise ValueError("Text must be passed and should not be blank.")
 		if text.startswith("https") or text.startswith("http"):
 			return self.search_from_url(text)
 		type = "video"

@@ -18,11 +18,12 @@ class interface(object):
 
 	def __init__(self):
 		self.results = []
-
 		self.needs_transcode = False
 		log.debug("Started extraction service for mail.ru music")
 
 	def search(self, text, page=1):
+		if text == "" or text == None:
+			raise ValueError("Text must be passed and should not be blank.")
 		site = 'https://my.mail.ru/music/search/%s' % (text)
 		log.debug("Retrieving data from {0}...".format(site,))
 		r = requests.get(site)
@@ -35,7 +36,7 @@ class interface(object):
 			s.title = data[0].text.replace("\n", "").replace("\t", "")
 #			s.artist = data[1].text.replace("\n", "").replace("\t", "")
 #			print(data)
-			s.url = u"https://my.mail.ru"+urlparse.quote(data[0].__dict__["attrs"]["href"])
+			s.url = u"https://my.mail.ru"+urlparse.quote(data[0].__dict__["attrs"]["href"].encode("utf-8"))
 			self.results.append(s)
 		log.debug("{0} results found.".format(len(self.results)))
 
