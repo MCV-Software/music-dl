@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """ Unittests for extractors present in MusicDL. """
 from __future__ import unicode_literals
 import sys
@@ -16,10 +17,11 @@ else:
 class extractorsTestCase(unittest.TestCase):
 
 	def setUp(self):
+		""" Configure i18n functions for avoiding a traceback later. """
 		i18n.setup()
 
 	def search(self, extractor_name, search_query="piano", skip_validation=False):
-		""" Blank here"""
+		""" Search a video in the passed extractor name. """
 		# Test basic instance stuff.
 		extractor_instance = getattr(extractors, extractor_name).interface()
 		extractor_instance.search(search_query)
@@ -47,6 +49,7 @@ class extractorsTestCase(unittest.TestCase):
 		self.assertNotEquals(item.download_url, "")
 
 	def search_blank(self, extractor_name, search_query=""):
+		""" Attempt to search in any extractor by passing a blank string. """
 		extractor_instance = getattr(extractors, extractor_name).interface()
 		self.assertRaises(ValueError, extractor_instance.search, search_query)
 
@@ -59,21 +62,27 @@ class extractorsTestCase(unittest.TestCase):
 		self.search_blank("youtube")
 
 	def test_youtube_direct_link(self):
+		""" Testing a search in youtube by passing a direct link. """
 		self.search("youtube", "https://www.youtube.com/watch?v=hwDiI9p9L-g")
 
 	def test_youtube_playlist(self):
+		""" Testing a youtube search by passing a link to a playlist. """
 		self.search("youtube", "https://www.youtube.com/playlist?list=PLqivnvaruBVH8fqI5JU9h5jZKV-32bbEn", skip_validation=True)
 
 	def test_mailru_search(self):
+		""" Testing a mail.ru search. """
 		self.search("mailru")
 
 	def test_mailru_search_blank(self):
+		""" Testing a mail.ru search when text is blank. """
 		self.search_blank("mailru")
 
 	def test_zaycev_search(self):
+		""" Testing a search made in zaycev.net """
 		self.search("zaycev")
 
 	def test_zaycev_search_blank(self):
+		""" Testing a search in zaycev.net when text is blank. """
 		self.search_blank("zaycev")
 
 if __name__ == "__main__":
