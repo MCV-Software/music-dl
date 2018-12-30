@@ -33,7 +33,7 @@ test_py3:
   script:
     - cd src
     - '%PYTHON3% -m coverage run run_tests.py'
-    - '%PYTHON3% -m coverage report'
+    - '%PYTHON3% -m coverage report --omit="test*"'
   coverage: '/TOTAL.+ ([0-9]{1,3}%)/'
 
   only:
@@ -123,7 +123,7 @@ test_py2:
   script:
     - cd src
     - '%PYTHON2% -m coverage run run_tests.py'
-    - '%PYTHON2% -m coverage report'
+    - '%PYTHON2% -m coverage report --omit="*/test*"'
   coverage: '/TOTAL.+ ([0-9]{1,3}%)/'
   only:
     - master
