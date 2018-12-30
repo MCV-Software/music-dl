@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """ Unittests for fixers applied in some cases. """
 from __future__ import unicode_literals
 import os
