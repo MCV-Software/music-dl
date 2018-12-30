@@ -1,7 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 import unittest
 
-testmodules = ['test.test_extractors']
+testmodules = ['test.test_storage', 'test.test_extractors']
 
 suite = unittest.TestSuite()
 
