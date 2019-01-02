@@ -57,7 +57,7 @@ class reportBug(object):
 		operating_system = platform.platform()
 		json = dict(title=title, issue_type=issue_type, body=body, operating_system=operating_system, app_type=app_type, app_version=app_version, reporter_name=reporter_name, reporter_contact_handle=reporter_contact_handle, reporter_contact_type=reporter_contact_type)
 		auth=HTTPBasicAuth(application.bts_name, application.bts_access_token)
-		url = "{bts_url}/issue/{project_id}/new".format(bts_url=application.bts_url, project_id=application.bts_project_id)
+		url = "{bts_url}/issue/new".format(bts_url=application.bts_url)
 		call_threaded(self.do_report, url, json=json, auth=auth)
 		self.dialog.show_progress()
 		self.dialog.EndModal(wx.ID_OK)
