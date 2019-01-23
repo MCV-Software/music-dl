@@ -2,10 +2,10 @@
 import sys
 python_version = int(sys.version[0])
 name = "MusicDL"
-version = "0.3"
+version = "0.4"
 author = "Manuel Cortéz"
 authorEmail = "manuel@manuelcortez.net"
-copyright = "Copyright (C) 2018, Manuel Cortez"
+copyright = "Copyright (C) 2019, Manuel Cortez"
 description = name+_(u" Is an application that will allow you to download music from popular sites such as youtube, zaycev.net.")
 url = "https://manuelcortez.net/music_dl"
 update_url = "https://manuelcortez.net/music_dl/update"
