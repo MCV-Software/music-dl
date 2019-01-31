@@ -115,7 +115,7 @@ build_setup:
 test_py2:
   stage: test
   tags:
-    - windows7
+    - windows10
   before_script:
     - '%PYTHON2% -v'
     - '%PYTHON2% -m pip install --upgrade pip'
@@ -133,7 +133,7 @@ test_py2:
 build_py2:
   stage: build
   tags:
-    - windows7
+    - windows10
   before_script:
     - '%PYTHON2% -v'
     - '%PYTHON2% -m pip install --upgrade pip'
