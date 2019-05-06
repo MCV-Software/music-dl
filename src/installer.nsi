@@ -5,7 +5,7 @@ CRCCheck on
 ManifestSupportedOS all
 XPStyle on
 Name "MusicDL"
-OutFile "music_dl_0.3_setup.exe"
+OutFile "music_dl_0.5_setup.exe"
 InstallDir "$PROGRAMFILES\musicDL"
 InstallDirRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\musicDL" "InstallLocation"
 RequestExecutionLevel admin
@@ -13,11 +13,11 @@ SetCompress auto
 SetCompressor /solid lzma
 SetDatablockOptimize on
 VIAddVersionKey ProductName "MusicDL"
-VIAddVersionKey LegalCopyright "Copyright 2018 Manuel Cortéz."
-VIAddVersionKey ProductVersion "0.3"
-VIAddVersionKey FileVersion "0.3"
-VIProductVersion "0.3.0.0"
-VIFileVersion "0.3.0.0"
+VIAddVersionKey LegalCopyright "Copyright 2019 Manuel Cortez."
+VIAddVersionKey ProductVersion "0.5"
+VIAddVersionKey FileVersion "0.5"
+VIProductVersion "0.5.0.0"
+VIFileVersion "0.5.0.0"
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_DIRECTORY
 var StartMenuFolder
@@ -49,7 +49,7 @@ WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\musicDL" "
 WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\musicDL" "UninstallString" '"$INSTDIR\uninstall.exe"'
 WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall" "InstallLocation" $INSTDIR
 WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall" "Publisher" "Manuel Cortéz"
-WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\musicDL" "DisplayVersion" "0.3"
+WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\musicDL" "DisplayVersion" "0.5"
 WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\musicDL" "URLInfoAbout" "https://manuelcortez.net/music_dl"
 WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\musicDL" "VersionMajor" 0
 WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\musicDL" "VersionMinor" 1

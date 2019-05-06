@@ -12,6 +12,7 @@ def call_threaded(func, *args, **kwargs):
 	def new_func(*a, **k):
 		func(*a, **k)
 	thread = threading.Thread(target=new_func, args=args, kwargs=kwargs)
+	thread.daemon = True
 	thread.start()
 	return thread
 
