@@ -96,7 +96,7 @@ class Controller(object):
 
 	# Event functions. These functions will call other functions in a thread and are bound to widget events.
 	def on_search(self, *args, **kwargs):
-		utils.call_threaded(self.search)
+		wx.CallAfter(self.search)
 
 	def on_activated(self, *args, **kwargs):
 		self.on_play()

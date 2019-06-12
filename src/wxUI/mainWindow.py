@@ -45,7 +45,7 @@ class mainWindow(wx.Frame):
 		box.Add(lbl2, 0, wx.GROW)
 		box.Add(self.text, 1, wx.GROW)
 		box.Add(wx.StaticText(self.panel, wx.NewId(), _(u"Search in")), 0, wx.GROW)
-		self.extractor = wx.ComboBox(self.panel, wx.NewId(), choices=["youtube", "mail.ru", "zaycev.net"], value="youtube", style=wx.CB_READONLY)
+		self.extractor = wx.ComboBox(self.panel, wx.NewId(), choices=["youtube", "tidal", "mail.ru", "zaycev.net"], value="youtube", style=wx.CB_READONLY)
 		box.Add(self.extractor, 1, wx.GROW)
 		self.search = wx.Button(self.panel, wx.NewId(), _(u"Search"))
 		self.search.SetDefault()

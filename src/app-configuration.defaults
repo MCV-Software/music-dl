@@ -1,2 +1,8 @@
 [main]
 volume = integer(default=50)
+
+[services]
+[[tidal]]
+username = string(default="")
+password = string(default="")
+quality=string(default="lossless")

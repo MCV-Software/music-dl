@@ -1,5 +1,11 @@
 ## Changelog
 
+## Version 0.6
+
+* Added a new and experimental extractor for supporting tidal.
+    * Take into account that this extractor requires you to have a paid account on tidal. Depending in the account level, you will be able to play and download music in high quality or lossless audio. MusicDL will handle both, though at the current moment, only downloading of lossless audio is implemented.
+    * There is a new search mode supported in this service. You can retrieve all work for a certain artist by using the protocol artist://, plus the name of the artist you want to retrieve. For example, artist://The beatles will retrieve everything made by the beatles available in the service. The search results will be grouped by albums, compilations and singles, in this order.
+
 ## Version 0.4
 
 * Fixed an error when creating a directory located in %appdata%, when using MusicDL as an installed version. MusicDL should be able to work normally again.
@@ -7,7 +13,7 @@
 * MusicDL will no longer set volume at 50% when it starts. It will save the volume in a settings file, so it will remember volume settings across restarts.
 * Added an option in the help menu to report an issue. You can use this feature for sending reports of problems you have encountered while using the application. You will need to provide your email address, though it will not be public anywhere. Your email address will be used only for contacting you if necessary.
 * changes in Youtube module:
-    * Updated YoutubeDL to version 2018.10.05
+    * Updated YoutubeDL to latest version.
 
 ## Version 0.3
 

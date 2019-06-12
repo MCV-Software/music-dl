@@ -10,3 +10,4 @@ pyinstaller
 isodate
 configobj
 winpaths
+tidalapi
