@@ -14,6 +14,7 @@ class song(object):
 		self.size = 0
 		self.url = ""
 		self.download_url = ""
+		self.info = None
 
 	def format_track(self):
 		return self.extractor.format_track(self)
