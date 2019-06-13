@@ -2,9 +2,17 @@
 
 ## Version 0.6
 
+* Updated VLC libraries and plugins to version 3.0.7.
 * Added a new and experimental extractor for supporting tidal.
     * Take into account that this extractor requires you to have a paid account on tidal. Depending in the account level, you will be able to play and download music in high quality or lossless audio. MusicDL will handle both, though at the current moment, only downloading of lossless audio is implemented.
     * There is a new search mode supported in this service. You can retrieve all work for a certain artist by using the protocol artist://, plus the name of the artist you want to retrieve. For example, artist://The beatles will retrieve everything made by the beatles available in the service. The search results will be grouped by albums, compilations and singles, in this order.
+* Due to recent problems with mail.ru and unavailable content in most cases, the service has been removed from MusicDL.
+* YouTube:
+    * Fixed a long standing issue with playback of some elements, due to Youtube sending encrypted versions of these videos. Now playback should be better.
+    * Updated YoutubeDL to version 2019.6.7
+* zaycev.net:
+    * Fixed extractor for searching and playing music in zaycev.net.
+    * Unfortunately, it seems this service works only in the russian Federation and some other CIS countries due to copyright reasons.
 
 ## Version 0.4
 
