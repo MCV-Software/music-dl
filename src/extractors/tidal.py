@@ -63,8 +63,8 @@ class interface(object):
 			s.artist = search_result.artist.name
 			s.duration = seconds_to_string(search_result.duration)
 			s.url = search_result.id
+			s.info = search_result
 			self.results.append(s)
-
 		log.debug("{0} results found.".format(len(self.results)))
 
 	def get_download_url(self, url):
