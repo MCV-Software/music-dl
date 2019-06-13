@@ -12,7 +12,7 @@ import sys
 storage.setup()
 # Let's import config module here as it is dependent on storage being setup.
 import config
-logging.basicConfig(filename=os.path.join(storage.data_directory, "info.log"), level=logging.DEBUG, filemode="w")
+logging.basicConfig(handlers=[logging.FileHandler(os.path.join(storage.data_directory, "info.log"), "w", "utf-8")], level=logging.DEBUG)
 # Let's mute the google discovery_cache logger as we won't use it and we'll avoid some tracebacks.
 glog = logging.getLogger("googleapiclient.discovery_cache")
 glog.setLevel(logging.CRITICAL)
