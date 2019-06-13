@@ -29,6 +29,7 @@ class interface(object):
 			raise ValueError("Text must be passed and should not be blank.")
 		log.debug("Retrieving data from Tidal...")
 		fieldtypes = ["artist", "album", "playlist"]
+		field = "track"
 		for i in fieldtypes:
 			if text.startswith(i+"://"):
 				field = i
@@ -36,7 +37,7 @@ class interface(object):
 				log.debug("Searching for %s..." % (field))
 		search_response = self.session.search(value=text, field=field)
 		self.results = []
-		if field == "tracks":
+		if field == "track":
 			data = search_response.tracks
 		elif field == "artist":
 			data = []
