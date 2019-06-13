@@ -21,6 +21,7 @@ class interface(object):
 		self.results = []
 		self.needs_transcode = True
 		log.debug("started extraction service for {0}".format(self.name,))
+		self.file_extension = "mp3"
 
 	def search(self, text, page=1):
 		if text == "" or text == None:
@@ -50,7 +51,7 @@ class interface(object):
 		log.debug("Getting download URL for {0}".format(url,))
 		if "playlist?list=" in url:
 			return self.search_from_playlist(url)
-		ydl = youtube_dl.YoutubeDL({'quiet': True, 'no_warnings': True, 'logger': log, 'format': 'bestaudio/best', 'outtmpl': u'%(id)s%(ext)s'})
+		ydl = youtube_dl.YoutubeDL({'quiet': True, 'no_warnings': True, 'logger': log, 'prefer-free-formats': True, 'format': 'bestaudio', 'outtmpl': u'%(id)s%(ext)s'})
 		with ydl:
 			result = ydl.extract_info(url, download=False)
 			if 'entries' in result:
@@ -95,8 +96,9 @@ class interface(object):
 				video = result['entries'][0]
 			else:
 				video = result
-		log.debug("Download URL: {0}".format(video["url"],))
-		return video["url"]
+		# From here we should extract the first format so it will contain audio only.
+		log.debug("Download URL: {0}".format(video["formats"][0]["url"],))
+		return video["formats"][0]["url"]
 
 	def format_track(self, item):
 		return "{0} {1}".format(item.title, item.duration)

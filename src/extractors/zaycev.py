@@ -17,6 +17,7 @@ class interface(object):
 		self.results = []
 		self.needs_transcode = False
 		log.debug("Started extraction service for zaycev.net")
+		self.file_extension = "mp3"
 
 	def search(self, text, page=1):
 		if text == "" or text == None:

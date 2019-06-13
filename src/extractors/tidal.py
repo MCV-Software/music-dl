@@ -23,6 +23,10 @@ class interface(object):
 		log.debug("Using quality: %s" % (quality,))
 		self.session = tidalapi.Session(config=_config)
 		self.session.login(username=username, password=password)
+		if config.app["services"]["tidal"]["quality"] == "lossless":
+			self.file_extension = "flac"
+		else:
+			self.file_extension = "mp3"
 
 	def search(self, text, page=1):
 		if text == "" or text == None:
