@@ -11,3 +11,4 @@ isodate
 configobj
 winpaths
 tidalapi
+mutagen
