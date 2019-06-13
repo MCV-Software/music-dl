@@ -15,7 +15,7 @@ YOUTUBE_API_VERSION = "v3"
 log = logging.getLogger("extractors.youtube.com")
 
 class interface(object):
-	name = "youtube"
+	name = "YouTube"
 
 	def __init__(self):
 		self.results = []

@@ -32,7 +32,7 @@ class Controller(object):
 		# Setting up the player object
 		player.setup()
 		# Get main window
-		self.window = mainWindow.mainWindow()
+		self.window = mainWindow.mainWindow(extractors=[i.name for i in get_extractors()])
 		log.debug("Main window created")
 		self.window.change_status(_(u"Ready"))
 		# Here we will save results for searches as song objects.

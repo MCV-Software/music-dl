@@ -32,7 +32,7 @@ class mainWindow(wx.Frame):
 		mb.Append(help_, _(u"Help"))
 		self.SetMenuBar(mb)
 
-	def __init__(self):
+	def __init__(self, extractors=[]):
 		super(mainWindow, self).__init__(parent=None, id=wx.NewId(), title=application.name)
 		self.Maximize(True)
 		self.makeMenu()
@@ -45,7 +45,7 @@ class mainWindow(wx.Frame):
 		box.Add(lbl2, 0, wx.GROW)
 		box.Add(self.text, 1, wx.GROW)
 		box.Add(wx.StaticText(self.panel, wx.NewId(), _(u"Search in")), 0, wx.GROW)
-		self.extractor = wx.ComboBox(self.panel, wx.NewId(), choices=["youtube", "tidal", "mail.ru", "zaycev.net"], value="youtube", style=wx.CB_READONLY)
+		self.extractor = wx.ComboBox(self.panel, wx.NewId(), choices=extractors, value=extractors[0], style=wx.CB_READONLY)
 		box.Add(self.extractor, 1, wx.GROW)
 		self.search = wx.Button(self.panel, wx.NewId(), _(u"Search"))
 		self.search.SetDefault()
