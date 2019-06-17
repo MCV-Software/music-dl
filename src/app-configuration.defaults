@@ -1,8 +1,13 @@
 [main]
 volume = integer(default=50)
+language = string(default="system")
 
 [services]
 [[tidal]]
 username = string(default="")
 password = string(default="")
 quality=string(default="lossless")
+
+
+[[youtube]]
+transcode = boolean(default=True)

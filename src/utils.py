@@ -3,6 +3,7 @@ import os
 import requests
 import threading
 import logging
+import types
 from pubsub import pub
 
 log = logging.getLogger("utils")
@@ -68,3 +69,10 @@ def download_file(url, local_filename):
 	pub.sendMessage("download_finished", file=os.path.basename(local_filename))
 	log.debug("Download finished successfully")
 	return local_filename
+
+def get_extractors():
+	""" Function for importing everything wich is located in the extractors package and has a class named interface."""
+	import extractors
+	module_type = types.ModuleType
+	classes = [m for m in extractors.__dict__.values() if type(m) == module_type and hasattr(m, 'interface')]
+	return classes#sorted(classes, key=lambda c: c.name)

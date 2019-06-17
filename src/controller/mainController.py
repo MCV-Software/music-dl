@@ -13,16 +13,10 @@ from pubsub import pub
 from issueReporter import issueReporter
 from wxUI import mainWindow, menus
 from update import updater
-from . import player
+from utils import get_extractors
+from . import player, configuration
 
 log = logging.getLogger("controller.main")
-
-def get_extractors():
-	""" Function for importing everything wich is located in the extractors package and has a class named interface."""
-	import extractors
-	module_type = types.ModuleType
-	classes = [m.interface for m in extractors.__dict__.values() if type(m) == module_type and hasattr(m, 'interface')]
-	return sorted(classes, key=lambda c: c.name)
 
 class Controller(object):
 
@@ -32,7 +26,7 @@ class Controller(object):
 		# Setting up the player object
 		player.setup()
 		# Get main window
-		self.window = mainWindow.mainWindow(extractors=[i.name for i in get_extractors()])
+		self.window = mainWindow.mainWindow(extractors=[i.interface.name for i in get_extractors()])
 		log.debug("Main window created")
 		self.window.change_status(_(u"Ready"))
 		# Here we will save results for searches as song objects.
@@ -67,6 +61,7 @@ class Controller(object):
 		widgetUtils.connect_event(self.window.list, widgetUtils.LISTBOX_ITEM_ACTIVATED, self.on_activated)
 		widgetUtils.connect_event(self.window.list, widgetUtils.KEYPRESS, self.on_keypress)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.on_play, menuitem=self.window.player_play)
+		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.on_settings, menuitem=self.window.settings)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.on_next, menuitem=self.window.player_next)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.on_previous, menuitem=self.window.player_previous)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.on_stop, menuitem=self.window.player_stop)
@@ -95,6 +90,9 @@ class Controller(object):
 		pub.subscribe(self.on_notify, "notify")
 
 	# Event functions. These functions will call other functions in a thread and are bound to widget events.
+	def on_settings(self, *args, **kwargs):
+		settings = configuration.configuration()
+
 	def on_search(self, *args, **kwargs):
 		wx.CallAfter(self.search)
 
@@ -246,8 +244,8 @@ class Controller(object):
 		self.change_status(_(u"Searching {0}... ").format(text))
 		extractors = get_extractors()
 		for i in extractors:
-			if extractor == i.name:
-				self.extractor = i()
+			if extractor == i.interface.name:
+				self.extractor = i.interface()
 				break
 		log.debug("Started search for {0} (selected extractor: {1})".format(text, self.extractor.name))
 		self.window.list.Clear()

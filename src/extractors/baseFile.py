@@ -1,6 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 from __future__ import unicode_literals    # at top of module
+import logging
+import wx
+import config
+log = logging.getLogger("extractors.config")
 
 class song(object):
 	""" Represents a song in all services. Data will be filled by the service itself"""
@@ -21,3 +25,21 @@ class song(object):
 
 	def get_download_url(self):
 		self.download_url = self.extractor.get_download_url(self.url)
+
+class baseSettings(wx.Panel):
+	config_section = "base"
+
+	def __init__(self, *args, **kwargs):
+		super(baseSettings, self).__init__(*args, **kwargs)
+		self.map = []
+
+	def save(self):
+		for i in self.map:
+			config.app["services"][self.config_section][i[0]] = i[1].GetValue()
+
+	def load(self):
+		for i in self.map:
+			if i[0] in config.app["services"][self.config_section]:
+				i[1].SetValue(config.app["services"][self.config_section][i[0]])
+			else:
+				log.error("No key available: {key} on extractor {extractor}".format(key=i[0], extractor=self.config_section))

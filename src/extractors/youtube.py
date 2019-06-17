@@ -3,10 +3,11 @@ from __future__ import unicode_literals    # at top of module
 import isodate
 import youtube_dl
 import logging
+import wx
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
-from .import baseFile
 from update.utils import seconds_to_string
+from .import baseFile
 
 DEVELOPER_KEY = "AIzaSyCU_hvZJEjLlAGAnlscquKEkE8l0lVOfn0"
 YOUTUBE_API_SERVICE_NAME = "youtube"
@@ -102,3 +103,15 @@ class interface(object):
 
 	def format_track(self, item):
 		return "{0} {1}".format(item.title, item.duration)
+
+class settings(baseFile.baseSettings):
+	name = _("Youtube Settings")
+	config_section = "youtube"
+
+	def __init__(self, parent):
+		super(settings, self).__init__(parent=parent)
+		sizer = wx.BoxSizer(wx.VERTICAL)
+		self.transcode = wx.CheckBox(self, wx.NewId(), _("Enable transcode when downloading"))
+		self.map.append(("transcode", self.transcode))
+		sizer.Add(self.transcode, 0, wx.ALL, 5)
+		self.SetSizer(sizer)
