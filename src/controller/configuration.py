@@ -20,6 +20,8 @@ class configuration(object):
 				panel = getattr(i, "settings")(self.view.notebook)
 				self.view.notebook.AddPage(panel, panel.name)
 				panel.load()
+				if hasattr(panel, "on_enabled"):
+					panel.on_enabled()
 		self.view.realize()
 
 	def save(self):
