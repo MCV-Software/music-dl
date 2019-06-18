@@ -5,8 +5,13 @@ import sys
 import unittest
 import re
 import i18n
+import storage
+import config
+storage.setup()
+config.setup()
+i18n.setup()
 import extractors
-from extractors import baseFile
+from extractors import base
 
 # Pytohn 2/3 compat
 if sys.version[0] == "2":
@@ -30,7 +35,7 @@ class extractorsTestCase(unittest.TestCase):
 		self.assertIsInstance(len(extractor_instance.results), int)
 		# Take and test validity of the first item.
 		item = extractor_instance.results[0]
-		self.assertIsInstance(item, baseFile.song)
+		self.assertIsInstance(item, base.song)
 		self.assertIsInstance(item.title, strtype)
 		self.assertNotEqual(item.title, "")
 		if extractor_name == "youtube": # Duration is only available for youtube.
