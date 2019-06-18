@@ -12,6 +12,7 @@ log = logging.getLogger("extractors.zaycev.net")
 
 class interface(object):
 	name = "zaycev.net"
+	enabled = True
 
 	def __init__(self):
 		self.results = []

@@ -120,6 +120,7 @@ class settings(base.baseSettings):
 		self.map.append(("transcode", self.transcode))
 		sizer.Add(self.transcode, 0, wx.ALL, 5)
 		self.SetSizer(sizer)
+		self.on_enabled()
 
 	def on_enabled(self, *args, **kwargs):
 		for i in self.map:

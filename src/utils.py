@@ -74,5 +74,5 @@ def get_extractors():
 	""" Function for importing everything wich is located in the extractors package and has a class named interface."""
 	import extractors
 	module_type = types.ModuleType
-	classes = [m for m in extractors.__dict__.values() if type(m) == module_type and hasattr(m, 'interface')]
+	classes = [m for m in extractors.__dict__.values() if type(m) == module_type and hasattr(m, 'interface') and m.interface.enabled != False]
 	return classes#sorted(classes, key=lambda c: c.name)
