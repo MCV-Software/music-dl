@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
-from __future__ import unicode_literals    # at top of module
+""" Base components useful for all other extractors. """
 import logging
 import wx
 import config

@@ -1,12 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
-from __future__ import unicode_literals    # at top of module
 import re
 import json
 import requests
 import logging
+import config
 from bs4 import BeautifulSoup
-from . import baseFile
+from . import base
 
 log = logging.getLogger("extractors.zaycev.net")
 
@@ -32,7 +32,7 @@ class interface(object):
 			# The easiest method to get artist and song names is to fetch links. There are only two links per result here.
 			data = i.find_all("a")
 			# from here, data[0] contains artist info and data[1] contains info of the retrieved song.
-			s = baseFile.song(self)
+			s = base.song(self)
 			s.title = data[1].text
 			s.artist = data[0].text
 			s.url = "http://zaycev.net%s" % (data[1].attrs["href"])

@@ -2,12 +2,14 @@
 import logging
 import tidalapi
 import config
-from .import baseFile
 from update.utils import seconds_to_string
+from .import base
+
 log = logging.getLogger("extractors.tidal.com")
 
 class interface(object):
 	name = "tidal"
+	enabled = config.app["services"]["tidal"].get("enabled")
 
 	def __init__(self):
 		self.results = []
@@ -62,7 +64,7 @@ class interface(object):
 				for track in tracks:
 					data.append(track)
 		for search_result in data:
-			s = baseFile.song(self)
+			s = base.song(self)
 			s.title = search_result.name
 			s.artist = search_result.artist.name
 			s.duration = seconds_to_string(search_result.duration)

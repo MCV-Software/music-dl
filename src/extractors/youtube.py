@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals    # at top of module
 import isodate
 import youtube_dl
 import logging
 import wx
+import config
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 from update.utils import seconds_to_string
-from .import baseFile
+from .import base
 
 DEVELOPER_KEY = "AIzaSyCU_hvZJEjLlAGAnlscquKEkE8l0lVOfn0"
 YOUTUBE_API_SERVICE_NAME = "youtube"
@@ -17,6 +17,7 @@ log = logging.getLogger("extractors.youtube.com")
 
 class interface(object):
 	name = "YouTube"
+	enabled = config.app["services"]["youtube"].get("enabled")
 
 	def __init__(self):
 		self.results = []
@@ -38,7 +39,7 @@ class interface(object):
 		ids = []
 		for search_result in search_response.get("items", []):
 			if search_result["id"]["kind"] == "youtube#video":
-				s = baseFile.song(self)
+				s = base.song(self)
 				s.title = search_result["snippet"]["title"]
 				ids.append(search_result["id"]["videoId"])
 				s.url = "https://www.youtube.com/watch?v="+search_result["id"]["videoId"]
@@ -104,14 +105,26 @@ class interface(object):
 	def format_track(self, item):
 		return "{0} {1}".format(item.title, item.duration)
 
-class settings(baseFile.baseSettings):
+class settings(base.baseSettings):
 	name = _("Youtube Settings")
 	config_section = "youtube"
 
 	def __init__(self, parent):
 		super(settings, self).__init__(parent=parent)
 		sizer = wx.BoxSizer(wx.VERTICAL)
+		self.enabled = wx.CheckBox(self, wx.NewId(), _("Enable this service"))
+		self.enabled.Bind(wx.EVT_CHECKBOX, self.on_enabled)
+		self.map.append(("enabled", self.enabled))
+		sizer.Add(self.enabled, 0, wx.ALL, 5)
 		self.transcode = wx.CheckBox(self, wx.NewId(), _("Enable transcode when downloading"))
 		self.map.append(("transcode", self.transcode))
 		sizer.Add(self.transcode, 0, wx.ALL, 5)
 		self.SetSizer(sizer)
+
+	def on_enabled(self, *args, **kwargs):
+		for i in self.map:
+			if i[1] != self.enabled:
+				if self.enabled.GetValue() == True:
+					i[1].Enable(True)
+				else:
+					i[1].Enable(False)
