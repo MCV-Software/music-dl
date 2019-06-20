@@ -6,6 +6,31 @@ import wx
 import config
 log = logging.getLogger("extractors.config")
 
+class baseInterface(object):
+	name = "base"
+	enabled = False
+	needs_transcode = False
+	results = []
+
+	def __init__(self):
+		super(baseInterface, self).__init__()
+		log.debug("started extraction service for {0}".format(self.name,))
+
+	def search(self, text, *args, **kwargs):
+		raise NotImplementedError()
+
+	def get_download_url(self, url):
+		raise NotImplementedError()
+
+	def format_track(self, item):
+		raise NotImplementedError()
+
+	def get_file_format(self):
+		return "mp3"
+
+	def transcoder_enabled(self):
+		return False
+
 class song(object):
 	""" Represents a song in all services. Data will be filled by the service itself"""
 

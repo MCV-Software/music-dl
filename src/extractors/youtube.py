@@ -15,15 +15,9 @@ YOUTUBE_API_VERSION = "v3"
 
 log = logging.getLogger("extractors.youtube.com")
 
-class interface(object):
+class interface(base.baseInterface):
 	name = "YouTube"
 	enabled = config.app["services"]["youtube"].get("enabled")
-
-	def __init__(self):
-		self.results = []
-		self.needs_transcode = True
-		log.debug("started extraction service for {0}".format(self.name,))
-		self.file_extension = "mp3"
 
 	def search(self, text, page=1):
 		if text == "" or text == None:
@@ -104,6 +98,9 @@ class interface(object):
 
 	def format_track(self, item):
 		return "{0} {1}".format(item.title, item.duration)
+
+	def transcoder_enabled(self):
+		return config.app["services"]["youtube"]["transcode"]
 
 class settings(base.baseSettings):
 	name = _("Youtube Settings")

@@ -7,7 +7,7 @@ from .import base
 
 log = logging.getLogger("extractors.tidal.com")
 
-class interface(object):
+class interface(base.baseInterface):
 	name = "tidal"
 	enabled = config.app["services"]["tidal"].get("enabled")
 	# This should not be enabled if credentials are not in config.
@@ -15,9 +15,10 @@ class interface(object):
 		enabled = False
 
 	def __init__(self):
-		self.results = []
-		self.needs_transcode = False
-		log.debug("started extraction service for {0}".format(self.name,))
+		super(interface, self).__init__()
+		self.setup()
+
+	def setup(self):
 		# Assign quality or switch to high if not specified/not found.
 		if hasattr(tidalapi.Quality, config.app["services"]["tidal"]["quality"]):
 			quality = getattr(tidalapi.Quality, config.app["services"]["tidal"]["quality"])
@@ -29,10 +30,18 @@ class interface(object):
 		log.debug("Using quality: %s" % (quality,))
 		self.session = tidalapi.Session(config=_config)
 		self.session.login(username=username, password=password)
+
+	def get_file_format(self):
 		if config.app["services"]["tidal"]["quality"] == "lossless":
 			self.file_extension = "flac"
 		else:
 			self.file_extension = "mp3"
+
+	def transcoder_enabled(self):
+		if config.app["services"]["tidal"]["quality"] == "lossless":
+			return False
+		else:
+			return True
 
 	def search(self, text, page=1):
 		if text == "" or text == None:
