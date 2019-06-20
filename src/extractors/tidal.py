@@ -10,11 +10,15 @@ log = logging.getLogger("extractors.tidal.com")
 class interface(object):
 	name = "tidal"
 	enabled = config.app["services"]["tidal"].get("enabled")
+	# This should not be enabled if credentials are not in config.
+	if config.app["services"]["tidal"]["username"] == "" or config.app["services"]["tidal"]["password"] == "":
+		enabled = False
 
 	def __init__(self):
 		self.results = []
 		self.needs_transcode = False
 		log.debug("started extraction service for {0}".format(self.name,))
+		# Assign quality or switch to high if not specified/not found.
 		if hasattr(tidalapi.Quality, config.app["services"]["tidal"]["quality"]):
 			quality = getattr(tidalapi.Quality, config.app["services"]["tidal"]["quality"])
 		else:
