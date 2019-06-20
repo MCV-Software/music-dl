@@ -11,6 +11,7 @@ quality=string(default="lossless")
 
 [[youtube]]
 enabled = boolean(default=True)
+max_results = integer(default=20)
 transcode = boolean(default=True)
 
 [[zaycev.net]]

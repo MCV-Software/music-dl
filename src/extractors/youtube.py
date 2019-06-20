@@ -31,7 +31,7 @@ class interface(object):
 		if text.startswith("https") or text.startswith("http"):
 			return self.search_from_url(text)
 		type = "video"
-		max_results = 20
+		max_results = config.app["services"]["youtube"]["max_results"]
 		log.debug("Retrieving data from Youtube...")
 		youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, developerKey=DEVELOPER_KEY)
 		search_response = youtube.search().list(q=text, part="id,snippet", maxResults=max_results, type=type).execute()
@@ -116,6 +116,13 @@ class settings(base.baseSettings):
 		self.enabled.Bind(wx.EVT_CHECKBOX, self.on_enabled)
 		self.map.append(("enabled", self.enabled))
 		sizer.Add(self.enabled, 0, wx.ALL, 5)
+		max_results_label = wx.StaticText(self, wx.NewId(), _("Max results per page"))
+		self.max_results = wx.SpinCtrl(self, wx.NewId())
+		self.max_results.SetRange(1, 50)
+		max_results_sizer = wx.BoxSizer(wx.HORIZONTAL)
+		max_results_sizer.Add(max_results_label, 0, wx.ALL, 5)
+		max_results_sizer.Add(self.max_results, 0, wx.ALL, 5)
+		self.map.append(("max_results", self.max_results))
 		self.transcode = wx.CheckBox(self, wx.NewId(), _("Enable transcode when downloading"))
 		self.map.append(("transcode", self.transcode))
 		sizer.Add(self.transcode, 0, wx.ALL, 5)
