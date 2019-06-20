@@ -177,14 +177,14 @@ class Controller(object):
 	def on_download(self, *args, **kwargs):
 		item = self.results[self.window.get_item()]
 		log.debug("Starting requested download: {0} (using extractor: {1})".format(item.title, self.extractor.name))
-		f = "{item_name}.{item_extension}".format(item_name=item.format_track(), item_extension=item.extractor.file_extension)
+		f = "{item_name}.{item_extension}".format(item_name=item.format_track(), item_extension=item.extractor.get_file_format())
 		if item.download_url == "":
 			item.get_download_url()
 		path = self.window.get_destination_path(f)
 		if path != None:
 			log.debug("User has requested the following path: {0}".format(path,))
-			if self.extractor.needs_transcode == True: # Send download to vlc based transcoder
-				utils.call_threaded(player.player.transcode_audio, item, path)
+			if self.extractor.transcoder_enabled() == True: # Send download to vlc based transcoder
+				utils.call_threaded(player.player.transcode_audio, item, path, _format=item.extractor.get_file_format())
 			else:
 				log.debug("downloading %s URL to %s filename" % (item.download_url, path,))
 				utils.call_threaded(utils.download_file, item.download_url, path)
