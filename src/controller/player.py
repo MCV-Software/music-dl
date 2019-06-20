@@ -110,7 +110,7 @@ class audioPlayer(object):
 		#https://github.com/ZeBobo5/Vlc.DotNet/issues/4
 		call_threaded(self.next)
 
-	def transcode_audio(self, item, path):
+	def transcode_audio(self, item, path, _format="mp3", bitrate=320):
 		""" Converts given item to mp3. This method will be available when needed automatically."""
 		if item.download_url == "":
 			item.get_download_url()
@@ -118,7 +118,7 @@ class audioPlayer(object):
 		temporary_filename = "chunk_{0}".format(random.randint(0,2000000))
 		temporary_path = os.path.join(os.path.dirname(path), temporary_filename)
 		# Let's get a new VLC instance for transcoding this file.
-		transcoding_instance = vlc.Instance(*["--sout=#transcode{acodec=mp3,ab=192}:file{mux=raw,dst=\"%s\"}"% (temporary_path,)])
+		transcoding_instance = vlc.Instance(*["--sout=#transcode{acodec=%s,ab=%d}:file{mux=raw,dst=\"%s\"}"% (_format, bitrate, temporary_path,)])
 		transcoder = transcoding_instance.media_player_new()
 		transcoder.set_mrl(item.download_url)
 		pub.sendMessage("change_status", status=_(u"Downloading {0}.").format(item.title,))
