@@ -8,12 +8,12 @@ output_device = string(default="")
 enabled = boolean(default=True)
 username = string(default="")
 password = string(default="")
-quality=string(default="lossless")
+quality=string(default="high")
 
 [[youtube]]
 enabled = boolean(default=True)
 max_results = integer(default=20)
 transcode = boolean(default=True)
 
-[[zaycev.net]]
+[[zaycev]]
 enabled = boolean(default=True)
