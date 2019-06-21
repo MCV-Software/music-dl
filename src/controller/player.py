@@ -5,6 +5,7 @@ import random
 import vlc
 import logging
 import config
+import time
 from pubsub import pub
 from utils import call_threaded
 
@@ -33,6 +34,27 @@ class audioPlayer(object):
 		self.event_manager.event_attach(vlc.EventType.MediaPlayerEndReached, self.end_callback)
 		self.event_manager.event_attach(vlc.EventType.MediaPlayerEncounteredError, self.playback_error)
 		log.debug("Bound media playback events.")
+		# configure output device
+		self.set_output_device(config.app["main"]["output_device"])
+
+	def get_output_devices(self):
+		""" Retrieve enabled output devices so we can switch or use those later. """
+		log.debug("Retrieving output devices...")
+		devices = []
+		mods = self.player.audio_output_device_enum()
+		if mods:
+			mod = mods
+			while mod:
+				mod = mod.contents
+				devices.append(dict(id=mod.device, name=mod.description))
+				mod = mod.next
+		vlc.libvlc_audio_output_device_list_release(mods)
+		return devices
+
+	def set_output_device(self, device_id):
+		""" Set Output device to be ued in LibVLC"""
+		log.debug("Setting output audio device to {device}...".format(device=device_id,))
+		self.player.audio_output_device_set(None, device_id)
 
 	def play(self, item):
 		self.stopped = True
@@ -142,4 +164,5 @@ class audioPlayer(object):
 
 	def __del__(self):
 		self.event_manager.event_detach(vlc.EventType.MediaPlayerEndReached)
-		self.event_manager.event_detach(vlc.EventType.MediaPlayerEncounteredError, self.playback_error)
+		if hasattr(self, "event_manager"):
+			self.event_manager.event_detach(vlc.EventType.MediaPlayerEncounteredError, self.playback_error)

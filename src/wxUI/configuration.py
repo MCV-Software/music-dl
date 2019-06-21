@@ -3,9 +3,15 @@ import wx
 import widgetUtils
 
 class general(wx.Panel, widgetUtils.BaseDialog):
-	def __init__(self, panel):
+	def __init__(self, panel, output_devices=[]):
 		super(general, self).__init__(panel)
 		sizer = wx.BoxSizer(wx.VERTICAL)
+		output_device_label = wx.StaticText(self, wx.NewId(), _("Output device"))
+		self.output_device = wx.ComboBox(self, wx.NewId(), choices=output_devices, value=output_devices[0], style=wx.CB_READONLY)
+		output_device_box = wx.BoxSizer(wx.HORIZONTAL)
+		output_device_box.Add(output_device_label, 0, wx.ALL, 5)
+		output_device_box.Add(self.output_device, 0, wx.ALL, 5)
+		sizer.Add(output_device_box, 0, wx.ALL, 5)
 		self.SetSizer(sizer)
 
 class configurationDialog(widgetUtils.BaseDialog):
@@ -16,8 +22,8 @@ class configurationDialog(widgetUtils.BaseDialog):
 		self.sizer = wx.BoxSizer(wx.VERTICAL)
 		self.notebook = wx.Treebook(self.panel)
 
-	def create_general(self):
-		self.general = general(self.notebook)
+	def create_general(self, output_devices=[]):
+		self.general = general(self.notebook, output_devices=output_devices)
 		self.notebook.AddPage(self.general, _("General"))
 		self.general.SetFocus()
 
