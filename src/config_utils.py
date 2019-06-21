@@ -6,8 +6,8 @@ import string
 class ConfigLoadError(Exception): pass
 
 def load_config(config_path, configspec_path=None, *args, **kwargs):
- if os.path.exists(config_path):
-  clean_config(config_path)
+# if os.path.exists(config_path):
+#  clean_config(config_path)
  spec = ConfigObj(configspec_path, encoding='UTF8', list_values=False, _inspec=True)
  try:
   config = ConfigObj(infile=config_path, configspec=spec, create_empty=True, encoding='UTF8', *args, **kwargs)
