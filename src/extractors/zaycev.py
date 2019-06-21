@@ -4,6 +4,7 @@ import re
 import json
 import requests
 import logging
+import wx
 import config
 from bs4 import BeautifulSoup
 from . import base
@@ -12,7 +13,8 @@ log = logging.getLogger("extractors.zaycev.net")
 
 class interface(base.baseInterface):
 	name = "zaycev.net"
-	enabled = True
+	enabled = config.app["services"]["zaycev"].get("enabled")
+	print(enabled)
 
 	def search(self, text, page=1):
 		if text == "" or text == None:
@@ -46,3 +48,15 @@ class interface(base.baseInterface):
 
 	def format_track(self, item):
 		return "{0}. {1}. {2}".format(item.title, item.duration, item.size)
+
+class settings(base.baseSettings):
+	name = _("zaycev.net")
+	config_section = "zaycev"
+
+	def __init__(self, parent):
+		super(settings, self).__init__(parent=parent)
+		sizer = wx.BoxSizer(wx.VERTICAL)
+		self.enabled = wx.CheckBox(self, wx.NewId(), _("Enable this service (it only works in the Russian Federation)"))
+		self.map.append(("enabled", self.enabled))
+		sizer.Add(self.enabled, 0, wx.ALL, 5)
+		self.SetSizer(sizer)
