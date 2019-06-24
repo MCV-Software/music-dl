@@ -28,6 +28,7 @@ class configurationDialog(widgetUtils.BaseDialog):
 		self.general.SetFocus()
 
 	def realize(self):
+		self.notebook.AddPage(wx.Panel(self.notebook, wx.NewId()), _("Services"))
 		self.sizer.Add(self.notebook, 0, wx.ALL, 5)
 		ok_cancel_box = wx.BoxSizer(wx.HORIZONTAL)
 		ok = wx.Button(self.panel, wx.ID_OK, _("Save"))
