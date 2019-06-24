@@ -5,19 +5,19 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \n"
-"POT-Creation-Date: 2018-02-28 15:02-0600\n"
-"PO-Revision-Date: 2018-03-17 16:25-0600\n"
-"Last-Translator: \n"
+"POT-Creation-Date: 2019-06-24 13:05-0500\n"
+"PO-Revision-Date: 2019-06-24 13:18-0500\n"
+"Last-Translator: Manuel Cortez <manuel@manuelcortez.net>\n"
 "Language-Team: \n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: pygettext.py 1.5\n"
-"X-Generator: Poedit 2.0.2\n"
+"X-Generator: Poedit 2.0.1\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: ../src\application.py:7
+#: ../src\application.py:9
 msgid ""
 " Is an application that will allow you to download music from popular sites "
 "such as youtube, zaycev.net."
@@ -25,52 +25,239 @@ msgstr ""
 " Es una aplicación que te permite descargar música de sitios populares como "
 "YouTube y zaycev.net."
 
-#: ../src\application.py:12
+#: ../src\application.py:14
 msgid "Manuel Cortez (Spanish)"
 msgstr "Manuel Cortez (Español)"
 
-#: ../src\controller\mainController.py:27
+#: ../src\application.py:14
+msgid "Valeria K (Russian)"
+msgstr "Valeria K (Ruso)"
+
+#: ../src\controller\configuration.py:10 ../src\wxUI\mainWindow.py:15
+msgid "Settings"
+msgstr "Preferencias"
+
+#: ../src\controller\mainController.py:31
 msgid "Ready"
 msgstr "Listo"
 
-#: ../src\controller\mainController.py:42
+#: ../src\controller\mainController.py:47
 msgid "Showing {0} results."
 msgstr "Mostrando {0} resultados"
 
-#: ../src\controller\mainController.py:46
+#: ../src\controller\mainController.py:51
 msgid "Shuffle on"
 msgstr "Modo aleatorio activo"
 
-#: ../src\controller\mainController.py:105
-#: ../src\controller\mainController.py:125 ../src\wxUI\mainWindow.py:13
-#: ../src\wxUI\mainWindow.py:61
-msgid "Play"
-msgstr "Reproducir"
-
-#: ../src\controller\mainController.py:108
-#: ../src\controller\mainController.py:120
-msgid "Pause"
-msgstr "pausa"
-
-#: ../src\controller\mainController.py:206
+#: ../src\controller\mainController.py:107
 msgid "Searching {0}... "
 msgstr "Buscando {0}..."
 
-#: ../src\controller\player.py:42
+#: ../src\controller\mainController.py:141
+#: ../src\controller\mainController.py:161 ../src\wxUI\mainWindow.py:18
+#: ../src\wxUI\mainWindow.py:68
+msgid "Play"
+msgstr "Reproducir"
+
+#: ../src\controller\mainController.py:144
+#: ../src\controller\mainController.py:156
+msgid "Pause"
+msgstr "pausa"
+
+#: ../src\controller\mainController.py:243
+msgid "File downloaded: {0}"
+msgstr "Archivo descargado: {0}"
+
+#: ../src\controller\mainController.py:263
+msgid "No results found. "
+msgstr "No se han encontrado resultados."
+
+#: ../src\controller\player.py:70
 msgid "Error playing {0}. {1}."
 msgstr "Error reproduciendo {0}. {1}."
 
-#: ../src\controller\player.py:48
+#: ../src\controller\player.py:76
 msgid "Playing {0}."
 msgstr "Reproduciendo {0}."
 
-#: ../src\controller\player.py:116 ../src\utils.py:53
+#: ../src\controller\player.py:146 ../src\utils.py:58
 msgid "Downloading {0}."
 msgstr "Descargando {0}."
 
-#: ../src\controller\player.py:121 ../src\utils.py:63
+#: ../src\controller\player.py:151 ../src\utils.py:69
 msgid "Downloading {0} ({1}%)."
 msgstr "Descargando {0} ({1}%)."
+
+#: ../src\controller\player.py:164
+msgid "There was an error while trying to access the file you have requested."
+msgstr "Ocurrió un error al intentar acceder al fichero solicitado."
+
+#: ../src\controller\player.py:164 ../src\issueReporter\wx_ui.py:94
+#: ../src\issueReporter\wx_ui.py:97
+msgid "Error"
+msgstr "Error"
+
+#: ../src\extractors\tidal.py:102
+msgid "Tidal"
+msgstr "Tidal"
+
+#: ../src\extractors\tidal.py:106
+msgid "Lossless"
+msgstr "Calidad más alta (FLAC)"
+
+#: ../src\extractors\tidal.py:106
+msgid "Low"
+msgstr "Baja"
+
+#: ../src\extractors\tidal.py:106 ../src\extractors\tidal.py:141
+msgid "High"
+msgstr "Alta"
+
+#: ../src\extractors\tidal.py:118 ../src\extractors\youtube.py:112
+msgid "Enable this service"
+msgstr "Activar servicio"
+
+#: ../src\extractors\tidal.py:122
+msgid "Tidal username or email address"
+msgstr "Correo o nombre de usuario de Tidal"
+
+#: ../src\extractors\tidal.py:130
+msgid "Password"
+msgstr "Contraseña"
+
+#: ../src\extractors\tidal.py:137
+msgid "You can subscribe for a tidal account here"
+msgstr "Puedes obtener tu cuenta de Tidal aquí"
+
+#: ../src\extractors\tidal.py:140
+msgid "Audio quality"
+msgstr "Calidad de audio"
+
+#: ../src\extractors\youtube.py:106
+msgid "Youtube Settings"
+msgstr "Opciones de Youtube"
+
+#: ../src\extractors\youtube.py:116
+msgid "Max results per page"
+msgstr "Resultados máximos a cargar por cada búsqueda"
+
+#: ../src\extractors\youtube.py:123
+msgid "Enable transcode when downloading"
+msgstr "Activar transcodificación al descargar"
+
+#: ../src\extractors\zaycev.py:52
+msgid "zaycev.net"
+msgstr "zaycev.net"
+
+#: ../src\extractors\zaycev.py:58
+msgid "Enable this service (works only in the Russian Federation)"
+msgstr "Activar servicio (funciona solo en la federación de Rusia)"
+
+#: ../src\issueReporter\wx_ui.py:26 ../src\wxUI\mainWindow.py:31
+msgid "Report an error"
+msgstr "Reportar un error"
+
+#: ../src\issueReporter\wx_ui.py:30
+msgid ""
+"Briefly describe what happened. You will be able to thoroughly explain it "
+"later"
+msgstr ""
+"Describe brevemente lo que ha ocurrido. Más adelante podrás añadir más "
+"detalles."
+
+#: ../src\issueReporter\wx_ui.py:40
+msgid "First Name"
+msgstr "Nombre (s)"
+
+#: ../src\issueReporter\wx_ui.py:50
+msgid "Last Name"
+msgstr "Apellido (s)"
+
+#: ../src\issueReporter\wx_ui.py:60
+msgid "Email address (Will not be public)"
+msgstr "Dirección de correo electrónico (No será publicada)"
+
+#: ../src\issueReporter\wx_ui.py:70
+msgid "Here, you can describe the bug in detail"
+msgstr "Aquí puedes describir el problema con más detalles."
+
+#: ../src\issueReporter\wx_ui.py:80
+msgid ""
+"I know that the {0} bug system will get my email address to contact me and "
+"fix the bug quickly"
+msgstr ""
+"Estoy enterado que el sistema de reporte de errores de {0} podrá utilizar mi "
+"correo electrónico para contactarme en caso de necesitar más detalles para "
+"arreglar el problema rápidamente."
+
+#: ../src\issueReporter\wx_ui.py:83
+msgid "Send report"
+msgstr "Enviar reporte"
+
+#: ../src\issueReporter\wx_ui.py:85
+msgid "Cancel"
+msgstr "Cancelar"
+
+#: ../src\issueReporter\wx_ui.py:94
+msgid ""
+"You must fill out the following fields: first name, last name, email address "
+"and issue information."
+msgstr ""
+"Debes llenar los siguientes campos: Nombre, apellido, dirección de correo "
+"electrónico y la información del problema."
+
+#: ../src\issueReporter\wx_ui.py:97
+msgid ""
+"You need to mark the checkbox to provide us your email address to contact "
+"you if it is necessary."
+msgstr ""
+"Debes marcar la casilla para proporcionarnos tu correo electrónico y poder "
+"contactarte si es necesario."
+
+#: ../src\issueReporter\wx_ui.py:100
+msgid ""
+"Thanks for reporting this bug! In future versions, you may be able to find "
+"it in the changes list. You have received an email with more information "
+"regarding your report. You've reported the bug number %i"
+msgstr ""
+"¡Gracias por reportar este error! Esperamos que puedas encontrar este "
+"problema resuelto en la lista de cambios de una versión futura. Has recibido "
+"un correo electrónico con más información sobre tu reporte. Has reportado el "
+"error número %i"
+
+#: ../src\issueReporter\wx_ui.py:100
+msgid "reported"
+msgstr "Reportado"
+
+#: ../src\issueReporter\wx_ui.py:104
+msgid "Error while reporting"
+msgstr "Error al intentar reportar"
+
+#: ../src\issueReporter\wx_ui.py:104
+msgid ""
+"Something unexpected occurred while trying to report the bug. Please, try "
+"again later"
+msgstr ""
+"Algo inesperado ha ocurrido al intentar realizar el reporte de error. Por "
+"favor, inténtalo nuevamente más tarde."
+
+#: ../src\issueReporter\wx_ui.py:108
+msgid "Please wait while your report is being send."
+msgstr "Por favor, espera mientras tu reporte es enviado."
+
+#: ../src\issueReporter\wx_ui.py:108
+msgid "Sending report..."
+msgstr "Enviando reporte..."
+
+#: ../src\test\test_i18n.py:21
+msgid "This is a string with no special characters."
+msgstr ""
+
+#: ../src\test\test_i18n.py:24
+msgid ""
+"\\320\\237\\321\\200\\320\\270\\320\\262\\320\\265\\321\\202 "
+"\\320\\262\\321\\201\\320\\265\\320\\274"
+msgstr ""
 
 #: ../src\update\utils.py:27
 msgid "%d day, "
@@ -104,11 +291,11 @@ msgstr "%s segundo"
 msgid "%s seconds"
 msgstr "%s segundos"
 
-#: ../src\update\wxUpdater.py:9
+#: ../src\update\wxUpdater.py:10
 msgid "New version for %s"
 msgstr "Nueva versión de %s"
 
-#: ../src\update\wxUpdater.py:9
+#: ../src\update\wxUpdater.py:10
 msgid ""
 "There's a new %s version available. Would you like to download it now?\n"
 "\n"
@@ -124,23 +311,23 @@ msgstr ""
 "Novedades:\n"
 "%s"
 
-#: ../src\update\wxUpdater.py:16
+#: ../src\update\wxUpdater.py:17
 msgid "Download in Progress"
 msgstr "Descarga en progreso"
 
-#: ../src\update\wxUpdater.py:16
+#: ../src\update\wxUpdater.py:17
 msgid "Downloading the new version..."
 msgstr "Descargando la nueva versión..."
 
-#: ../src\update\wxUpdater.py:26
+#: ../src\update\wxUpdater.py:27
 msgid "Updating... %s of %s"
 msgstr "Actualizando... %s de %s"
 
-#: ../src\update\wxUpdater.py:29
+#: ../src\update\wxUpdater.py:30
 msgid "Done!"
 msgstr "¡Hecho!"
 
-#: ../src\update\wxUpdater.py:29
+#: ../src\update\wxUpdater.py:30
 msgid ""
 "The update has been downloaded and installed successfully. Press OK to "
 "continue."
@@ -148,87 +335,115 @@ msgstr ""
 "La actualización ha sido descargada e instalada satisfactoriamente. Pulsa "
 "aceptar para continuar."
 
-#: ../src\wxUI\mainWindow.py:14 ../src\wxUI\mainWindow.py:62
+#: ../src\wxUI\configuration.py:9
+msgid "Output device"
+msgstr "Dispositivo de salida"
+
+#: ../src\wxUI\configuration.py:27
+msgid "General"
+msgstr "General"
+
+#: ../src\wxUI\configuration.py:31
+msgid "Services"
+msgstr "Servicios"
+
+#: ../src\wxUI\configuration.py:34
+msgid "Save"
+msgstr "Guardar"
+
+#: ../src\wxUI\configuration.py:36
+msgid "Close"
+msgstr "Cerrar"
+
+#: ../src\wxUI\mainWindow.py:16
+msgid "Application"
+msgstr "Aplicación"
+
+#: ../src\wxUI\mainWindow.py:19 ../src\wxUI\mainWindow.py:69
 msgid "Stop"
 msgstr "Detener"
 
-#: ../src\wxUI\mainWindow.py:15 ../src\wxUI\mainWindow.py:60
+#: ../src\wxUI\mainWindow.py:20 ../src\wxUI\mainWindow.py:67
 msgid "Previous"
 msgstr "Anterior"
 
-#: ../src\wxUI\mainWindow.py:16 ../src\wxUI\mainWindow.py:63
+#: ../src\wxUI\mainWindow.py:21 ../src\wxUI\mainWindow.py:70
 msgid "Next"
 msgstr "Siguiente"
 
-#: ../src\wxUI\mainWindow.py:17
+#: ../src\wxUI\mainWindow.py:22
 msgid "Shuffle"
 msgstr "Aleatorio"
 
-#: ../src\wxUI\mainWindow.py:18
+#: ../src\wxUI\mainWindow.py:23
 msgid "Volume down"
 msgstr "Bajar volumen"
 
-#: ../src\wxUI\mainWindow.py:19
+#: ../src\wxUI\mainWindow.py:24
 msgid "Volume up"
 msgstr "Subir volumen"
 
-#: ../src\wxUI\mainWindow.py:20
+#: ../src\wxUI\mainWindow.py:25
 msgid "Mute"
 msgstr "Silenciar"
 
-#: ../src\wxUI\mainWindow.py:22
+#: ../src\wxUI\mainWindow.py:27
 msgid "About {0}"
 msgstr "Sobre {0}"
 
-#: ../src\wxUI\mainWindow.py:23
+#: ../src\wxUI\mainWindow.py:28
 msgid "Check for updates"
 msgstr "Comprobar actualizaciones"
 
-#: ../src\wxUI\mainWindow.py:24
+#: ../src\wxUI\mainWindow.py:29
+msgid "What's new in this version?"
+msgstr "¿qué hay de nuevo?"
+
+#: ../src\wxUI\mainWindow.py:30
 msgid "Visit website"
 msgstr "Visitar sitio web"
 
-#: ../src\wxUI\mainWindow.py:25
+#: ../src\wxUI\mainWindow.py:32
 msgid "Player"
 msgstr "Reproductor"
 
-#: ../src\wxUI\mainWindow.py:26
+#: ../src\wxUI\mainWindow.py:33
 msgid "Help"
 msgstr "Ayuda"
 
-#: ../src\wxUI\mainWindow.py:36
+#: ../src\wxUI\mainWindow.py:43
 msgid "search"
 msgstr "Buscar"
 
-#: ../src\wxUI\mainWindow.py:41
+#: ../src\wxUI\mainWindow.py:48
 msgid "Search in"
 msgstr "Buscar en"
 
-#: ../src\wxUI\mainWindow.py:44
+#: ../src\wxUI\mainWindow.py:51
 msgid "Search"
 msgstr "Buscar"
 
-#: ../src\wxUI\mainWindow.py:48
+#: ../src\wxUI\mainWindow.py:55
 msgid "Results"
 msgstr "Resultados"
 
-#: ../src\wxUI\mainWindow.py:54
+#: ../src\wxUI\mainWindow.py:61
 msgid "Position"
 msgstr "Posición"
 
-#: ../src\wxUI\mainWindow.py:57
+#: ../src\wxUI\mainWindow.py:64
 msgid "Volume"
 msgstr "Volumen"
 
-#: ../src\wxUI\mainWindow.py:99
+#: ../src\wxUI\mainWindow.py:114
 msgid "Audio Files(*.mp3)|*.mp3"
 msgstr "Archivos de audio (*.mp3)|*.mp3"
 
-#: ../src\wxUI\mainWindow.py:99
+#: ../src\wxUI\mainWindow.py:114
 msgid "Save this file"
 msgstr "Guardar archivo"
 
-#: ../src\wxUI\menus.py:7
+#: ../src\wxUI\menus.py:8
 msgid "Play/Pause"
 msgstr "Reproducir/pausar"
 
