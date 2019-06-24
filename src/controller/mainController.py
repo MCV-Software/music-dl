@@ -95,7 +95,12 @@ class Controller(object):
 		self.reload_extractors()
 
 	def on_search(self, *args, **kwargs):
-		wx.CallAfter(self.search)
+		text = self.window.get_text()
+		if text == "":
+			return
+		extractor = self.window.extractor.GetValue()
+		self.change_status(_(u"Searching {0}... ").format(text))
+		utils.call_threaded(self.search, text=text, extractor=extractor)
 
 	def on_activated(self, *args, **kwargs):
 		self.on_play()
@@ -237,27 +242,22 @@ class Controller(object):
 		self.window.notify(title, message)
 
 	# real functions. These functions really are doing the work.
-	def search(self, *args, **kwargs):
-		text = self.window.get_text()
-		if text == "":
-			return
-		extractor = self.window.extractor.GetValue()
-		self.change_status(_(u"Searching {0}... ").format(text))
+	def search(self, text, extractor, *args, **kwargs):
 		extractors = get_extractors()
 		for i in extractors:
 			if extractor == i.interface.name:
 				self.extractor = i.interface()
 				break
 		log.debug("Started search for {0} (selected extractor: {1})".format(text, self.extractor.name))
-		self.window.list.Clear()
+		wx.CallAfter(self.window.list.Clear)
 		self.extractor.search(text)
 		self.results = self.extractor.results
 		for i in self.results:
-			self.window.list.Append(i.format_track())
+			wx.CallAfter(self.window.list.Append, i.format_track())
 		if len(self.results) == 0:
-			self.change_status(_(u"No results found. "))
+			wx.CallAfter(self.change_status, _(u"No results found. "))
 		else:
-			self.change_status(u"")
+			wx.CallAfter(self.change_status, u"")
 			wx.CallAfter(self.window.list.SetFocus)
 
 	def reload_extractors(self):
