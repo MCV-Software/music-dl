@@ -112,6 +112,13 @@ class settings(base.baseSettings):
 			if q.get(i) == self.quality.GetStringSelection():
 				return i
 
+	def set_quality_value(self, value, *args, **kwargs):
+		q = self.get_quality_list()
+		for i in q.keys():
+			if i == value:
+				self.quality.SetStringSelection(q.get(i))
+				break
+
 	def __init__(self, parent):
 		super(settings, self).__init__(parent=parent)
 		sizer = wx.BoxSizer(wx.VERTICAL)
@@ -145,6 +152,7 @@ class settings(base.baseSettings):
 		sizer.Add(qualitybox, 0, wx.ALL, 5)
 		# Monkeypatch for getting the right quality value here.
 		self.quality.GetValue = self.get_quality_value
+		self.quality.SetValue = self.set_quality_value
 		self.map.append(("quality", self.quality))
 		self.SetSizer(sizer)
 
