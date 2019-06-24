@@ -5,6 +5,8 @@
 * Added a settings dialog for the application, from this dialog you will be able to find some general settings, available for MusicDL, and service's settings. Every service   defines certain specific settings.
 * When searching in any service, the search should be performed without freezing the application window.
 * When transcoding to mp3, the default bitrate now will be 320 KBPS instead of 192.
+* When downloading, besides the status bar, there is a progress bar which will be updated with the results for the current download.
+* From the settings dialog, it is possible to switch between all available output devices in the machine, so MusicDL can output audio to a different device than the default in windows.
 * Added a new and experimental extractor for supporting tidal.
     * Take into account that this extractor requires you to have a paid account on tidal. Depending in the account level, you will be able to play and download music in high quality or lossless audio. MusicDL will handle both. Lossless audio will be downloaded as flac files, and high quality audio will be downloaded as transcoded 320 KBPS mp3.
     * There is a new search mode supported in this service. You can retrieve all work for a certain artist by using the protocol artist://, plus the name of the artist you want to retrieve. For example, artist://The beatles will retrieve everything made by the beatles available in the service. The search results will be grouped by albums, compilations and singles, in this order. Depending in the amount of results to display, this may take a long time.
@@ -16,6 +18,7 @@
 * zaycev.net:
     * Fixed extractor for searching and playing music in zaycev.net.
     * Unfortunately, it seems this service works only in the russian Federation and some other CIS countries due to copyright reasons.
+* Updated Spanish translations.
 
 ## Version 0.4
 
