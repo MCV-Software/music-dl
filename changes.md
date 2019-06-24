@@ -3,6 +3,7 @@
 ## Version 0.6
 
 * Added a settings dialog for the application, from this dialog you will be able to find some general settings, available for MusicDL, and service's settings. Every service   defines certain specific settings.
+* When searching in any service, the search should be performed without freezing the application window.
 * When transcoding to mp3, the default bitrate now will be 320 KBPS instead of 192.
 * Added a new and experimental extractor for supporting tidal.
     * Take into account that this extractor requires you to have a paid account on tidal. Depending in the account level, you will be able to play and download music in high quality or lossless audio. MusicDL will handle both. Lossless audio will be downloaded as flac files, and high quality audio will be downloaded as transcoded 320 KBPS mp3.
