@@ -68,6 +68,7 @@ def download_file(url, local_filename):
 				done = int(100 * dl / total_length)
 				msg = _(u"Downloading {0} ({1}%).").format(os.path.basename(local_filename), done)
 				pub.sendMessage("change_status", status=msg)
+				pub.sendMessage("update-progress", value=done)
 	pub.sendMessage("download_finished", file=os.path.basename(local_filename))
 	log.debug("Download finished successfully")
 	return local_filename

@@ -149,6 +149,7 @@ class audioPlayer(object):
 		while True:
 			state = media.get_state()
 			pub.sendMessage("change_status", status=_("Downloading {0} ({1}%).").format(item.title, int(transcoder.get_position()*100)))
+			pub.sendMessage("update-progress", value=int(transcoder.get_position()*100))
 			if str(state) == 'State.Ended':
 				break
 			elif str(state) == 'state.error':

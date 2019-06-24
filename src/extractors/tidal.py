@@ -38,6 +38,7 @@ class interface(base.baseInterface):
 			self.file_extension = "flac"
 		else:
 			self.file_extension = "mp3"
+		return self.file_extension
 
 	def transcoder_enabled(self):
 		if config.app["services"]["tidal"]["quality"] == "lossless":

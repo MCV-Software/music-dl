@@ -88,8 +88,13 @@ class Controller(object):
 		pub.subscribe(self.change_status, "change_status")
 		pub.subscribe(self.on_download_finished, "download_finished")
 		pub.subscribe(self.on_notify, "notify")
+		pub.subscribe(self.on_update_progress, "update-progress")
 
 	# Event functions. These functions will call other functions in a thread and are bound to widget events.
+
+	def on_update_progress(self, value):
+		wx.CallAfter(self.window.progressbar.SetValue, value)
+
 	def on_settings(self, *args, **kwargs):
 		settings = configuration.configuration()
 		self.reload_extractors()

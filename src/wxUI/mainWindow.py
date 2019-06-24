@@ -74,6 +74,8 @@ class mainWindow(wx.Frame):
 		box2.Add(self.next)
 		self.sizer.Add(box1, 0, wx.GROW)
 		self.sizer.Add(box2, 1, wx.GROW)
+		self.progressbar = wx.Gauge(self.panel, wx.NewId(), range=100, style=wx.GA_HORIZONTAL)
+		self.sizer.Add(self.progressbar, 0, wx.ALL, 5)
 		self.panel.SetSizerAndFit(self.sizer)
 #		self.SetClientSize(self.sizer.CalcMin())
 #		self.Layout()
