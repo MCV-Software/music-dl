@@ -120,9 +120,9 @@ class settings(base.baseSettings):
 		max_results_sizer.Add(max_results_label, 0, wx.ALL, 5)
 		max_results_sizer.Add(self.max_results, 0, wx.ALL, 5)
 		self.map.append(("max_results", self.max_results))
-		self.transcode = wx.CheckBox(self, wx.NewId(), _("Enable transcode when downloading"))
-		self.map.append(("transcode", self.transcode))
-		sizer.Add(self.transcode, 0, wx.ALL, 5)
+#		self.transcode = wx.CheckBox(self, wx.NewId(), _("Enable transcode when downloading"))
+#		self.map.append(("transcode", self.transcode))
+#		sizer.Add(self.transcode, 0, wx.ALL, 5)
 		self.SetSizer(sizer)
 
 	def on_enabled(self, *args, **kwargs):
