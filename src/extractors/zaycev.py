@@ -55,7 +55,7 @@ class settings(base.baseSettings):
 	def __init__(self, parent):
 		super(settings, self).__init__(parent=parent)
 		sizer = wx.BoxSizer(wx.VERTICAL)
-		self.enabled = wx.CheckBox(self, wx.NewId(), _("Enable this service (it only works in the Russian Federation)"))
+		self.enabled = wx.CheckBox(self, wx.NewId(), _("Enable this service (works only in the Russian Federation)"))
 		self.map.append(("enabled", self.enabled))
 		sizer.Add(self.enabled, 0, wx.ALL, 5)
 		self.SetSizer(sizer)
