@@ -92,6 +92,7 @@ class Controller(object):
 	# Event functions. These functions will call other functions in a thread and are bound to widget events.
 	def on_settings(self, *args, **kwargs):
 		settings = configuration.configuration()
+		self.reload_extractors()
 
 	def on_search(self, *args, **kwargs):
 		wx.CallAfter(self.search)
@@ -258,3 +259,8 @@ class Controller(object):
 		else:
 			self.change_status(u"")
 			wx.CallAfter(self.window.list.SetFocus)
+
+	def reload_extractors(self):
+		extractors = [i.interface.name for i in get_extractors()]
+		self.window.extractor.SetItems(extractors)
+		self.window.extractor.SetValue(extractors[0])

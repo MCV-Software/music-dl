@@ -21,7 +21,7 @@ class configuration(object):
 			if str(i["id"]) == current_output_device:
 				self.view.set_value("general", "output_device", i["name"])
 				break
-		extractors = get_extractors()
+		extractors = get_extractors(import_all=True)
 		for i in extractors:
 			if hasattr(i, "settings"):
 				panel = getattr(i, "settings")(self.view.notebook)

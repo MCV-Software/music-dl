@@ -14,7 +14,6 @@ log = logging.getLogger("extractors.zaycev.net")
 class interface(base.baseInterface):
 	name = "zaycev.net"
 	enabled = config.app["services"]["zaycev"].get("enabled")
-	print(enabled)
 
 	def search(self, text, page=1):
 		if text == "" or text == None:
