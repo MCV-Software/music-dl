@@ -9,6 +9,9 @@ enabled = boolean(default=True)
 username = string(default="")
 password = string(default="")
 quality=string(default="high")
+include_albums = boolean(default=True)
+include_compilations = boolean(default=True)
+include_singles = boolean(default=True)
 
 [[youtube]]
 enabled = boolean(default=True)
