@@ -1,5 +1,10 @@
 ## Changelog
 
+## Version 0.7
+
+* changes in Tidal:
+    * In the settings dialog, you can control wether Albums, compilations and singles will be added when searching by artist (by using artist://...).
+
 ## Version 0.6
 
 * Added a settings dialog for the application, from this dialog you will be able to find some general settings, available for MusicDL, and service's settings. Every service   defines certain specific settings.
