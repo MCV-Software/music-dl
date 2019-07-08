@@ -52,7 +52,7 @@ class audioPlayer(object):
 		return devices
 
 	def set_output_device(self, device_id):
-		""" Set Output device to be ued in LibVLC"""
+		""" Set Output device to be used in LibVLC"""
 		log.debug("Setting output audio device to {device}...".format(device=device_id,))
 		self.player.audio_output_device_set(None, device_id)
 
