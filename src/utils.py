@@ -4,7 +4,7 @@ import requests
 import threading
 import logging
 import types
-import extractors
+import services
 from importlib import reload
 from pubsub import pub
 
@@ -73,15 +73,15 @@ def download_file(url, local_filename):
 	log.debug("Download finished successfully")
 	return local_filename
 
-def get_extractors(import_all=False):
-	""" Function for importing everything wich is located in the extractors package and has a class named interface."""
+def get_services(import_all=False):
+	""" Function for importing everything wich is located in the services package and has a class named interface."""
 	module_type = types.ModuleType
 	# first of all, import all classes for the package so we can reload everything if they have changes in config.
-	_classes = [m for m in extractors.__dict__.values() if type(m) == module_type and hasattr(m, 'interface')]
+	_classes = [m for m in services.__dict__.values() if type(m) == module_type and hasattr(m, 'interface')]
 	for cls in _classes:
 		reload(cls)
 	if not import_all:
-		classes = [m for m in extractors.__dict__.values() if type(m) == module_type and hasattr(m, 'interface') and m.interface.enabled != False]
+		classes = [m for m in services.__dict__.values() if type(m) == module_type and hasattr(m, 'interface') and m.interface.enabled != False]
 	else:
-		classes = [m for m in extractors.__dict__.values() if type(m) == module_type and hasattr(m, 'interface')]
-	return classes#sorted(classes, key=lambda c: c.name)
+		classes = [m for m in services.__dict__.values() if type(m) == module_type and hasattr(m, 'interface')]
+	return classes

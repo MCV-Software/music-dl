@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import config
-from utils import get_extractors
+from utils import get_services
 from wxUI.configuration import configurationDialog
 from . import player
 
@@ -22,7 +22,7 @@ class configuration(object):
 				self.view.set_value("general", "output_device", i["name"])
 				break
 		self.view.realize()
-		extractors = get_extractors(import_all=True)
+		extractors = get_services(import_all=True)
 		for i in extractors:
 			if hasattr(i, "settings"):
 				panel = getattr(i, "settings")(self.view.notebook)

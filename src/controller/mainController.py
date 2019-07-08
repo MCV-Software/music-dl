@@ -13,7 +13,7 @@ from pubsub import pub
 from issueReporter import issueReporter
 from wxUI import mainWindow, menus
 from update import updater
-from utils import get_extractors
+from utils import get_services
 from . import player, configuration
 
 log = logging.getLogger("controller.main")
@@ -26,7 +26,7 @@ class Controller(object):
 		# Setting up the player object
 		player.setup()
 		# Get main window
-		self.window = mainWindow.mainWindow(extractors=[i.interface.name for i in get_extractors()])
+		self.window = mainWindow.mainWindow(extractors=[i.interface.name for i in get_services()])
 		log.debug("Main window created")
 		self.window.change_status(_(u"Ready"))
 		# Here we will save results for searches as song objects.
@@ -248,7 +248,7 @@ class Controller(object):
 
 	# real functions. These functions really are doing the work.
 	def search(self, text, extractor, *args, **kwargs):
-		extractors = get_extractors()
+		extractors = get_services()
 		for i in extractors:
 			if extractor == i.interface.name:
 				self.extractor = i.interface()
@@ -266,6 +266,6 @@ class Controller(object):
 			wx.CallAfter(self.window.list.SetFocus)
 
 	def reload_extractors(self):
-		extractors = [i.interface.name for i in get_extractors()]
+		extractors = [i.interface.name for i in get_services()]
 		self.window.extractor.SetItems(extractors)
 		self.window.extractor.SetValue(extractors[0])
