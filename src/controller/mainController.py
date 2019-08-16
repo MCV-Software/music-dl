@@ -14,7 +14,7 @@ from issueReporter import issueReporter
 from wxUI import mainWindow, menus
 from update import updater
 from utils import get_services
-from . import player, configuration, search
+from . import player, configuration
 
 log = logging.getLogger("controller.main")
 
@@ -25,13 +25,10 @@ class Controller(object):
 		log.debug("Starting main controller...")
 		# Setting up the player object
 		player.setup()
-		self.buffers = []
 		# Get main window
 		self.window = mainWindow.mainWindow(extractors=[i.interface.name for i in get_services()])
 		log.debug("Main window created")
 		self.window.change_status(_(u"Ready"))
-		search_buffer = search.search(view=self.window.get_buffer(0))
-		self.buffers.append(search_buffer)
 		# Here we will save results for searches as song objects.
 		self.results = []
 		self.connect_events()
@@ -60,6 +57,9 @@ class Controller(object):
 	def connect_events(self):
 		""" connects all widgets to their corresponding events."""
 		log.debug("Binding events...")
+		widgetUtils.connect_event(self.window.search, widgetUtils.BUTTON_PRESSED, self.on_search)
+		widgetUtils.connect_event(self.window.list, widgetUtils.LISTBOX_ITEM_ACTIVATED, self.on_activated)
+		widgetUtils.connect_event(self.window.list, widgetUtils.KEYPRESS, self.on_keypress)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.on_play, menuitem=self.window.player_play)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.on_settings, menuitem=self.window.settings)
 		widgetUtils.connect_event(self.window, widgetUtils.MENU, self.on_next, menuitem=self.window.player_next)
@@ -82,8 +82,8 @@ class Controller(object):
 		self.window.Bind(wx.EVT_COMMAND_SCROLL_CHANGED, self.on_set_volume, self.window.vol_slider)
 		self.window.Bind(wx.EVT_COMMAND_SCROLL_THUMBTRACK, self.on_time_change, self.window.time_slider)
 		self.window.Bind(wx.EVT_COMMAND_SCROLL_CHANGED, self.on_time_change, self.window.time_slider)
-#		self.window.list.Bind(wx.EVT_LISTBOX_DCLICK, self.on_play)
-#		self.window.list.Bind(wx.EVT_CONTEXT_MENU, self.on_context)
+		self.window.list.Bind(wx.EVT_LISTBOX_DCLICK, self.on_play)
+		self.window.list.Bind(wx.EVT_CONTEXT_MENU, self.on_context)
 		self.window.Bind(wx.EVT_CLOSE, self.on_close)
 		pub.subscribe(self.change_status, "change_status")
 		pub.subscribe(self.on_download_finished, "download_finished")

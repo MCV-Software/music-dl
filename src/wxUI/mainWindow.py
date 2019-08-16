@@ -7,7 +7,6 @@ except ImportError:
 	pass
 import application
 import widgetUtils
-from .search import searchPanel
 
 class mainWindow(wx.Frame):
 	def makeMenu(self):
@@ -41,10 +40,22 @@ class mainWindow(wx.Frame):
 		self.panel = wx.Panel(self)
 		self.sizer = wx.BoxSizer(wx.VERTICAL)
 		self.sb = self.CreateStatusBar()
-		self.tb = wx.Treebook(self.panel, -1)
-		search = searchPanel(extractors, parent=self.tb)
-		self.add_buffer(search, _("Search"))
-		self.sizer.Add(self.tb, 1, wx.ALL|wx.EXPAND, 5)
+		lbl2 = wx.StaticText(self.panel, wx.NewId(), _(u"search"))
+		self.text = wx.TextCtrl(self.panel, wx.NewId())
+		box = wx.BoxSizer(wx.HORIZONTAL)
+		box.Add(lbl2, 0, wx.GROW)
+		box.Add(self.text, 1, wx.GROW)
+		box.Add(wx.StaticText(self.panel, wx.NewId(), _(u"Search in")), 0, wx.GROW)
+		self.extractor = wx.ComboBox(self.panel, wx.NewId(), choices=extractors, value=extractors[0], style=wx.CB_READONLY)
+		box.Add(self.extractor, 1, wx.GROW)
+		self.search = wx.Button(self.panel, wx.NewId(), _(u"Search"))
+		self.search.SetDefault()
+		box.Add(self.search, 0, wx.GROW)
+		self.sizer.Add(box, 0, wx.GROW)
+		lbl = wx.StaticText(self.panel, wx.NewId(), _(u"Results"))
+		self.list = wx.ListBox(self.panel, wx.NewId())
+		self.sizer.Add(lbl, 0, wx.GROW)
+		self.sizer.Add(self.list, 1, wx.GROW)
 		box1 = wx.BoxSizer(wx.HORIZONTAL)
 		box2 = wx.BoxSizer(wx.HORIZONTAL)
 		box1.Add(wx.StaticText(self.panel, wx.NewId(), _(u"Position")), 0, wx.GROW)
@@ -66,6 +77,9 @@ class mainWindow(wx.Frame):
 		self.progressbar = wx.Gauge(self.panel, wx.NewId(), range=100, style=wx.GA_HORIZONTAL)
 		self.sizer.Add(self.progressbar, 0, wx.ALL, 5)
 		self.panel.SetSizerAndFit(self.sizer)
+#		self.SetClientSize(self.sizer.CalcMin())
+#		self.Layout()
+#		self.SetSize(self.GetBestSize())
 
 	def change_status(self, status):
 		self.sb.SetStatusText(status)
@@ -88,6 +102,14 @@ class mainWindow(wx.Frame):
 		except:
 			wx.AboutBox(info)
 
+	def get_text(self):
+		t = self.text.GetValue()
+		self.text.ChangeValue("")
+		return t
+
+	def get_item(self):
+		return self.list.GetSelection()
+
 	def get_destination_path(self, filename):
 		saveFileDialog = wx.FileDialog(self, _(u"Save this file"), "", filename, _(u"Audio Files(*.mp3)|*.mp3"), wx.FD_SAVE | wx.FD_OVERWRITE_PROMPT)
 		if saveFileDialog.ShowModal() == wx.ID_OK:
@@ -100,45 +122,3 @@ class mainWindow(wx.Frame):
 		except AttributeError:
 			self.notification = wx.NotificationMessage(title, text)
 		self.notification.Show()
-
-	def get_buffer_count(self):
-		return self.tb.GetPageCount()
-
-	def add_buffer(self, buffer, name):
-		self.tb.AddPage(buffer, name)
-
-	def insert_buffer(self, buffer, name, pos):
-		return self.tb.InsertSubPage(pos, buffer, name)
-
-	def search(self, name_):
-		for i in range(0, self.tb.GetPageCount()):
-			if self.tb.GetPage(i).name == name_: return i
-
-	def get_current_buffer(self):
-		return self.tb.GetCurrentPage()
-
-	def get_current_buffer_pos(self):
-		return self.tb.GetSelection()
-
-	def get_buffer(self, pos):
-		return self.tb.GetPage(pos)
-
-	def change_buffer(self, position):
-		self.tb.ChangeSelection(position)
-
-	def get_buffer_text(self, pos=None):
-		if pos == None:
-			pos = self.tb.GetSelection()
-		return self.tb.GetPageText(pos)
-
-	def get_buffer_by_id(self, id):
-		return self.tb.FindWindowById(id)
-
-	def advance_selection(self, forward):
-		self.tb.AdvanceSelection(forward)
-
-	def remove_buffer(self, pos):
-		self.tb.DeletePage(pos)
-
-	def remove_buffer_from_position(self, pos):
-		return self.tb.RemovePage(pos)
