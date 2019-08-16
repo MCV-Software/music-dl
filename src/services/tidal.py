@@ -64,24 +64,21 @@ class interface(base.baseInterface):
 		elif field == "artist":
 			data = []
 			artist = search_response.artists[0].id
-			if config.app["services"]["tidal"]["include_albums"]:
-				albums = self.session.get_artist_albums(artist)
-				for album in albums:
-					tracks = self.session.get_album_tracks(album.id)
-					for track in tracks:
-						data.append(track)
-			if config.app["services"]["tidal"]["include_compilations"]:
-				compilations = self.session.get_artist_albums_other(artist)
-				for album in compilations:
-					tracks = self.session.get_album_tracks(album.id)
-					for track in tracks:
-						data.append(track)
-			if config.app["services"]["tidal"]["include_singles"]:
-				singles = self.session.get_artist_albums_ep_singles(artist)
-				for album in singles:
-					tracks = self.session.get_album_tracks(album.id)
-					for track in tracks:
-						data.append(track)
+			albums = self.session.get_artist_albums(artist)
+			for album in albums:
+				tracks = self.session.get_album_tracks(album.id)
+				for track in tracks:
+					data.append(track)
+			compilations = self.session.get_artist_albums_other(artist)
+			for album in compilations:
+				tracks = self.session.get_album_tracks(album.id)
+				for track in tracks:
+					data.append(track)
+			singles = self.session.get_artist_albums_ep_singles(artist)
+			for album in singles:
+				tracks = self.session.get_album_tracks(album.id)
+				for track in tracks:
+					data.append(track)
 		for search_result in data:
 			s = base.song(self)
 			s.title = search_result.name
@@ -136,6 +133,7 @@ class settings(base.baseSettings):
 		usernamebox.Add(self.username, 0, wx.ALL, 5)
 		sizer.Add(usernamebox, 0, wx.ALL, 5)
 		self.map.append(("username", self.username))
+
 		password = wx.StaticText(self, wx.NewId(), _("Password"))
 		self.password = wx.TextCtrl(self, wx.NewId(), style=wx.TE_PASSWORD)
 		passwordbox = wx.BoxSizer(wx.HORIZONTAL)
@@ -156,14 +154,6 @@ class settings(base.baseSettings):
 		self.quality.GetValue = self.get_quality_value
 		self.quality.SetValue = self.set_quality_value
 		self.map.append(("quality", self.quality))
-		include = wx.StaticBoxSizer(parent=self, orient=wx.HORIZONTAL, label=_("Search by artist"))
-		self.include_albums = wx.CheckBox(include.GetStaticBox(), wx.NewId(), _("Include albums"))
-		self.include_compilations = wx.CheckBox(include.GetStaticBox(), wx.NewId(), _("Include compilations"))
-		self.include_singles = wx.CheckBox(include.GetStaticBox(), wx.NewId(), _("Include singles"))
-		sizer.Add(include, 0, wx.ALL, 5)
-		self.map.append(("include_albums", self.include_albums))
-		self.map.append(("include_compilations", self.include_compilations))
-		self.map.append(("include_singles", self.include_singles))
 		self.SetSizer(sizer)
 
 	def on_enabled(self, *args, **kwargs):
