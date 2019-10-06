@@ -4,6 +4,7 @@
 
 * changes in Tidal:
     * In the settings dialog, you can control wether Albums, compilations and singles will be added when searching by artist (by using artist://...).
+    * When searching by artists, results that belong to an album will be numbered.
 
 ## Version 0.6
 

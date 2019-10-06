@@ -81,16 +81,26 @@ class interface(base.baseInterface):
 				for album in singles:
 					tracks = self.session.get_album_tracks(album.id)
 					for track in tracks:
+						track.single = True
 						data.append(track)
 		for search_result in data:
 			s = base.song(self)
-			s.title = search_result.name
+			if not hasattr(search_result, "single"):
+				s.title = "{0}. {1}".format(self.format_number(search_result.track_num), search_result.name)
+			else:
+				s.title = search_result.name
 			s.artist = search_result.artist.name
 			s.duration = seconds_to_string(search_result.duration)
 			s.url = search_result.id
 			s.info = search_result
 			self.results.append(s)
 		log.debug("{0} results found.".format(len(self.results)))
+
+	def format_number(self, number):
+		if number < 10:
+			return "0%d" % (number)
+		else:
+			return number
 
 	def get_download_url(self, url):
 		url = self.session.get_media_url(url)
