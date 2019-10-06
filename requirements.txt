@@ -10,5 +10,6 @@ pyinstaller
 isodate
 configobj
 winpaths
-tidalapi
 mutagen
+# tidalapi
+git+https://github.com/tamland/python-tidal/
