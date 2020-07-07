@@ -6,10 +6,7 @@ import sys
 def create_archive():
 	os.chdir("..\\src")
 	print("Creating zip archive...")
-	if sys.version[0] == "3":
-		folder = "dist/main"
-	else:
-		folder = "dist"
+	folder = "dist"
 	shutil.make_archive("music_dl", "zip", folder)
 #	if os.path.exists("dist"):
 #		shutil.rmtree("dist")
