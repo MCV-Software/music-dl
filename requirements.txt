@@ -1,5 +1,5 @@
 coverage
-wxpython==4.0.3
+wxpython
 requests
 bs4
 pypubsub
