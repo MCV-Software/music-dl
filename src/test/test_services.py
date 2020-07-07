@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-""" Unittests for extractors present in MusicDL. """
+""" Unittests for services present in MusicDL. """
 from __future__ import unicode_literals
 import sys
 import unittest
@@ -10,8 +10,8 @@ import config
 storage.setup()
 config.setup()
 i18n.setup()
-import extractors
-from extractors import base
+import services
+from services import base
 
 # Pytohn 2/3 compat
 if sys.version[0] == "2":
@@ -19,31 +19,31 @@ if sys.version[0] == "2":
 else:
 	strtype = str
 
-class extractorsTestCase(unittest.TestCase):
+class servicesTestCase(unittest.TestCase):
 
 	def setUp(self):
 		""" Configure i18n functions for avoiding a traceback later. """
 		i18n.setup()
 
-	def search(self, extractor_name, search_query="piano", skip_validation=False):
-		""" Search a video in the passed extractor name. """
+	def search(self, service_name, search_query="piano", skip_validation=False):
+		""" Search a video in the passed service name. """
 		# Test basic instance stuff.
-		extractor_instance = getattr(extractors, extractor_name).interface()
-		extractor_instance.search(search_query)
-		self.assertIsInstance(extractor_instance.results, list)
-		self.assertNotEqual(len(extractor_instance.results), 0)
-		self.assertIsInstance(len(extractor_instance.results), int)
+		service_instance = getattr(services, service_name).interface()
+		service_instance.search(search_query)
+		self.assertIsInstance(service_instance.results, list)
+		self.assertNotEqual(len(service_instance.results), 0)
+		self.assertIsInstance(len(service_instance.results), int)
 		# Take and test validity of the first item.
-		item = extractor_instance.results[0]
+		item = service_instance.results[0]
 		self.assertIsInstance(item, base.song)
 		self.assertIsInstance(item.title, strtype)
 		self.assertNotEqual(item.title, "")
-		if extractor_name == "youtube": # Duration is only available for youtube.
+		if service_name == "youtube": # Duration is only available for youtube.
 			self.assertIsInstance(item.duration, strtype)
 			self.assertNotEqual(item.duration, "")
 		self.assertIsInstance(item.url, strtype)
 		self.assertNotEqual(item.url, "")
-		if extractor_name == "youtube" and skip_validation == False:
+		if service_name == "youtube" and skip_validation == False:
 			match = re.search("((?<=(v|V)/)|(?<=be/)|(?<=(\?|\&)v=)|(?<=embed/))([\w-]+)", item.url)
 			self.assertNotEqual(match, None)
 		formatted_track = item.format_track()
@@ -55,7 +55,7 @@ class extractorsTestCase(unittest.TestCase):
 
 	def search_blank(self, extractor_name, search_query=""):
 		""" Attempt to search in any extractor by passing a blank string. """
-		extractor_instance = getattr(extractors, extractor_name).interface()
+		extractor_instance = getattr(services, extractor_name).interface()
 		self.assertRaises(ValueError, extractor_instance.search, search_query)
 
 	def test_youtube_search(self):
@@ -72,35 +72,23 @@ class extractorsTestCase(unittest.TestCase):
 
 	def test_youtube_direct_link(self):
 		""" Testing a search in youtube by passing a direct link. """
-		self.search("youtube", "https://www.youtube.com/watch?v=hwDiI9p9L-g")
+		self.search("youtube", "https://www.youtube.com/watch?v=XkeU8w2Y-2Y")
 
 	def test_youtube_playlist(self):
 		""" Testing a youtube search by passing a link to a playlist. """
-		self.search("youtube", "https://www.youtube.com/playlist?list=PLqivnvaruBVH8fqI5JU9h5jZKV-32bbEn", skip_validation=True)
+		self.search("youtube", "https://www.youtube.com/channel/UCPTYdUGtBMuqGg6ZtvYC1zQ", skip_validation=True)
+	# Uncomment the following test only if you live or test this in Russia.
+#	def test_zaycev_search(self):
+#		""" Testing a search made in zaycev.net """
+#		self.search("zaycev")
 
-	def test_mailru_search(self):
-		""" Testing a mail.ru search. """
-		self.search("mailru")
+#	def test_zaycev_search_unicode(self):
+#		""" Testing a search made in zaycev.net with unicode characters. """
+#		self.search("zaycev", "Пианино")
 
-	def test_mailru_search_unicode(self):
-		""" Testing a mail.ru search with unicode characters. """
-		self.search("mailru", "Пианино")
-
-	def test_mailru_search_blank(self):
-		""" Testing a mail.ru search when text is blank. """
-		self.search_blank("mailru")
-
-	def test_zaycev_search(self):
-		""" Testing a search made in zaycev.net """
-		self.search("zaycev")
-
-	def test_zaycev_search_unicode(self):
-		""" Testing a search made in zaycev.net with unicode characters. """
-		self.search("zaycev", "Пианино")
-
-	def test_zaycev_search_blank(self):
-		""" Testing a search in zaycev.net when text is blank. """
-		self.search_blank("zaycev")
+#	def test_zaycev_search_blank(self):
+#		""" Testing a search in zaycev.net when text is blank. """
+#		self.search_blank("zaycev")
 
 if __name__ == "__main__":
 	unittest.main()

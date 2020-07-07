@@ -21,7 +21,7 @@ class storageTestCase(unittest.TestCase):
 	def test_installer_path(self):
 		""" Testing if paths are generated appropiately. """
 		# this is a temporary fix for winpaths.
-		fake_installer_file = open(os.path.join(paths.app_path(), "uninstall.exe"), "w")
+		fake_installer_file = open(os.path.join(paths.app_path(), "Uninstall.exe"), "w")
 		fake_installer_file.close()
 		fix_winpaths.fix()
 		storage.setup()

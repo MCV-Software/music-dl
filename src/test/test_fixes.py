@@ -13,15 +13,15 @@ if sys.version[0] == "3":
 
 class fixesTestCase(unittest.TestCase):
 
-	def test_winpaths_error_in_python3(self):
-		""" Testing the winpaths error happening only in Python 3 due to changes introduced to ctypes. """
-		# If this test fails, it means winpaths has been updated to fix the ctypes issue already.
-		# Therefore this test and the corresponding issue should be removed.
-		if sys.version[0] != "3":
-			return
-		# A reload of winpaths is needed to rever the fix of winpaths, if has been applied before
-		reload(winpaths)
-		self.assertRaises(AttributeError, winpaths.get_appdata)
+#	def test_winpaths_error_in_python3(self):
+#		""" Testing the winpaths error happening only in Python 3 due to changes introduced to ctypes. """
+#		# If this test fails, it means winpaths has been updated to fix the ctypes issue already.
+#		# Therefore this test and the corresponding issue should be removed.
+#		if sys.version[0] != "3":
+#			return
+#		# A reload of winpaths is needed to rever the fix of winpaths, if has been applied before
+#		reload(winpaths)
+#		self.assertRaises(AttributeError, winpaths.get_appdata)
 
 	def test_requests_fix(self):
 		""" Testing the requests fix and check if the certificates file exists in the provided path. """
