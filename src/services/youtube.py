@@ -1,17 +1,10 @@
 # -*- coding: utf-8 -*-
-import isodate
 import youtube_dl
 import logging
 import wx
 import config
-from googleapiclient.discovery import build
-from googleapiclient.errors import HttpError
 from update.utils import seconds_to_string
 from .import base
-
-DEVELOPER_KEY = "AIzaSyCU_hvZJEjLlAGAnlscquKEkE8l0lVOfn0"
-YOUTUBE_API_SERVICE_NAME = "youtube"
-YOUTUBE_API_VERSION = "v3"
 
 log = logging.getLogger("extractors.youtube.com")
 
@@ -27,27 +20,30 @@ class interface(base.baseInterface):
 		type = "video"
 		max_results = config.app["services"]["youtube"]["max_results"]
 		log.debug("Retrieving data from Youtube...")
-		youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, developerKey=DEVELOPER_KEY)
-		search_response = youtube.search().list(q=text, part="id,snippet", maxResults=max_results, type=type).execute()
+		ydl = youtube_dl.YoutubeDL({'quiet': True, 'ignore_errors': True, 'no_warnings': True, 'logger': log, 'format': 'bestaudio/best', 'outtmpl': u'%(id)s%(ext)s'})
+		with ydl:
+			search_param = "ytsearch{}:{}".format(max_results, text)
+			result = ydl.extract_info(search_param, download=False)
 		self.results = []
-		ids = []
-		for search_result in search_response.get("items", []):
-			if search_result["id"]["kind"] == "youtube#video":
-				s = base.song(self)
-				s.title = search_result["snippet"]["title"]
-				ids.append(search_result["id"]["videoId"])
-				s.url = "https://www.youtube.com/watch?v="+search_result["id"]["videoId"]
-				self.results.append(s)
-		ssr = youtube.videos().list(id=",".join(ids), part="contentDetails", maxResults=1).execute()
-		for i in range(len(self.results)):
-			self.results[i].duration = seconds_to_string(isodate.parse_duration(ssr["items"][i]["contentDetails"]["duration"]).total_seconds())
+		for search_result in result["entries"]:
+			s = base.song(self)
+			s.title = search_result["title"]
+			s.url = "https://www.youtube.com/watch?v="+search_result["id"]
+			s.duration = seconds_to_string(search_result["duration"])
+			if search_result.get("track") != None:
+				s.title = search_result["track"]
+			if search_result.get("album") != None:
+				s.album = search_result["album"]
+			if search_result.get("artist") != None:
+				s.artist = search_result["artist"]
+			self.results.append(s)
 		log.debug("{0} results found.".format(len(self.results)))
 
 	def search_from_url(self, url):
 		log.debug("Getting download URL for {0}".format(url,))
 		if "playlist?list=" in url:
 			return self.search_from_playlist(url)
-		ydl = youtube_dl.YoutubeDL({'quiet': True, 'no_warnings': True, 'logger': log, 'prefer-free-formats': True, 'format': 'bestaudio', 'outtmpl': u'%(id)s%(ext)s'})
+		ydl = youtube_dl.YoutubeDL({'quiet': True, 'ignore_errors': True, 'no_warnings': True, 'logger': log, 'prefer-free-formats': True, 'format': 'bestaudio', 'outtmpl': u'%(id)s%(ext)s'})
 		with ydl:
 			result = ydl.extract_info(url, download=False)
 			if 'entries' in result:
@@ -55,7 +51,7 @@ class interface(base.baseInterface):
 			else:
 				videos = [result]
 		for video in videos:
-			s = baseFile.song(self)
+			s = base.song(self)
 			s.title = video["title"]
 			s.url = video["webpage_url"] # Cannot use direct URL here cause Youtube URLS expire after a minute.
 			s.duration = seconds_to_string(video["duration"])
@@ -66,21 +62,22 @@ class interface(base.baseInterface):
 		id = url.split("=")[1]
 		max_results = 50
 		log.debug("Retrieving data from Youtube...")
-		youtube = build(YOUTUBE_API_SERVICE_NAME, YOUTUBE_API_VERSION, developerKey=DEVELOPER_KEY)
-		search_response = youtube.playlistItems().list(playlistId=id, part="id, status, snippet", maxResults=max_results).execute()
+		ydl = youtube_dl.YoutubeDL({'quiet': True, 'ignore_errors': True, 'no_warnings': True, 'logger': log, 'format': 'bestaudio/best', 'outtmpl': u'%(id)s%(ext)s'})
+		with ydl:
+			result = ydl.extract_info(url, download=False)
 		self.results = []
-		ids = []
-		for search_result in search_response.get("items", []):
-			if search_result["status"]["privacyStatus"] != "public":
-				continue
-			s = baseFile.song(self)
-			s.title = search_result["snippet"]["title"]
-			ids.append(search_result["snippet"]["resourceId"]["videoId"])
-			s.url = "https://www.youtube.com/watch?v="+search_result["snippet"]["resourceId"]["videoId"]
+		for search_result in result["entries"]:
+			s = base.song(self)
+			s.title = search_result["title"]
+			s.url = "https://www.youtube.com/watch?v="+search_result["id"]
+			s.duration = seconds_to_string(search_result["duration"])
+			if search_result.get("track") != None:
+				s.title = search_result["track"]
+			if search_result.get("album") != None:
+				s.album = search_result["album"]
+			if search_result.get("artist") != None:
+				s.artist = search_result["artist"]
 			self.results.append(s)
-		ssr = youtube.videos().list(id=",".join(ids), part="contentDetails", maxResults=50).execute()
-		for i in range(len(self.results)):
-			self.results[i].duration = seconds_to_string(isodate.parse_duration(ssr["items"][i]["contentDetails"]["duration"]).total_seconds())
 		log.debug("{0} results found.".format(len(self.results)))
 
 	def get_download_url(self, url):

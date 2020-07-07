@@ -4,10 +4,8 @@ requests
 bs4
 pypubsub
 python-vlc
-google-api-python-client
 youtube-dl
-pyinstaller
-isodate
+cx_freeze
 configobj
 winpaths
 mutagen
