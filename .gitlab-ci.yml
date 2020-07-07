@@ -1,15 +1,6 @@
-# This CI configuration file is used to build all available versions of MusicDL. It's intended to launch a new version when a tag is pushed to master.
-# In order to work, A Gitlab Runner with Windows Server 2016 Standard with the following packages is used:
-# * Latest python for both 2.7 and 3.x branches.
-# * Py2exe for Python 2.7
-# * Microsoft Visual C++ 2015 redistributable files
-# * Nsis
-
-# Declare some variables dependent on the operating system where the runner is installed.
-# This CI file assumes we install everything in C:\ (Python 2.7, 3.7 and Nsis).
 variables:
-  PYTHON3: "C:\\python37\\python.exe"
-  PYINSTALLER: "C:\\python37\\scripts\\pyinstaller.exe"
+  PYTHON3_32: "C:\\python37-32\\python.exe"
+  PYTHON3_64: "C:\\python37-64\\python.exe"
   NSIS: "C:\\nsis\\makensis.exe"
 
 ### Stage list
@@ -20,87 +11,39 @@ stages:
     - build
     - pack
 
-# Python 3 tests
-test_py3:
+.configure_environment: &configure_environment
+  tags:
+    - windows10
+  before_script:
+    - '&$env:PYTHON3_32 -V'
+    - '&$env:PYTHON3_32 -m pip install --upgrade pip'
+    - '&$env:PYTHON3_32 -m pip install --upgrade -r requirements.txt'
+
+test:
+  <<: *configure_environment
   stage: test
   tags:
     - windows10
-  before_script:
-    - '%PYTHON3% -v'
-    - '%PYTHON3% -m pip install --upgrade pip'
-    - '%PYTHON3% -m pip install --upgrade -r requirements.txt'
   script:
     - cd src
-    - '%PYTHON3% -m coverage run run_tests.py'
-    - '%PYTHON3% -m coverage report --omit="test*"'
+    - '&$env:PYTHON3_32 -m coverage run run_tests.py'
+    - '&$env:PYTHON3_32 -m coverage report --omit="test*"'
   coverage: '/TOTAL.+ ([0-9]{1,3}%)/'
-
   only:
     - master
-    - tags
-    - schedule_pipelines
 
-# Python 3 version. During this job, the dist folder, containing all files to distribute, will be generated
-# and passed to build_zip and build_setup jobs.
-build_py3:
+public:
+  <<: *configure_environment
   stage: build
-  tags:
-    - windows10
-  # Update stuff before building versions
-  before_script:
-    - '%PYTHON3% -v'
-    - '%PYTHON3% -m pip install --upgrade pip'
-    - '%PYTHON3% -m pip install --upgrade -r requirements.txt'
   script:
     - cd src
-    - '%PYINSTALLER% main.spec'
-  # Build this automatically only when tags are pushed to master or when a pipeline has been scheduled by Gitlab.
-  only:
-    - tags
-    - schedule_pipelines
-  # Make the dist folder available to other jobs.
-  # It will expire in 30 mins as we won't need the dist folder after the pipeline is completed.
-  artifacts:
-    paths:
-    - src\\dist
-    expire_in: 30 mins
-
-# This job takes the src\\dist folder generated in build_py3 and creates a zip file, which will be uploaded to the repository's artifacts.
-zip_py3:
-  stage: pack
-  tags:
-    - windows10
-  only:
-    - tags
-    - schedule_pipelines
-  dependencies:
-    - build_py3
-  script:
-    - cd scripts
-    - '%PYTHON3% prepare_zipversion.py'
-    - cd ..
-    - move src\music_dl.zip music_dl.zip
-  # No expiry date as there will be only releases in the artifacts.
-  artifacts:
-    paths:
-    - music_dl.zip
-
-# This job takes the src\\dist generated in build_py3 and creates a setup installer file.
-build_setup:
-  stage: pack
-  tags:
-    - windows10
-  only:
-    - tags
-    - schedule_pipelines
-  dependencies:
-    - build_py3
-  script:
-    - cd src
-    - '%NSIS% installer.nsi'
+    - '&$env:PYTHON3_32 setup.py build'
+    - '&$env:NSIS installer.nsi'
     - cd ..
     - move src\music_dl* .
-  artifacts:
-    paths:
-    - "music_dl_*"
-    name: music_dl
+    - cd scripts
+    - '&$env:PYTHON3_32 prepare_zipversion.py'
+    - cd ..
+    - move src\music_dl.zip music_dl.zip
+  only:
+    - master
