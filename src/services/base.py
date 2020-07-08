@@ -31,6 +31,14 @@ class baseInterface(object):
 	def transcoder_enabled(self):
 		return False
 
+	def get_metadata(self, item):
+		data = dict()
+		keys = ["title", "album", "artist", "tracknumber"]
+		for k in keys:
+			if hasattr(item, k):
+				data[k] = getattr(item, k)
+		return data
+
 class song(object):
 	""" Represents a song in all services. Data will be filled by the service itself"""
 
@@ -50,6 +58,9 @@ class song(object):
 
 	def get_download_url(self):
 		self.download_url = self.extractor.get_download_url(self.url)
+
+	def get_metadata(self):
+		return self.extractor.get_metadata(self)
 
 class baseSettings(wx.Panel):
 	config_section = "base"
