@@ -189,8 +189,6 @@ class Controller(object):
 		item = self.results[self.window.get_item()]
 		log.debug("Starting requested download: {0} (using extractor: {1})".format(item.title, self.extractor.name))
 		f = "{item_name}.{item_extension}".format(item_name=item.format_track(), item_extension=item.extractor.get_file_format())
-		if item.download_url == "":
-			item.get_download_url()
 		path = self.window.get_destination_path(f)
 		if path != None:
 			log.debug("User has requested the following path: {0}".format(path,))
