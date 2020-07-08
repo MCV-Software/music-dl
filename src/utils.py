@@ -52,7 +52,7 @@ class RepeatingTimer(threading.Thread):
 				except:
 					log.exception("Execution failed. Function: %r args: %r and kwargs: %r" % (self.function, self.args, self.kwargs))
 
-def download_file(url, local_filename):
+def download_file(url, local_filename, metadata=dict()):
 	log.debug("Download started: filename={0}, url={1}".format(local_filename, url))
 	r = requests.get(url, stream=True)
 	pub.sendMessage("change_status", status=_(u"Downloading {0}.").format(local_filename,))
@@ -61,7 +61,7 @@ def download_file(url, local_filename):
 	total_length = int(total_length)
 	log.debug("Downloading file of {0} bytes".format(total_length))
 	with open(local_filename, 'wb') as f:
-		for chunk in r.iter_content(chunk_size=64): 
+		for chunk in r.iter_content(chunk_size=512*1024): 
 			if chunk: # filter out keep-alive new chunks
 				dl += len(chunk)
 				f.write(chunk)
@@ -71,6 +71,7 @@ def download_file(url, local_filename):
 				pub.sendMessage("update-progress", value=done)
 	pub.sendMessage("download_finished", file=os.path.basename(local_filename))
 	log.debug("Download finished successfully")
+	apply_metadata(local_filename, metadata)
 	return local_filename
 
 def get_services(import_all=False):
@@ -85,3 +86,13 @@ def get_services(import_all=False):
 	else:
 		classes = [m for m in services.__dict__.values() if type(m) == module_type and hasattr(m, 'interface')]
 	return classes
+
+def apply_metadata(local_filename, metadata):
+	if local_filename.endswith(".mp3"):
+		from mutagen.easyid3 import EasyID3 as metadataeditor
+	elif local_filename.endswith(".flac"):
+		from mutagen.flac import FLAC as metadataeditor
+	audio = metadataeditor(local_filename)
+	for k in metadata.keys():
+		audio[k] = metadata[k]
+	audio.save()

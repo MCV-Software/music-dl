@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+""" Tidal service support for MusicDL.
+this service allows users to choose between 3 different qualities. Low, high and lossless.
+Lossless quality is only available to the account of tidal capable of playing such kind of audio files.
+for low and high qualities, the file is transcoded to mp3 because Tidal gives us that as m4a.
+"""
 import logging
 import webbrowser
 import wx
@@ -7,12 +12,12 @@ import config
 from update.utils import seconds_to_string
 from .import base
 
-log = logging.getLogger("extractors.tidal.com")
+log = logging.getLogger("services.tidal")
 
 class interface(base.baseInterface):
 	name = "tidal"
 	enabled = config.app["services"]["tidal"].get("enabled")
-	# This should not be enabled if credentials are not in config.
+	# This should not be enabled if credentials are not set in config.
 	if config.app["services"]["tidal"]["username"] == "" or config.app["services"]["tidal"]["password"] == "":
 		enabled = False
 
@@ -26,6 +31,7 @@ class interface(base.baseInterface):
 			quality = getattr(tidalapi.Quality, config.app["services"]["tidal"]["quality"])
 		else:
 			quality = tidalapi.Quality.high
+		# We need to instantiate a config object to pass quality settings.
 		_config = tidalapi.Config(quality=quality)
 		username = config.app["services"]["tidal"]["username"]
 		password = config.app["services"]["tidal"]["password"]
@@ -34,6 +40,7 @@ class interface(base.baseInterface):
 		self.session.login(username=username, password=password)
 
 	def get_file_format(self):
+		""" Returns the file format (mp3 or flac) depending in quality set. """
 		if config.app["services"]["tidal"]["quality"] == "lossless":
 			self.file_extension = "flac"
 		else:
@@ -41,6 +48,8 @@ class interface(base.baseInterface):
 		return self.file_extension
 
 	def transcoder_enabled(self):
+		# If quality is set to high, tidal returns audio in AAC format at 256 KBPS. So we convert it with vlc to mp3 at 320KBPS.
+		# toDo: Shall this be a setting and allow MusicDL to spit out the m4a file directly?
 		if config.app["services"]["tidal"]["quality"] == "lossless":
 			return False
 		else:
@@ -69,6 +78,7 @@ class interface(base.baseInterface):
 				for album in albums:
 					tracks = self.session.get_album_tracks(album.id)
 					for track in tracks:
+						track.album = album
 						data.append(track)
 			if config.app["services"]["tidal"]["include_compilations"]:
 				compilations = self.session.get_artist_albums_other(artist)
@@ -81,18 +91,21 @@ class interface(base.baseInterface):
 				for album in singles:
 					tracks = self.session.get_album_tracks(album.id)
 					for track in tracks:
-						track.single = True
+#						track.single = True
 						data.append(track)
 		for search_result in data:
 			s = base.song(self)
-			if not hasattr(search_result, "single"):
-				s.title = "{0}. {1}".format(self.format_number(search_result.track_num), search_result.name)
-			else:
-				s.title = search_result.name
+			s.title = search_result.name
 			s.artist = search_result.artist.name
 			s.duration = seconds_to_string(search_result.duration)
 			s.url = search_result.id
+			s.tracknumber = str(search_result.track_num)
+			s.album = search_result.album.name
+			print(search_result.album.num_tracks, search_result.album.name)
+			if search_result.album.num_tracks == None:
+				s.single = True
 			s.info = search_result
+			print(s.info)
 			self.results.append(s)
 		log.debug("{0} results found.".format(len(self.results)))
 
@@ -109,7 +122,10 @@ class interface(base.baseInterface):
 		return url
 
 	def format_track(self, item):
-		return "{title}. {artist}. {duration}".format(title=item.title, duration=item.duration, artist=item.artist)
+		if not hasattr(item, "single"):
+			return "{0}. {1}".format(self.format_number(item.tracknumber), item.title)
+		else:
+			return "{title}. {artist}. {duration}".format(title=item.title, duration=item.duration, artist=item.artist)
 
 class settings(base.baseSettings):
 	name = _("Tidal")
