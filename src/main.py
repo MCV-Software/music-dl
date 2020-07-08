@@ -13,9 +13,6 @@ storage.setup()
 # Let's import config module here as it is dependent on storage being setup.
 import config
 logging.basicConfig(handlers=[logging.FileHandler(os.path.join(storage.data_directory, "info.log"), "w", "utf-8")], level=logging.DEBUG)
-# Let's mute the google discovery_cache logger as we won't use it and we'll avoid some tracebacks.
-glog = logging.getLogger("googleapiclient.discovery_cache")
-glog.setLevel(logging.CRITICAL)
 # Let's capture all exceptions raised in our log file (especially useful for pyinstaller builds).
 sys.excepthook = lambda x, y, z: logging.critical(''.join(traceback.format_exception(x, y, z)))
 log = logging.getLogger("main")
