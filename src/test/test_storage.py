@@ -27,13 +27,13 @@ class storageTestCase(unittest.TestCase):
 		storage.setup()
 		self.assertEquals(storage.app_type, "installed")
 		self.assertTrue(os.path.exists(storage.data_directory))
-		self.assertEquals(storage.data_directory, paths.app_data_path("musicDL"))
+		self.assertEquals(storage.data_directory, paths.data_path("musicDL"))
 
 	def tearDown(self):
 		""" Removes uninstall.exe created for tests and data path."""
 		fix_winpaths.fix()
-		if os.path.exists(paths.app_data_path("musicDL")):
-			shutil.rmtree(paths.app_data_path("musicDL"))
+		if os.path.exists(paths.data_path("musicDL")):
+			shutil.rmtree(paths.data_path("musicDL"))
 		if os.path.exists(os.path.join(paths.app_path(), "uninstall.exe")):
 			os.remove(os.path.join(paths.app_path(), "uninstall.exe"))
 

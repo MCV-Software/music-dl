@@ -10,9 +10,9 @@ app_type = ""
 def setup():
 	global data_directory, app_type
 	if len(glob.glob("Uninstall.exe")) > 0: # installed copy
-		if os.path.exists(paths.app_data_path("musicDL")) == False:
-			paths.prepare_app_data_path("musicDL")
-		data_directory = paths.app_data_path("musicDL")
+		if os.path.exists(paths.data_path("musicDL")) == False:
+			os.mkdir(paths.data_path("musicDL"))
+		data_directory = paths.data_path("musicDL")
 		app_type = "installed"
 	else:
 		app_type = "portable"
