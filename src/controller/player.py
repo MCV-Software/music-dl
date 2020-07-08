@@ -132,7 +132,7 @@ class audioPlayer(object):
 		#https://github.com/ZeBobo5/Vlc.DotNet/issues/4
 		call_threaded(self.next)
 
-	def transcode_audio(self, item, path, _format="mp3", bitrate=320):
+	def transcode_audio(self, item, path, _format="mp3", bitrate=320, metadata=dict()):
 		""" Converts given item to mp3. This method will be available when needed automatically."""
 		if item.download_url == "":
 			item.get_download_url()
