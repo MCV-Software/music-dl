@@ -1,3 +1,3 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
-from . import youtube, zaycev, tidal
+from . import vk, youtube, zaycev, tidal

@@ -13,6 +13,10 @@ include_albums = boolean(default=True)
 include_compilations = boolean(default=True)
 include_singles = boolean(default=True)
 
+[[vk]]
+enabled = boolean(default=True)
+max_results = integer(default=20)
+
 [[youtube]]
 enabled = boolean(default=True)
 max_results = integer(default=20)
