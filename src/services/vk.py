@@ -10,7 +10,7 @@ from .import base
 
 log = logging.getLogger("services.vk")
 
-url = "http://musicdl.manuelcortez.net:6666"
+url = "https://musicdl.manuelcortez.net"
 application_name = "music_dl"
 access_token = "e2237f17af545a4ba0bf6cb0b1a662e6"
 
@@ -56,7 +56,7 @@ class interface(base.baseInterface):
 			self.results.append(s)
 
 	def get_download_url(self, file_url):
-		return "{url}/vk/download?url={url2}".format(url=url, url2=file_url)
+		return "{url}/vk/download/?url={url2}".format(url=url, url2=file_url)
 
 	def format_track(self, item):
 		return "{title}. {artist}. {duration}".format(title=item.title, duration=item.duration, artist=item.artist)
