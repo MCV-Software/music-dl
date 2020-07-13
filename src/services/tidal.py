@@ -16,9 +16,12 @@ log = logging.getLogger("services.tidal")
 
 class interface(base.baseInterface):
 	name = "tidal"
-	enabled = config.app["services"]["tidal"].get("enabled")
-	# This should not be enabled if credentials are not set in config.
-	if config.app["services"]["tidal"]["username"] == "" or config.app["services"]["tidal"]["password"] == "":
+	if config.app != None: # Workaround for cx_freeze 6.2 in python 3.7.
+		enabled = config.app["services"]["tidal"].get("enabled")
+		# This should not be enabled if credentials are not set in config.
+		if config.app["services"]["tidal"]["username"] == "" or config.app["services"]["tidal"]["password"] == "":
+			enabled = False
+	else:
 		enabled = False
 
 	def __init__(self):

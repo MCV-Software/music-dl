@@ -18,7 +18,10 @@ access_token = "e2237f17af545a4ba0bf6cb0b1a662e6"
 class interface(base.baseInterface):
 	""" Class downloader for VK audios. """
 	name = "vk"
-	enabled = config.app["services"]["vk"].get("enabled")
+	if config.app != None: # Workaround for cx_freeze 6.2 in python 3.7.
+		enabled = config.app["services"]["vk"].get("enabled")
+	else:
+		enabled = False
 
 	#util functions.
 	def get_auth(self):

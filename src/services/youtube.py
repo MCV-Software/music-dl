@@ -10,7 +10,10 @@ log = logging.getLogger("extractors.youtube.com")
 
 class interface(base.baseInterface):
 	name = "YouTube"
-	enabled = config.app["services"]["youtube"].get("enabled")
+	if config.app != None: # Workaround for cx_freeze 6.2 in python 3.7.
+		enabled = config.app["services"]["youtube"].get("enabled")
+	else:
+		enabled = False
 
 	def search(self, text, page=1):
 		if text == "" or text == None:
