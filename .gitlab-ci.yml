@@ -16,8 +16,10 @@ stages:
     - windows10
   before_script:
     - '&$env:PYTHON3_32 -V'
-    - '&$env:PYTHON3_32 -m pip install --upgrade pip'
-    - '&$env:PYTHON3_32 -m pip install --upgrade -r requirements.txt'
+    - '&$env:PYTHON3_32 -m venv env'
+    - 'env\scripts\activate'
+    - 'python -m pip install --upgrade pip'
+    - 'python -m pip install --upgrade -r requirements.txt'
 
 test:
   <<: *configure_environment
@@ -26,8 +28,8 @@ test:
     - windows10
   script:
     - cd src
-    - '&$env:PYTHON3_32 -m coverage run run_tests.py'
-    - '&$env:PYTHON3_32 -m coverage report --omit="test*"'
+    - 'python -m coverage run run_tests.py'
+    - 'python -m coverage report --omit="test*"'
   coverage: '/TOTAL.+ ([0-9]{1,3}%)/'
   only:
     - master
@@ -37,12 +39,12 @@ public:
   stage: build
   script:
     - cd src
-    - '&$env:PYTHON3_32 setup.py build'
+    - 'python setup.py build'
     - '&$env:NSIS installer.nsi'
     - cd ..
     - move src\music_dl* .
     - cd scripts
-    - '&$env:PYTHON3_32 prepare_zipversion.py'
+    - 'python prepare_zipversion.py'
     - cd ..
     - move src\music_dl.zip music_dl.zip
   only:
