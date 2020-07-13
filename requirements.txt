@@ -13,3 +13,5 @@ babel
 # tidalapi
 git+https://github.com/tamland/python-tidal/
 git+https://code.manuelcortez.net/manuelcortez/platform_utils
+git+https://code.manuelcortez.net/manuelcortez/accessible_output2
+git+https://code.manuelcortez.net/manuelcortez/libloader
