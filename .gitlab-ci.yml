@@ -47,5 +47,7 @@ public:
     - 'python prepare_zipversion.py'
     - cd ..
     - move src\music_dl.zip music_dl.zip
+    - 'python scripts/generate_update_file.py'
+    - 'python scripts/upload.py'
   only:
     - master
