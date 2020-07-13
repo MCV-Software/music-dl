@@ -3,18 +3,20 @@ import logging
 import requests
 import wx
 import urllib.parse
-from requests.auth import HTTPBasicAuth
 import config
+from requests.auth import HTTPBasicAuth
 from update.utils import seconds_to_string
 from .import base
 
 log = logging.getLogger("services.vk")
 
+### toDo: hide secrets
 url = "https://musicdl.manuelcortez.net"
 application_name = "music_dl"
 access_token = "e2237f17af545a4ba0bf6cb0b1a662e6"
 
 class interface(base.baseInterface):
+	""" Class downloader for VK audios. """
 	name = "vk"
 	enabled = config.app["services"]["vk"].get("enabled")
 
@@ -32,6 +34,7 @@ class interface(base.baseInterface):
 		self.get_auth()
 
 	def get_file_format(self):
+		# Only mp3 audio is supported in VK so return it without further checks.
 		return "mp3"
 
 	def transcoder_enabled(self):
