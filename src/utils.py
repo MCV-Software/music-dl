@@ -92,7 +92,14 @@ def apply_metadata(local_filename, metadata):
 		from mutagen.easyid3 import EasyID3 as metadataeditor
 	elif local_filename.endswith(".flac"):
 		from mutagen.flac import FLAC as metadataeditor
+	elif local_filename.endswith(".m4a"):
+		from mutagen.mp4 import MP4 as metadataeditor
 	audio = metadataeditor(local_filename)
-	for k in metadata.keys():
-		audio[k] = metadata[k]
+	if local_filename.endswith(".m4a") == False:
+		for k in metadata.keys():
+			audio[k] = metadata[k]
+	else:
+		audio["\xa9nam"] = metadata["title"]
+		audio["\xa9alb"] = metadata["album"]
+		audio["\xa9ART"] = metadata["artist"]
 	audio.save()
