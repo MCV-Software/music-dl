@@ -46,6 +46,8 @@ class interface(base.baseInterface):
 		""" Returns the file format (mp3 or flac) depending in quality set. """
 		if config.app["services"]["tidal"]["quality"] == "lossless":
 			self.file_extension = "flac"
+		elif config.app["services"]["tidal"]["avoid_transcoding"] == True:
+			self.file_extension = "m4a"
 		else:
 			self.file_extension = "mp3"
 		return self.file_extension
@@ -54,6 +56,8 @@ class interface(base.baseInterface):
 		# If quality is set to high, tidal returns audio in AAC format at 256 KBPS. So we convert it with vlc to mp3 at 320KBPS.
 		# toDo: Shall this be a setting and allow MusicDL to spit out the m4a file directly?
 		if config.app["services"]["tidal"]["quality"] == "lossless":
+			return False
+		elif config.app["services"]["tidal"]["avoid_transcoding"]:
 			return False
 		else:
 			return True
@@ -104,11 +108,9 @@ class interface(base.baseInterface):
 			s.url = search_result.id
 			s.tracknumber = str(search_result.track_num)
 			s.album = search_result.album.name
-			print(search_result.album.num_tracks, search_result.album.name)
 			if search_result.album.num_tracks == None:
 				s.single = True
 			s.info = search_result
-			print(s.info)
 			self.results.append(s)
 		log.debug("{0} results found.".format(len(self.results)))
 
@@ -126,7 +128,7 @@ class interface(base.baseInterface):
 
 	def format_track(self, item):
 		if not hasattr(item, "single"):
-			return "{0}. {1}".format(self.format_number(item.tracknumber), item.title)
+			return "{0}. {1}".format(self.format_number(int(item.tracknumber)), item.title)
 		else:
 			return "{title}. {artist}. {duration}".format(title=item.title, duration=item.duration, artist=item.artist)
 
@@ -158,6 +160,9 @@ class settings(base.baseSettings):
 		self.enabled.Bind(wx.EVT_CHECKBOX, self.on_enabled)
 		self.map.append(("enabled", self.enabled))
 		sizer.Add(self.enabled, 0, wx.ALL, 5)
+		self.avoid_transcoding = wx.CheckBox(self, wx.NewId(), _("Avoid transcoding when downloading"))
+		self.map.append(("avoid_transcoding", self.avoid_transcoding))
+		sizer.Add(self.avoid_transcoding, 0, wx.ALL, 5)
 		username = wx.StaticText(self, wx.NewId(), _("Tidal username or email address"))
 		self.username = wx.TextCtrl(self, wx.NewId())
 		usernamebox = wx.BoxSizer(wx.HORIZONTAL)
