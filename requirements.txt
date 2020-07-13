@@ -9,6 +9,7 @@ cx_freeze
 configobj
 winpaths
 mutagen
+babel
 # tidalapi
 git+https://github.com/tamland/python-tidal/
 git+https://code.manuelcortez.net/manuelcortez/platform_utils
