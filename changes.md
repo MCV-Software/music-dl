@@ -3,6 +3,7 @@
 ## Version 0.7
 
 * Tidal:
+    * Added a new search mode for the service to retrieve the top rated tracks of a provided artist. The sintax is top://artist.
     * In the settings dialog, you can control wether Albums, compilations and singles will be added when searching by artist (by using artist://...).
     * When searching by artists, results that belong to an album will be numbered.
     * Downloads will be tagged with title, album, artist and track number provided by tidal.
