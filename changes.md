@@ -2,11 +2,12 @@
 
 ## Version 0.7
 
-* changes in Tidal:
+* Tidal:
     * In the settings dialog, you can control wether Albums, compilations and singles will be added when searching by artist (by using artist://...).
     * When searching by artists, results that belong to an album will be numbered.
     * Downloads will be tagged with title, album, artist and track number provided by tidal.
-* changes in Youtube:
+    * It is possible to download an original version in high and low quality. Before, those versions were encoded to mp3 from an m4a file. Now the M4a file can be retrieved by ticking the checkbox in the tidal settings page.
+* YouTube:
     * Fixed search algorithm for Youtube videos.
     * Updated Youtube-Dl to version 2020.6.16.1
 * re-added VK module. By default, this module searches up to 50 results but you can increase it up to 200 if needed from the services settings.
