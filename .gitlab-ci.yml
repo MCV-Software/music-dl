@@ -15,7 +15,7 @@ stages:
   tags:
     - windows10
   before_script:
-    - 'Invoke-WebRequest https://github.com/git-for-windows/git/releases/download/v2.27.0.windows.1/Git-2.27.0-32-bit.exe'
+    - 'Invoke-WebRequest -UseBasicParsing https://github.com/git-for-windows/git/releases/download/v2.27.0.windows.1/Git-2.27.0-32-bit.exe'
     - 'Invoke-Expression Git-2.27.0-32-bit.exe /verysilent'
     - 'python -V'
 #    - 'python -m venv env'
