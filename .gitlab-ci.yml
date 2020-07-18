@@ -11,14 +11,15 @@ stages:
     - build
     - pack
 
-default:
-  image: stefanscherer/chocolatey
+#default:
+#  image: python:3.8.4-windowsservercore-1
 
 .configure_environment: &configure_environment
   tags:
     - windows10
   before_script:
-    - 'choco install -y --x86 python git nsis'
+    - 'Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))'
+    - 'choco install -y --x86 git nsis'
     - 'python -V'
 #    - 'python -m venv env'
 #    - 'env\scripts\activate'
