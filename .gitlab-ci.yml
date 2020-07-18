@@ -19,7 +19,7 @@ stages:
     - windows10
   before_script:
     - 'Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString("https://chocolatey.org/install.ps1"))'
-    - 'choco install -y --x86 git nsis'
+    - 'choco install -y --x86 git nsis poshgit'
     - 'refreshenv'
     - 'python -V'
 #    - 'python -m venv env'
