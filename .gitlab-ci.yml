@@ -1,6 +1,6 @@
 variables:
-#  PYTHON3_32: "C:\\python38-32\\python.exe"
-#  PYTHON3_64: "C:\\python38-64\\python.exe"
+  PYTHON3_32: "C:\\python38-32\\python.exe"
+  PYTHON3_64: "C:\\python38-64\\python.exe"
   NSIS: "C:\\nsis\\makensis.exe"
 
 ### Stage list
@@ -11,21 +11,13 @@ stages:
     - build
     - pack
 
-#default:
-#  image: python:3.8.4-windowsservercore-1
-
 .configure_environment: &configure_environment
   tags:
     - windows10
   before_script:
-    - 'Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString("https://chocolatey.org/install.ps1"))'
-    - 'choco install -y --x86 git nsis poshgit'
-    - 'refreshenv'
-    - '$env:Path += "C:\Program Files (x86)\git/bin"'
-    - '$env:Path += "C:\Program Files (x86)\nsis"'
-    - 'python -V'
-#    - 'python -m venv env'
-#    - 'env\scripts\activate'
+    - '&$env:PYTHON3_32 -V'
+    - '&$env:PYTHON3_32 -m venv env'
+    - 'env\scripts\activate'
     - 'python -m pip install --upgrade pip'
     - 'python -m pip install --upgrade -r requirements.txt'
 
