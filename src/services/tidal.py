@@ -66,6 +66,10 @@ class interface(base.baseInterface):
 		if text == "" or text == None:
 			raise ValueError("Text must be passed and should not be blank.")
 		log.debug("Retrieving data from Tidal...")
+		# Check for top:// protocol.
+		if text.startswith("top://"):
+			text = text.replace("top://", "")
+			return self.search_for_top(text)
 		fieldtypes = ["artist", "album", "playlist"]
 		field = "track"
 		for i in fieldtypes:
@@ -101,6 +105,25 @@ class interface(base.baseInterface):
 #						track.single = True
 						data.append(track)
 		for search_result in data:
+			s = base.song(self)
+			s.title = search_result.name
+			s.artist = search_result.artist.name
+			s.duration = seconds_to_string(search_result.duration)
+			s.url = search_result.id
+			s.tracknumber = str(search_result.track_num)
+			s.album = search_result.album.name
+			if search_result.album.num_tracks == None:
+				s.single = True
+			s.info = search_result
+			self.results.append(s)
+		log.debug("{0} results found.".format(len(self.results)))
+
+	def search_for_top(self, artist):
+		search_response = self.session.search(value=artist, field="artist")
+		self.results = []
+		artist = search_response.artists[0].id
+		results = self.session.get_artist_top_tracks(artist)
+		for search_result in results:
 			s = base.song(self)
 			s.title = search_result.name
 			s.artist = search_result.artist.name
