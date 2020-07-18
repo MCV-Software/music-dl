@@ -39,6 +39,7 @@ public:
   stage: build
   script:
     - cd src
+    - 'python write_version_data.py'
     - 'python setup.py build'
     - '&$env:NSIS installer.nsi'
     - cd ..
