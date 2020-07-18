@@ -25,7 +25,7 @@ build_exe_options = dict(
 	include_msvcr=True,
 	zip_include_packages=["accessible_output2"],
 	replace_paths = [("*", "")],
-	include_files=["app-configuration.defaults", "cacerts.txt", "locales", "plugins", "libvlc.dll", "libvlccore.dll", find_accessible_output2_datafiles()],
+	include_files=["bootstrap.exe", "app-configuration.defaults", "cacerts.txt", "locales", "plugins", "libvlc.dll", "libvlccore.dll", find_accessible_output2_datafiles()],
 	)
 
 executables = [
