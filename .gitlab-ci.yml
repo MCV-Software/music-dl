@@ -18,7 +18,7 @@ default:
   tags:
     - windows10
   before_script:
-    - 'choco installl python git nsis'
+    - 'choco install python git nsis'
     - 'python -V'
 #    - 'python -m venv env'
 #    - 'env\scripts\activate'
