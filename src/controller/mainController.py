@@ -191,7 +191,7 @@ class Controller(object):
 			item.get_download_url()
 		log.debug("Starting requested download: {0} (using extractor: {1})".format(item.title, self.extractor.name))
 		f = "{item_name}.{item_extension}".format(item_name=item.format_track(), item_extension=item.extractor.get_file_format())
-		path = self.window.get_destination_path(f)
+		path = self.window.get_destination_path(utils.safe_filename(f))
 		if path != None:
 			log.debug("User has requested the following path: {0}".format(path,))
 			if self.extractor.transcoder_enabled() == True: # Send download to vlc based transcoder
