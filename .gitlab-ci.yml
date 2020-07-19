@@ -15,8 +15,8 @@ stages:
   tags:
     - windows10
   before_script:
-    - '&$env:PYTHON3_32 -V'
-    - '&$env:PYTHON3_32 -m venv env'
+    - '&$env:PYTHON3_64 -V'
+    - '&$env:PYTHON3_64 -m venv env'
     - 'env\scripts\activate'
     - 'python -m pip install --upgrade pip'
     - 'python -m pip install --upgrade -r requirements.txt'
