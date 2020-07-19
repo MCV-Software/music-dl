@@ -34,7 +34,7 @@ executables = [
 
 setup(name='musicDL',
       version=application.version,
-      description=application.description,
+      description="",
       # Register babel commands in setup file.
       cmdclass = {'compile_catalog': babel.compile_catalog,
                 'extract_messages': babel.extract_messages,
