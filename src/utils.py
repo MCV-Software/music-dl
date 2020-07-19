@@ -103,3 +103,7 @@ def apply_metadata(local_filename, metadata):
 		audio["\xa9alb"] = metadata["album"]
 		audio["\xa9ART"] = metadata["artist"]
 	audio.save()
+
+def safe_filename(filename):
+	allowed_symbols = ["_", ".", ",", "-", "(", ")"]
+	return "".join([c for c in filename if c.isalpha() or c.isdigit() or c==' ' or c in allowed_symbols]).rstrip()
