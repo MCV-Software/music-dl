@@ -3,9 +3,6 @@ variables:
   PYTHON3_64: "C:\\python38-64\\python.exe"
   NSIS: "C:\\nsis\\makensis.exe"
 
-default:
-  image: mcr.microsoft.com/windows/servercore:1809-amd64
-
 ### Stage list
 # Build: This will be the main stage generating stuff in the dist folder. Jobs present in this stage will run py2exe or pyinstaller files accordingly.
 # pack: Jobs in this stage will take the dist folder and zip it or generate an exe file.
@@ -18,16 +15,9 @@ stages:
   tags:
     - windows10
   before_script:
-    - '$ProgressPreference = "SilentlyContinue"'
-    - 'Set-ExecutionPolicy Bypass -Scope Process -Force; iwr https://chocolatey.org/install.ps1 -UseBasicParsing | iex'
-    - 'choco install -y  python git nsis'
-#    - 'Invoke-WebRequest -UseBasicParsing -Uri "https://github.com/git-for-windows/git/releases/download/v2.27.0.windows.1/Git-2.27.0-32-bit.exe" -OutFile "git_setup.exe"'
-#    - '.\git_setup.exe /verysilent /NORESTART /NOCANCEL /SP- /CLOSEAPPLICATIONS /RESTARTAPPLICATIONS /COMPONENTS="icons,ext\reg\shellhere,assoc,assoc_sh" /dir=C:\git'
-#    - '$env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";C:\git\cmd\;" + [System.Environment]::GetEnvironmentVariable("Path","User") '
-#    - '$env:PATH'
-    - 'python -V'
-#    - '&$env:PYTHON3_32 -m venv env'
-#    - 'env\scripts\activate'
+    - '&$env:PYTHON3_32 -V'
+    - '&$env:PYTHON3_32 -m venv env'
+    - 'env\scripts\activate'
     - 'python -m pip install --upgrade pip'
     - 'python -m pip install --upgrade -r requirements.txt'
 
