@@ -12,26 +12,14 @@ MusicDL is an app for downloading music directly from services like Youtube, zay
 
 See the requirements.txt, located in the root of this repository. Additionally, take into account the following.
 
-* In case you want to create your own distributable version with Python 2, you'll need py2exe.
-
 ## running
 
 Run the file main.py, located in the src directory.
 
 ## Building
 
-### Python 3
+I have provided a setup.py file for cx_freeze, so you should be able to do something like:
 
-I have provided a main.spec file for pyinstaller, so you should be able to do something like:
-
-> C:\python3\scripts\pyinstaller.exe main.spec
+> python setup.py build
 
 And start building. Check the dist folder for results.
-
-### Python 2
-
-If you are using Python 2.x and want to build MusicDL, there is a setup.py file made for pyinstaller aswell. Just run it the usual way:
-
-> C:\python2\python.exe setup.py py2exe
-
-And You will get a distributable version of MusicDL.
