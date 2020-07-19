@@ -20,7 +20,7 @@ stages:
   before_script:
     - 'Invoke-WebRequest -UseBasicParsing -Uri "https://github.com/git-for-windows/git/releases/download/v2.27.0.windows.1/Git-2.27.0-32-bit.exe" -OutFile "git_setup.exe"'
     - '.\git_setup.exe /verysilent /dir=C:\git'
-    - '$env:Path = [System.Environment]::tEnvironmentVariable("Path","Machine") + ";C:\git\bin" + [System.Environment]::GetEnvironmentVariable("Path","User") '
+    - '$env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";C:\git\bin" + [System.Environment]::GetEnvironmentVariable("Path","User") '
     - 'python -V'
 #    - '&$env:PYTHON3_32 -m venv env'
 #    - 'env\scripts\activate'
