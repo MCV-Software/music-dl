@@ -1,7 +1,7 @@
 ﻿# -*- coding: utf-8 -*-
 import unittest
 
-testmodules = ['test.test_fixes', 'test.test_storage', 'test.test_services', 'test.test_i18n']
+testmodules = ['test.test_fixes', 'test.test_storage', 'test.test_services']
 
 suite = unittest.TestSuite()
 
