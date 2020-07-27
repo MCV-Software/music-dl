@@ -103,7 +103,7 @@ class interface(base.baseInterface):
 		return config.app["services"]["youtube"]["transcode"]
 
 class settings(base.baseSettings):
-	name = _("Youtube Settings")
+	name = _("Youtube")
 	config_section = "youtube"
 
 	def __init__(self, parent):
