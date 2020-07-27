@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
-import sys
-python_version = int(sys.version[0])
 name = "MusicDL"
-version = "0.7"
 author = "Manuel Cortéz"
 authorEmail = "manuel@manuelcortez.net"
 copyright = "Copyright (C) 2019-2020, Manuel Cortez"
@@ -14,6 +11,6 @@ translators = [_(u"Manuel Cortez (Spanish)")]
 bts_name = "music_dl"
 bts_access_token = "fe3j2ijirvevv9"
 bts_url = "https://issues.manuelcortez.net"
-update_stable_url = "https://manuelcortez.net/static/files/music_dl/update/stable.json"
-update_next_url = "https://manuelcortez.net/static/files/music_dl/update/alpha.json"
-update_next_version=None
+update_url = "https://manuelcortez.net/static/files/music_dl/update/latest.json"
+version = "2020.07.23"
+update_next_version = "14775226"
