@@ -6,15 +6,15 @@ print("Generating update files for Socializer...")# Determine if we are going to
 # Stable file is when we build tags and alpha otherwise.
 version = os.environ.get("CI_COMMIT_TAG") or os.environ.get("CI_COMMIT_SHORT_SHA")
 if os.environ.get("CI_COMMIT_TAG") == None:
-	version_type = "alpha"
+	version_type = "latest"
 else:
 	version_type = "stable"
 print("Version detected: %s" % (version_type,))
 
 # Read update description and URL'S
-if version_type == "alpha":
+if version_type == "latest":
 	description = os.environ.get("CI_COMMIT_MESSAGE")
-	urls = dict(Windows32="https://manuelcortez.net/static/files/music_dl/alpha/music_dl.zip", Windows64="https://manuelcortez.net/static/files/music_dl/alpha/music_dl.zip")
+	urls = dict(Windows32="https://manuelcortez.net/static/files/music_dl/latest/music_dl.zip", Windows64="https://manuelcortez.net/static/files/music_dl/latest/music_dl.zip")
 else:
 	with open("update-description",'r') as f:
 		description = f.read()
@@ -23,8 +23,8 @@ else:
 # build the main dict object
 data = dict(current_version=version, description=description, downloads=urls)
 print("Generating file with the following arguments: %r" % (data,))
-if version_type == "alpha":
-	updatefile = "alpha.json"
+if version_type == "latest":
+	updatefile = "latest.json"
 else:
 	updatefile = "stable.json"
 f = open(updatefile, "w")

@@ -47,7 +47,7 @@ def callback(progress):
 ftp_server = os.environ.get("FTP_SERVER") or sys.argv[1]
 ftp_username = os.environ.get("FTP_USERNAME") or sys.argv[2]
 ftp_password = os.environ.get("FTP_PASSWORD") or sys.argv[3]
-version = os.environ.get("CI_COMMIT_TAG") or "alpha"
+version = os.environ.get("CI_COMMIT_TAG") or "latest"
 version = version.replace("v", "")
 
 print("Uploading files to the Socializer server...")
