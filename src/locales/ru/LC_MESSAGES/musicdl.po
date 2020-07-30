@@ -4,27 +4,28 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2020-07-23 05:41-0500\n"
-"PO-Revision-Date: 2018-03-12 01:35+0400\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2020-07-30 05:13-0500\n"
 "Language: ru\n"
 "Language-Team: ru <LL@li.org>\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.8.0\n"
+"Last-Translator: Manuel Cortez <manuel@manuelcortez.net>\n"
+"X-Generator: Poedit 2.3\n"
 
 #: application.py:9
 msgid ""
-" Is an application that will allow you to download music from popular "
-"sites such as youtube, zaycev.net."
+" Is an application that will allow you to download music from popular sites "
+"such as youtube, zaycev.net."
 msgstr ""
-" Это приложение, позволяющее скачивать музыку с таких популярных сайтов "
-"как Youtube, zaycev.net."
+" Это приложение, позволяющее скачивать музыку с таких популярных сайтов как "
+"Youtube, zaycev.net."
 
 #: application.py:13
 msgid "Manuel Cortez (Spanish)"
@@ -40,7 +41,7 @@ msgstr "Загрузка {0} ({1}%)."
 
 #: controller/configuration.py:10 wxUI/mainWindow.py:15
 msgid "Settings"
-msgstr ""
+msgstr "Настройки"
 
 #: controller/mainController.py:31
 msgid "Ready"
@@ -93,164 +94,175 @@ msgstr "Произошла ошибка при попытке открыть з�
 
 #: issueReporter/wx_ui.py:26 wxUI/mainWindow.py:31
 msgid "Report an error"
-msgstr ""
+msgstr "Сообщить об ошибке."
 
 #: issueReporter/wx_ui.py:30
 msgid ""
-"Briefly describe what happened. You will be able to thoroughly explain it"
-" later"
-msgstr ""
+"Briefly describe what happened. You will be able to thoroughly explain it "
+"later"
+msgstr "Кратко опишите, что произошло. Позже Вы сможете описать это подробнее."
 
 #: issueReporter/wx_ui.py:40
 msgid "First Name"
-msgstr ""
+msgstr "Имя"
 
 #: issueReporter/wx_ui.py:50
 msgid "Last Name"
-msgstr ""
+msgstr "Фамилия"
 
 #: issueReporter/wx_ui.py:60
 msgid "Email address (Will not be public)"
-msgstr ""
+msgstr "Адрес электронной почты (не будет опубликован)"
 
 #: issueReporter/wx_ui.py:70
 msgid "Here, you can describe the bug in detail"
-msgstr ""
+msgstr "Здесь Вы можете подробно описать возникшую ошибку."
 
 #: issueReporter/wx_ui.py:80
 msgid ""
-"I know that the {0} bug system will get my email address to contact me "
-"and fix the bug quickly"
+"I know that the {0} bug system will get my email address to contact me and "
+"fix the bug quickly"
 msgstr ""
+"Я знаю, что {0} система ошибки получит мой адрес электронной почты, чтобы "
+"связаться со мной и быстро исправить ошибку."
 
 #: issueReporter/wx_ui.py:83
 msgid "Send report"
-msgstr ""
+msgstr "Отправить отчёт."
 
 #: issueReporter/wx_ui.py:85
 msgid "Cancel"
-msgstr ""
+msgstr "Отмена"
 
 #: issueReporter/wx_ui.py:94
 msgid ""
-"You must fill out the following fields: first name, last name, email "
-"address and issue information."
+"You must fill out the following fields: first name, last name, email address "
+"and issue information."
 msgstr ""
+"Вы должны заполнить следующие поля: имя, фамилия, адрес электронной почты и "
+"информацию об ошибке."
 
 #: issueReporter/wx_ui.py:97
 msgid ""
-"You need to mark the checkbox to provide us your email address to contact"
-" you if it is necessary."
+"You need to mark the checkbox to provide us your email address to contact "
+"you if it is necessary."
 msgstr ""
+"Необходимо отметить флажок, чтобы предоставить нам Ваш адрес электронной "
+"почты, чтобы связаться с Вами, если это понадобится."
 
 #: issueReporter/wx_ui.py:100
 #, python-format
 msgid ""
-"Thanks for reporting this bug! In future versions, you may be able to "
-"find it in the changes list. You have received an email with more "
-"information regarding your report. You've reported the bug number %i"
+"Thanks for reporting this bug! In future versions, you may be able to find "
+"it in the changes list. You have received an email with more information "
+"regarding your report. You've reported the bug number %i"
 msgstr ""
+"Спасибо за сообщение об этой ошибке. В будущих версиях Вы сможете найти его "
+"в списке изменений. Вы получили письмо на электронный адрес с подробной "
+"информацией о Вашем отчёте. Вы сообщили об ошибке номер %i."
 
 #: issueReporter/wx_ui.py:100
 msgid "reported"
-msgstr ""
+msgstr "Сообщено!"
 
 #: issueReporter/wx_ui.py:104
 msgid ""
-"Something unexpected occurred while trying to report the bug. Please, try"
-" again later"
+"Something unexpected occurred while trying to report the bug. Please, try "
+"again later"
 msgstr ""
+"Что-то неожиданное произошло при попытке сообщить об ошибке. Пожалуйста, "
+"попытайтесь позже."
 
 #: issueReporter/wx_ui.py:104
 msgid "Error while reporting"
-msgstr ""
+msgstr "Ошибка во время отправки отчёта."
 
 #: issueReporter/wx_ui.py:108
 msgid "Sending report..."
-msgstr ""
+msgstr "Отправка отчёта..."
 
 #: issueReporter/wx_ui.py:108
 msgid "Please wait while your report is being send."
-msgstr ""
+msgstr "Пожалуйста, подождите, пока Ваш отчёт отправляется..."
 
 #: services/Funkwhale.py:104 services/tidal.py:159
 msgid "Tidal"
-msgstr ""
+msgstr "Tidal"
 
 #: services/Funkwhale.py:108 services/tidal.py:163
 msgid "Low"
-msgstr ""
+msgstr "Низкое качество"
 
 #: services/Funkwhale.py:108 services/Funkwhale.py:149 services/tidal.py:163
 #: services/tidal.py:207
 msgid "High"
-msgstr ""
+msgstr "Высокое качество"
 
 #: services/Funkwhale.py:108 services/tidal.py:163
 msgid "Lossless"
-msgstr ""
+msgstr "Качество без потерь"
 
 #: services/Funkwhale.py:127 services/tidal.py:182 services/vk.py:77
 #: services/youtube.py:112
-#, fuzzy
 msgid "Enable this service"
-msgstr "Сохранить этот файл"
+msgstr "включить эту услугу"
 
 #: services/Funkwhale.py:131 services/tidal.py:189
 msgid "Tidal username or email address"
-msgstr ""
+msgstr "Имя пользователя Tidal или адрес электронной почты:"
 
 #: services/Funkwhale.py:138 services/tidal.py:196
 msgid "Password"
-msgstr ""
+msgstr "Пароль:"
 
 #: services/Funkwhale.py:145 services/tidal.py:203
 msgid "You can subscribe for a tidal account here"
-msgstr ""
+msgstr "Вы можете создать Tidal аккаунт здесь:"
 
 #: services/Funkwhale.py:148 services/tidal.py:206
 msgid "Audio quality"
-msgstr ""
+msgstr "Качество аудио"
 
 #: services/Funkwhale.py:158 services/tidal.py:216
 msgid "Search by artist"
-msgstr ""
+msgstr "Поиск по исполнителям"
 
 #: services/Funkwhale.py:159 services/tidal.py:217
 msgid "Include albums"
-msgstr ""
+msgstr "Включить альбомы"
 
 #: services/Funkwhale.py:160 services/tidal.py:218
 msgid "Include compilations"
-msgstr ""
+msgstr "Включить сборники"
 
 #: services/Funkwhale.py:161 services/tidal.py:219
 msgid "Include singles"
-msgstr ""
+msgstr "Включить синглы"
 
 #: services/tidal.py:186
 msgid "Avoid transcoding when downloading"
-msgstr ""
+msgstr "Избегайте транскодирования при загрузке."
 
 #: services/vk.py:71
 msgid "VK"
-msgstr ""
+msgstr "\"ВКонтакте\""
 
 #: services/vk.py:81 services/youtube.py:116
 msgid "Max results per page"
-msgstr ""
+msgstr "Максимальное количество результатов на странице."
 
 #: services/youtube.py:106
 msgid "Youtube Settings"
-msgstr ""
+msgstr "Настройки Youtube"
 
 #: services/zaycev.py:55
 msgid "zaycev.net"
-msgstr ""
+msgstr "zaycev.net"
 
 #: services/zaycev.py:61
 msgid "Enable this service (works only in the Russian Federation)"
 msgstr ""
+"Включить эту услугу (работает только на территории Российской Федерации)."
 
 #: update/utils.py:28
 #, python-format
@@ -293,22 +305,21 @@ msgid "%s seconds"
 msgstr "%s секунд"
 
 #: update/wxUpdater.py:11
-#, fuzzy
 msgid ""
-"There's a new {app_name} version available. Would you like to download it"
-" now?\n"
+"There's a new {app_name} version available. Would you like to download it "
+"now?\n"
 "\n"
 " {app_name} version: {app_version}\n"
 "\n"
 "Changes:\n"
 "{changes}"
 msgstr ""
-"Доступна новая версия %s. Желаете скачать её?\n"
+"Доступна новая версия {app_name}. Желаете скачать её?\n"
 "\n"
-" %s версия: %s\n"
+" {app_name} версия: {app_version}\n"
 "\n"
 "Изменения:\n"
-"%s"
+"{changes}"
 
 #: update/wxUpdater.py:11
 #, python-format
@@ -325,15 +336,14 @@ msgstr "Скачивание новой версии..."
 
 #: update/wxUpdater.py:31
 msgid "Updating... {total_transferred} of {total_size}"
-msgstr ""
+msgstr "Обновление...  {total_transferred} of {total_size}"
 
 #: update/wxUpdater.py:34
 msgid ""
 "The update has been downloaded and installed successfully. Press OK to "
 "continue."
 msgstr ""
-"Обновление было успешно загружено и установлено. Нажмите ОК для "
-"продолжения."
+"Обновление было успешно загружено и установлено. Нажмите ОК для продолжения."
 
 #: update/wxUpdater.py:34
 msgid "Done!"
@@ -341,27 +351,27 @@ msgstr "Готово!"
 
 #: wxUI/configuration.py:9
 msgid "Output device"
-msgstr ""
+msgstr "Output device"
 
 #: wxUI/configuration.py:27
 msgid "General"
-msgstr ""
+msgstr "Общие"
 
 #: wxUI/configuration.py:31
 msgid "Services"
-msgstr ""
+msgstr "Сервисы"
 
 #: wxUI/configuration.py:34
 msgid "Save"
-msgstr ""
+msgstr "Сохранить"
 
 #: wxUI/configuration.py:36
 msgid "Close"
-msgstr ""
+msgstr "Закрыть"
 
 #: wxUI/mainWindow.py:16
 msgid "Application"
-msgstr ""
+msgstr "Приложение"
 
 #: wxUI/mainWindow.py:19 wxUI/mainWindow.py:69
 msgid "Stop"
@@ -416,47 +426,38 @@ msgid "Help"
 msgstr "Помощь"
 
 #: wxUI/mainWindow.py:43
-#, fuzzy
 msgid "S&earch"
 msgstr "Поиск"
 
 #: wxUI/mainWindow.py:48
-#, fuzzy
 msgid "&Search in"
 msgstr "Искать с помощью"
 
 #: wxUI/mainWindow.py:51
-#, fuzzy
 msgid "Sear&ch"
 msgstr "Поиск"
 
 #: wxUI/mainWindow.py:55
-#, fuzzy
 msgid "&Results"
 msgstr "Результаты"
 
 #: wxUI/mainWindow.py:61
-#, fuzzy
 msgid "P&osition"
 msgstr "Позиция"
 
 #: wxUI/mainWindow.py:64
-#, fuzzy
 msgid "&Volume"
 msgstr "Громкость"
 
 #: wxUI/mainWindow.py:67
-#, fuzzy
 msgid "Pre&vious"
 msgstr "Предыдущая композиция"
 
 #: wxUI/mainWindow.py:68
-#, fuzzy
 msgid "&Play"
 msgstr "Воспроизвести"
 
 #: wxUI/mainWindow.py:70
-#, fuzzy
 msgid "&Next"
 msgstr "Следующая композиция"
 
@@ -475,4 +476,3 @@ msgstr "Воспроизвести/Приостановить"
 #: wxUI/menus.py:9
 msgid "Download"
 msgstr "Скачать"
-
