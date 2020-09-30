@@ -19,6 +19,7 @@ stages:
     - '&$env:PYTHON3_32 -m venv env'
     - 'env\scripts\activate'
     - 'python -m pip install --upgrade pip'
+    - 'python -m pip install --upgrade -r requirements.txt'
 
 test:
   <<: *configure_environment
@@ -63,7 +64,6 @@ public:
   <<: *configure_environment
   stage: build
   script:
-    - 'python -m pip install --upgrade -r requirements.txt'
     - cd src
     - 'python write_version_data.py'
     - 'python setup.py build'
