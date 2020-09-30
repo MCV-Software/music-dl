@@ -19,7 +19,6 @@ stages:
     - '&$env:PYTHON3_32 -m venv env'
     - 'env\scripts\activate'
     - 'python -m pip install --upgrade pip'
-    - 'python -m pip install --upgrade -r requirements.txt'
 
 test:
   <<: *configure_environment
@@ -28,16 +27,43 @@ test:
     - windows10
   script:
     - cd src
+    - 'python -m pip install --upgrade coverage'
     - 'python -m coverage run run_tests.py'
     - 'python -m coverage report --omit="test*"'
   coverage: '/TOTAL.+ ([0-9]{1,3}%)/'
   only:
     - master
 
+### Updates all translation templates for weblate
+update_translation_templates:
+  <<: *configure_environment
+  stage: build
+  tags:
+    - windows10
+  script:
+    - 'python -m pip install --upgrade babel'
+#    - copy changelog.md doc\changelog.md
+#    - cd doc
+#    - '&$env:PYTHON3_32 documentation_importer.py'
+    - cd src
+    - 'python setup.py extract_messages -o .\scripts\musicdl.pot --msgid-bugs-address "manuel@manuelcortez.net" --copyright-holder "Manuel Cortez" --input-dirs .'
+#    - cd ..\doc
+#    - '&$env:PYTHON3_32 translate.py'
+    - cd ..
+    - 'git config user.name "Windows runner"'
+    - 'git config  user.email "manuel@manuelcortez.net"'
+    - 'git add scripts'
+    - 'git remote set-url --push origin git@code.manuelcortez.net:$env:CI_PROJECT_PATH'
+    - 'git commit -m "Updated locales [skip ci]"'
+    - 'git push origin HEAD:$env:CI_COMMIT_REF_NAME'
+  only:
+    - schedules
+
 public:
   <<: *configure_environment
   stage: build
   script:
+    - 'python -m pip install --upgrade -r requirements.txt'
     - cd src
     - 'python write_version_data.py'
     - 'python setup.py build'
