@@ -21,20 +21,6 @@ stages:
     - 'python -m pip install --upgrade pip'
     - 'python -m pip install --upgrade -r requirements.txt'
 
-test:
-  <<: *configure_environment
-  stage: test
-  tags:
-    - windows10
-  script:
-    - cd src
-    - 'python -m pip install --upgrade coverage'
-    - 'python -m coverage run run_tests.py'
-    - 'python -m coverage report --omit="test*"'
-  coverage: '/TOTAL.+ ([0-9]{1,3}%)/'
-  only:
-    - master
-
 ### Updates all translation templates for weblate
 update_translation_templates:
   <<: *configure_environment
@@ -59,6 +45,21 @@ update_translation_templates:
     - 'git push origin HEAD:$env:CI_COMMIT_REF_NAME'
   only:
     - master
+
+test:
+  <<: *configure_environment
+  stage: test
+  tags:
+    - windows10
+  script:
+    - cd src
+    - 'python -m pip install --upgrade coverage'
+    - 'python -m coverage run run_tests.py'
+    - 'python -m coverage report --omit="test*"'
+  coverage: '/TOTAL.+ ([0-9]{1,3}%)/'
+  only:
+    - master
+    - schedules
 
 public:
   <<: *configure_environment
