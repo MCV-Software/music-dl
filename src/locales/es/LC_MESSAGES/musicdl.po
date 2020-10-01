@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-07-23 05:41-0500\n"
+"POT-Creation-Date: 2020-10-01 16:24-0700\n"
 "PO-Revision-Date: 2020-07-23 05:40-0500\n"
 "Last-Translator: Manuel Cortez <manuel@manuelcortez.net>\n"
 "Language: es\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.8.0\n"
 
-#: application.py:9
+#: application.py:6
 msgid ""
 " Is an application that will allow you to download music from popular "
 "sites such as youtube, zaycev.net."
@@ -25,7 +25,7 @@ msgstr ""
 " Es una aplicación que te permite descargar música de sitios populares "
 "como YouTube y zaycev.net."
 
-#: application.py:13
+#: application.py:10
 msgid "Manuel Cortez (Spanish)"
 msgstr "Manuel Cortez (Español)"
 
@@ -254,8 +254,8 @@ msgid "Max results per page"
 msgstr "Resultados máximos a cargar por cada búsqueda"
 
 #: services/youtube.py:106
-msgid "Youtube Settings"
-msgstr "Opciones de Youtube"
+msgid "Youtube"
+msgstr ""
 
 #: services/zaycev.py:55
 msgid "zaycev.net"
@@ -472,11 +472,11 @@ msgstr "Guardar archivo"
 msgid "Audio Files(*.mp3)|*.mp3"
 msgstr "Archivos de audio (*.mp3)|*.mp3"
 
-#: wxUI/menus.py:8
+#: wxUI/menus.py:7
 msgid "Play/Pause"
 msgstr "Reproducir/pausar"
 
-#: wxUI/menus.py:9
+#: wxUI/menus.py:8
 msgid "Download"
 msgstr "Descargar"
 

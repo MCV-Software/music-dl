@@ -4,30 +4,29 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: \n"
+"Project-Id-Version:  \n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-07-23 05:41-0500\n"
+"POT-Creation-Date: 2020-10-01 16:24-0700\n"
 "PO-Revision-Date: 2020-07-30 05:13-0500\n"
+"Last-Translator: Manuel Cortez <manuel@manuelcortez.net>\n"
 "Language: ru\n"
 "Language-Team: ru <LL@li.org>\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.8.0\n"
-"Last-Translator: Manuel Cortez <manuel@manuelcortez.net>\n"
-"X-Generator: Poedit 2.3\n"
 
-#: application.py:9
+#: application.py:6
 msgid ""
-" Is an application that will allow you to download music from popular sites "
-"such as youtube, zaycev.net."
+" Is an application that will allow you to download music from popular "
+"sites such as youtube, zaycev.net."
 msgstr ""
-" Это приложение, позволяющее скачивать музыку с таких популярных сайтов как "
-"Youtube, zaycev.net."
+" Это приложение, позволяющее скачивать музыку с таких популярных сайтов "
+"как Youtube, zaycev.net."
 
-#: application.py:13
+#: application.py:10
 msgid "Manuel Cortez (Spanish)"
 msgstr "Manuel Cortez (Испанский)"
 
@@ -98,8 +97,8 @@ msgstr "Сообщить об ошибке."
 
 #: issueReporter/wx_ui.py:30
 msgid ""
-"Briefly describe what happened. You will be able to thoroughly explain it "
-"later"
+"Briefly describe what happened. You will be able to thoroughly explain it"
+" later"
 msgstr "Кратко опишите, что произошло. Позже Вы сможете описать это подробнее."
 
 #: issueReporter/wx_ui.py:40
@@ -120,11 +119,11 @@ msgstr "Здесь Вы можете подробно описать возни�
 
 #: issueReporter/wx_ui.py:80
 msgid ""
-"I know that the {0} bug system will get my email address to contact me and "
-"fix the bug quickly"
+"I know that the {0} bug system will get my email address to contact me "
+"and fix the bug quickly"
 msgstr ""
-"Я знаю, что {0} система ошибки получит мой адрес электронной почты, чтобы "
-"связаться со мной и быстро исправить ошибку."
+"Я знаю, что {0} система ошибки получит мой адрес электронной почты, чтобы"
+" связаться со мной и быстро исправить ошибку."
 
 #: issueReporter/wx_ui.py:83
 msgid "Send report"
@@ -136,16 +135,16 @@ msgstr "Отмена"
 
 #: issueReporter/wx_ui.py:94
 msgid ""
-"You must fill out the following fields: first name, last name, email address "
-"and issue information."
+"You must fill out the following fields: first name, last name, email "
+"address and issue information."
 msgstr ""
-"Вы должны заполнить следующие поля: имя, фамилия, адрес электронной почты и "
-"информацию об ошибке."
+"Вы должны заполнить следующие поля: имя, фамилия, адрес электронной почты"
+" и информацию об ошибке."
 
 #: issueReporter/wx_ui.py:97
 msgid ""
-"You need to mark the checkbox to provide us your email address to contact "
-"you if it is necessary."
+"You need to mark the checkbox to provide us your email address to contact"
+" you if it is necessary."
 msgstr ""
 "Необходимо отметить флажок, чтобы предоставить нам Ваш адрес электронной "
 "почты, чтобы связаться с Вами, если это понадобится."
@@ -153,13 +152,13 @@ msgstr ""
 #: issueReporter/wx_ui.py:100
 #, python-format
 msgid ""
-"Thanks for reporting this bug! In future versions, you may be able to find "
-"it in the changes list. You have received an email with more information "
-"regarding your report. You've reported the bug number %i"
+"Thanks for reporting this bug! In future versions, you may be able to "
+"find it in the changes list. You have received an email with more "
+"information regarding your report. You've reported the bug number %i"
 msgstr ""
-"Спасибо за сообщение об этой ошибке. В будущих версиях Вы сможете найти его "
-"в списке изменений. Вы получили письмо на электронный адрес с подробной "
-"информацией о Вашем отчёте. Вы сообщили об ошибке номер %i."
+"Спасибо за сообщение об этой ошибке. В будущих версиях Вы сможете найти "
+"его в списке изменений. Вы получили письмо на электронный адрес с "
+"подробной информацией о Вашем отчёте. Вы сообщили об ошибке номер %i."
 
 #: issueReporter/wx_ui.py:100
 msgid "reported"
@@ -167,8 +166,8 @@ msgstr "Сообщено!"
 
 #: issueReporter/wx_ui.py:104
 msgid ""
-"Something unexpected occurred while trying to report the bug. Please, try "
-"again later"
+"Something unexpected occurred while trying to report the bug. Please, try"
+" again later"
 msgstr ""
 "Что-то неожиданное произошло при попытке сообщить об ошибке. Пожалуйста, "
 "попытайтесь позже."
@@ -252,8 +251,8 @@ msgid "Max results per page"
 msgstr "Максимальное количество результатов на странице."
 
 #: services/youtube.py:106
-msgid "Youtube Settings"
-msgstr "Настройки Youtube"
+msgid "Youtube"
+msgstr ""
 
 #: services/zaycev.py:55
 msgid "zaycev.net"
@@ -261,8 +260,7 @@ msgstr "zaycev.net"
 
 #: services/zaycev.py:61
 msgid "Enable this service (works only in the Russian Federation)"
-msgstr ""
-"Включить эту услугу (работает только на территории Российской Федерации)."
+msgstr "Включить эту услугу (работает только на территории Российской Федерации)."
 
 #: update/utils.py:28
 #, python-format
@@ -306,8 +304,8 @@ msgstr "%s секунд"
 
 #: update/wxUpdater.py:11
 msgid ""
-"There's a new {app_name} version available. Would you like to download it "
-"now?\n"
+"There's a new {app_name} version available. Would you like to download it"
+" now?\n"
 "\n"
 " {app_name} version: {app_version}\n"
 "\n"
@@ -343,7 +341,8 @@ msgid ""
 "The update has been downloaded and installed successfully. Press OK to "
 "continue."
 msgstr ""
-"Обновление было успешно загружено и установлено. Нажмите ОК для продолжения."
+"Обновление было успешно загружено и установлено. Нажмите ОК для "
+"продолжения."
 
 #: update/wxUpdater.py:34
 msgid "Done!"
@@ -469,10 +468,11 @@ msgstr "Сохранить этот файл"
 msgid "Audio Files(*.mp3)|*.mp3"
 msgstr "Аудио Файлы(*.mp3)|*.mp3"
 
-#: wxUI/menus.py:8
+#: wxUI/menus.py:7
 msgid "Play/Pause"
 msgstr "Воспроизвести/Приостановить"
 
-#: wxUI/menus.py:9
+#: wxUI/menus.py:8
 msgid "Download"
 msgstr "Скачать"
+
