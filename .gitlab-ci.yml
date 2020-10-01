@@ -34,12 +34,14 @@ update_translation_templates:
 #    - '&$env:PYTHON3_32 documentation_importer.py'
     - cd src
     - 'python setup.py extract_messages -o ..\scripts\musicdl.pot --msgid-bugs-address "manuel@manuelcortez.net" --copyright-holder "Manuel Cortez" --input-dirs .'
+    - 'python setup.py update_catalog --input-file ..\scripts\musicdl.pot --domain musicdl --output-dir locales --ignore-obsolete true'
 #    - cd ..\doc
 #    - '&$env:PYTHON3_32 translate.py'
     - cd ..
     - 'git config user.name "Windows runner"'
     - 'git config  user.email "manuel@manuelcortez.net"'
     - 'git add scripts'
+    - 'git add src\locales'
     - 'git remote set-url --push origin git@code.manuelcortez.net:$env:CI_PROJECT_PATH'
     - 'git commit -m "Updated locales [skip ci]"'
     - 'git push origin HEAD:$env:CI_COMMIT_REF_NAME'
