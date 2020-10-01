@@ -47,7 +47,7 @@ update_translation_templates:
 #    - cd doc
 #    - '&$env:PYTHON3_32 documentation_importer.py'
     - cd src
-    - 'python setup.py extract_messages -o .\scripts\musicdl.pot --msgid-bugs-address "manuel@manuelcortez.net" --copyright-holder "Manuel Cortez" --input-dirs .'
+    - 'python setup.py extract_messages -o ..\scripts\musicdl.pot --msgid-bugs-address "manuel@manuelcortez.net" --copyright-holder "Manuel Cortez" --input-dirs .'
 #    - cd ..\doc
 #    - '&$env:PYTHON3_32 translate.py'
     - cd ..
@@ -58,7 +58,7 @@ update_translation_templates:
     - 'git commit -m "Updated locales [skip ci]"'
     - 'git push origin HEAD:$env:CI_COMMIT_REF_NAME'
   only:
-    - schedules
+    - master
 
 public:
   <<: *configure_environment
