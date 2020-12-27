@@ -24,7 +24,7 @@ stages:
 ### Updates all translation templates for weblate
 update_translation_templates:
   <<: *configure_environment
-  stage: build
+  stage: test
   tags:
     - windows10
   script:
