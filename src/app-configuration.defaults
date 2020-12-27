@@ -24,4 +24,4 @@ max_results = integer(default=20)
 transcode = boolean(default=True)
 
 [[zaycev]]
-enabled = boolean(default=True)
+enabled = boolean(default=False)
