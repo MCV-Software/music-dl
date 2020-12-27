@@ -9,7 +9,7 @@ variables:
 stages:
     - test
     - build
-    - pack
+    - pofiles
 
 .configure_environment: &configure_environment
   tags:
@@ -24,7 +24,7 @@ stages:
 ### Updates all translation templates for weblate
 update_translation_templates:
   <<: *configure_environment
-  stage: test
+  stage: pofiles
   tags:
     - windows10
   script:
