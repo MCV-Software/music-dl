@@ -1,6 +1,6 @@
 variables:
-  PYTHON3_32: "C:\\python38-32\\python.exe"
-  PYTHON3_64: "C:\\python38-64\\python.exe"
+  PYTHON3_32: "C:\\python39-32\\python.exe"
+  PYTHON3_64: "C:\\python39-64\\python.exe"
   NSIS: "C:\\nsis\\makensis.exe"
 
 ### Stage list
