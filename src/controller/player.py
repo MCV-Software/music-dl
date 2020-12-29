@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from __future__ import unicode_literals    # at top of module
 import os
 import random
 import vlc
@@ -28,6 +27,7 @@ class audioPlayer(object):
 		self.queue_pos = 0
 		self.shuffle = False
 		self.instance = vlc.Instance()
+		log.debug("Instantiating Media player with the following information: VLC version detected={}. VLC bindings for python version{}".format(vlc.libvlc_get_version(), vlc.__version__))
 		self.player = self.instance.media_player_new()
 		log.debug("Media player instantiated.")
 		self.event_manager = self.player.event_manager()

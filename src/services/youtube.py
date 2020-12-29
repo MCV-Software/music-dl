@@ -85,7 +85,7 @@ class interface(base.baseInterface):
 
 	def get_download_url(self, url):
 		log.debug("Getting download URL for {0}".format(url,))
-		ydl = youtube_dl.YoutubeDL({'quiet': True, 'no_warnings': True, 'logger': log, 'format': 'bestaudio/best', 'outtmpl': u'%(id)s%(ext)s'})
+		ydl = youtube_dl.YoutubeDL({'quiet': True, 'no_warnings': True, 'logger': log, 'prefer_insecure': True, 'format': 'bestaudio/best', 'outtmpl': u'%(id)s%(ext)s'})
 		with ydl:
 			result = ydl.extract_info(url, download=False)
 			if 'entries' in result:
