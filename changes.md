@@ -1,5 +1,14 @@
 ## Changelog
 
+## Changes on January
+
+* Application improvements:
+    * Updated VLC components to V3.0.11.
+    * Updated SSL/TLS plugin in vlc which should make youtube playback less buggy.
+    * MusicDL now builds with Python V 3.9.1.
+* zaycev.net:
+    * Disabled service by default as it will not work outside Russia.
+
 ## Version 0.7
 
 * Application improvements:
