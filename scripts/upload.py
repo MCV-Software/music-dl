@@ -51,12 +51,12 @@ version = os.environ.get("CI_COMMIT_TAG") or "latest"
 version = version.replace("v", "")
 
 print("Uploading files to the Socializer server...")
-connection = MyFTP_TLS(ftp_server)
+connection = ftplib.FTP(ftp_server)
 print("Connected to FTP server {}".format(ftp_server,))
 connection.login(user=ftp_username, passwd=ftp_password)
-connection.prot_p()
+#connection.prot_p()
 print("Logged in successfully")
-connection.cwd("manuelcortez.net/static/files/music_dl")
+connection.cwd("music_dl")
 if version not in connection.nlst():
 	print("Creating version directory {} because does not exists...".format(version,))
 	connection.mkd(version)
