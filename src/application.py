@@ -11,6 +11,6 @@ translators = [_(u"Manuel Cortez (Spanish)")]
 bts_name = "music_dl"
 bts_access_token = "fe3j2ijirvevv9"
 bts_url = "https://issues.manuelcortez.net"
-update_url = "https://manuelcortez.net/static/files/music_dl/update/latest.json"
+update_url = "https://files.manuelcortez.net/music_dl/update/latest.json"
 version = "2020.07.23"
 update_next_version = "14775226"

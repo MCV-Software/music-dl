@@ -14,7 +14,7 @@ print("Version detected: %s" % (version_type,))
 # Read update description and URL'S
 if version_type == "latest":
 	description = os.environ.get("CI_COMMIT_MESSAGE")
-	urls = dict(Windows32="https://manuelcortez.net/static/files/music_dl/latest/music_dl.zip", Windows64="https://manuelcortez.net/static/files/music_dl/latest/music_dl.zip")
+	urls = dict(Windows32="https://files.manuelcortez.net/music_dl/latest/music_dl.zip", Windows64="https://files.manuelcortez.net/music_dl/latest/music_dl.zip")
 else:
 	with open("update-description",'r') as f:
 		description = f.read()

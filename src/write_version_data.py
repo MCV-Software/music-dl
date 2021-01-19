@@ -5,7 +5,7 @@ import requests
 from codecs import open
 
 print("Writing version data for alpha update...")
-commit_info = requests.get("https://code.manuelcortez.net/api/v4/projects/5/repository/commits/master")
+commit_info = requests.get("https://gitlab.com/api/v4/projects/23506193/repository/commits/master")
 commit_info = commit_info.json()
 commit = commit_info["short_id"]
 print("Got new version info: {commit}".format(commit=commit,))
