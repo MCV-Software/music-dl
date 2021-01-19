@@ -98,6 +98,7 @@ upload:
   interruptible: true
   script:
     - cd artifacts
+    - python ../scripts/generate_update_file.py
     - python ../scripts/upload.py
   only:
     - master
