@@ -55,7 +55,7 @@ stages:
   only:
     - master
 
-test:
+.test:
   <<: *configure_environment
   stage: test
   script:
