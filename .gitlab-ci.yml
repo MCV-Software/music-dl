@@ -1,83 +1,105 @@
+# This CI configuration file assumes we are going to use gitlab Shared runners at gitlab.com
+# due to gitlab possibilities, we use a mix of Windows and docker containers (the python image) to build the project.
+# the next variables are customized to the filepaths used when installing python and nsis with chocolatey on the windows runners.
 variables:
-  PYTHON3_32: "C:\\python39-32\\python.exe"
-  PYTHON3_64: "C:\\python39-64\\python.exe"
-  NSIS: "C:\\nsis\\makensis.exe"
+  PYTHON3_32: "C:\\python38\\python.exe"
+  NSIS: "C:\\program files (x86)\\nsis\\makensis.exe"
 
-### Stage list
-# Build: This will be the main stage generating stuff in the dist folder. Jobs present in this stage will run py2exe or pyinstaller files accordingly.
-# pack: Jobs in this stage will take the dist folder and zip it or generate an exe file.
+# The project defines 3 stages:
+# 1. Generate_docs: generates the documentation and update translation files. This uses the python docker image.
+# 2. Build: Creates the executable file by using a windows runner.
+# 3. Upload: Puts everything in an ftp directory. I had to use a docker container here because the Windows runner has all ports blocked.
 stages:
-    - test
-    - build
-    - pofiles
+  - test
+  - generate_docs
+  - build
+  - upload
 
+# This configures the environment for both channels
 .configure_environment: &configure_environment
+  interruptible: true
   tags:
-    - windows10
+    - shared-windows
+    - windows
+    - windows-1809
   before_script:
+    - Set-Variable -Name "time" -Value (date -Format "%H:%m")
+    - echo ${time}
+    - echo "started by ${GITLAB_USER_NAME}"
+    - choco install python --version 3.8.7 -y -ForceX86
+    - choco install nsis -y -ForceX86
     - '&$env:PYTHON3_32 -V'
-    - '&$env:PYTHON3_32 -m venv env'
-    - 'env\scripts\activate'
-    - 'python -m pip install --upgrade pip'
-    - 'python -m pip install --upgrade -r requirements.txt'
-
+    - '&$env:PYTHON3_32 -m pip install --upgrade pip'
+    - '&$env:PYTHON3_32 -m pip install --upgrade -r requirements.txt'
+    - '&$env:PYTHON3_32 -m pip uninstall enum34 -y'
 ### Updates all translation templates for weblate
-update_translation_templates:
-  <<: *configure_environment
-  stage: pofiles
-  tags:
-    - windows10
+
+.update_translation_templates:
+  stage: generate_docs
+  image: ubuntu
+  interruptible: true
   script:
+    - apt-get install -y git
     - 'python -m pip install --upgrade babel'
-#    - copy changelog.md doc\changelog.md
-#    - cd doc
-#    - '&$env:PYTHON3_32 documentation_importer.py'
     - cd src
-    - 'python setup.py extract_messages -o ..\scripts\musicdl.pot --msgid-bugs-address "manuel@manuelcortez.net" --copyright-holder "Manuel Cortez" --input-dirs .'
-    - 'python setup.py update_catalog --input-file ..\scripts\musicdl.pot --domain musicdl --output-dir locales --ignore-obsolete true'
-#    - cd ..\doc
-#    - '&$env:PYTHON3_32 translate.py'
+    - 'python setup.py extract_messages -o ../scripts/musicdl.pot --msgid-bugs-address "manuel@manuelcortez.net" --copyright-holder "Manuel Cortez" --input-dirs .'
+    - 'python setup.py update_catalog --input-file ../scripts/musicdl.pot --domain musicdl --output-dir locales --ignore-obsolete true'
     - cd ..
-    - 'git config user.name "Windows runner"'
+    - 'git config user.name "Gitlab Runner"'
     - 'git config  user.email "manuel@manuelcortez.net"'
     - 'git add scripts'
-    - 'git add src\locales'
-    - 'git remote set-url --push origin git@code.manuelcortez.net:$env:CI_PROJECT_PATH'
+    - 'git add src/locales'
+    - 'git remote set-url --push origin git@gitlab.com:$CI_PROJECT_PATH'
     - 'git commit -m "Updated locales [skip ci]"'
-    - 'git push origin HEAD:$env:CI_COMMIT_REF_NAME'
+    - 'git push origin HEAD:$CI_COMMIT_REF_NAME'
   only:
     - master
 
 test:
   <<: *configure_environment
   stage: test
-  tags:
-    - windows10
   script:
     - cd src
-    - 'python -m pip install --upgrade coverage'
-    - 'python -m coverage run run_tests.py'
-    - 'python -m coverage report --omit="test*"'
+    - '&$env:PYTHON3_32 -m pip install --upgrade coverage'
+    - '&$env:PYTHON3_32 -m coverage run run_tests.py'
+    - '&$env:PYTHON3_32 -m coverage report --omit="test*"'
   coverage: '/TOTAL.+ ([0-9]{1,3}%)/'
   only:
     - master
     - schedules
 
-public:
+buildexe:
   <<: *configure_environment
   stage: build
   script:
     - cd src
-    - 'python write_version_data.py'
-    - 'python setup.py build'
+    - '&$env:PYTHON3_32 write_version_data.py'
+    - '&$env:PYTHON3_32 setup.py build'
     - '&$env:NSIS installer.nsi'
     - cd ..
-    - move src\music_dl* .
+    - mkdir artifacts
+    - move src\music_dl* artifacts
     - cd scripts
-    - 'python prepare_zipversion.py'
+    - '&$env:PYTHON3_32 prepare_zipversion.py'
     - cd ..
-    - move src\music_dl.zip music_dl.zip
-    - 'python scripts/generate_update_file.py'
-    - 'python scripts/upload.py'
+    - move src\music_dl.zip artifacts\music_dl.zip
   only:
     - master
+  artifacts:
+    paths:
+      - artifacts
+    expire_in: 1 day
+
+upload:
+  stage: upload
+  tags:
+    - linux
+  image: python
+  interruptible: true
+  script:
+    - cd artifacts
+    - python ../scripts/upload.py
+  only:
+    - master
+    - tags
+    - schedules
