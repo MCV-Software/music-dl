@@ -4,4 +4,4 @@ from . import fix_requests
 from .import fix_winpaths
 
 def setup():
-	fix_requests.fix()
+    fix_requests.fix()

@@ -19,10 +19,10 @@ log = logging.getLogger("main")
 log.debug("Logger initialized. Saving debug to {0}".format(storage.data_directory,))
 log.debug("Using Python version {0}".format(sys.version,))
 if sys.version[0] == "2":
-	if hasattr(sys, "frozen"):
-		log.debug("Applying fixes for Python 2 frozen executables.")
-		import fixes
-		fixes.setup()
+    if hasattr(sys, "frozen"):
+        log.debug("Applying fixes for Python 2 frozen executables.")
+        import fixes
+        fixes.setup()
 import i18n
 i18n.setup()
 config.setup()
@@ -31,12 +31,12 @@ import widgetUtils
 import paths
 
 def setup():
-	log.debug("Starting music-dl %s" % (application.version,))
-	log.debug("Application path is %s" % (paths.app_path(),))
-	from controller import mainController
-	app = widgetUtils.mainLoopObject()
-	log.debug("Created Application mainloop object")
-	r = mainController.Controller()
-	app.run()
+    log.debug("Starting music-dl %s" % (application.version,))
+    log.debug("Application path is %s" % (paths.app_path(),))
+    from controller import mainController
+    app = widgetUtils.mainLoopObject()
+    log.debug("Created Application mainloop object")
+    r = mainController.Controller()
+    app.run()
 
 setup()
