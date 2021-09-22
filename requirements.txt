@@ -2,15 +2,14 @@ wxpython
 requests
 bs4
 pypubsub
-python-vlc
 youtube-dl
 cx_freeze
 configobj
 winpaths
 mutagen
 babel
-# tidalapi
-git+https://github.com/tamland/python-tidal/
+tidalapi
 git+https://github.com/accessibleapps/platform_utils
 git+https://github.com/accessibleapps/accessible_output2
 git+https://github.com/accessibleapps/libloader
+git+https://github.com/accessibleapps/sound_lib
