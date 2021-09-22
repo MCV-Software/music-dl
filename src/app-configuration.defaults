@@ -1,7 +1,7 @@
 [main]
 volume = integer(default=50)
 language = string(default="system")
-output_device = string(default="")
+output_device = string(default="Default")
 
 [services]
 [[tidal]]
