@@ -14,12 +14,12 @@ class configuration(object):
 
     def create_config(self):
         self.output_devices = player.player.get_output_devices()
-        self.view.create_general(output_devices=[i["name"] for i in self.output_devices])
+        self.view.create_general(output_devices=[i for i in self.output_devices])
         current_output_device = config.app["main"]["output_device"]
         for i in self.output_devices:
             # here we must compare against the str version of the vlc's device identifier.
-            if str(i["id"]) == current_output_device:
-                self.view.set_value("general", "output_device", i["name"])
+            if i == current_output_device:
+                self.view.set_value("general", "output_device", i)
                 break
         self.view.realize()
         extractors = get_services(import_all=True)
@@ -34,16 +34,8 @@ class configuration(object):
 
     def save(self):
         selected_output_device = self.view.get_value("general", "output_device")
-        selected_device_id = None
-        for i in self.output_devices:
-            # Vlc returns everything as bytes object whereas WX works with string objects, so I need to convert the wx returned string to bytes before
-            # Otherwise the comparison will be false.
-            # toDo: Check if utf-8 would be enough or we'd have to use the fylesystem encode for handling this.
-            if i["name"] == bytes(selected_output_device, "utf-8"):
-                selected_device_id = i["id"]
-                break
-        if config.app["main"]["output_device"] != selected_device_id:
-            config.app["main"]["output_device"] = selected_device_id
+        if config.app["main"]["output_device"] != selected_output_device:
+            config.app["main"]["output_device"] = selected_output_device
             player.player.set_output_device(config.app["main"]["output_device"])
         for i in range(0, self.view.notebook.GetPageCount()):
             page = self.view.notebook.GetPage(i)
