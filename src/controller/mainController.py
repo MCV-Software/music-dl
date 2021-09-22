@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 """ main controller for MusicDL"""
-from __future__ import unicode_literals    # at top of module
 import types
 import webbrowser
 import wx
@@ -116,15 +115,15 @@ class Controller(object):
         elif ev.GetKeyCode() == wx.WXK_SPACE:
             return self.on_play_pause()
         elif ev.GetKeyCode() == wx.WXK_LEFT and ev.ShiftDown():
-            position = player.player.player.get_time()
+            position = player.player.player.get_position()
             if position > 5000:
-                player.player.player.set_time(position-5000)
+                player.player.player.set_position(position-5000)
             else:
-                player.player.player.set_time(0)
+                player.player.player.set_position(0)
             return
         elif ev.GetKeyCode() == wx.WXK_RIGHT and ev.ShiftDown():
-            position = player.player.player.get_time()
-            player.player.player.set_time(position+5000)
+            position = player.player.player.get_position()
+            player.player.player.set_position(position+5000)
             return
         elif ev.GetKeyCode() == wx.WXK_UP and ev.ControlDown():
             return self.on_volume_up()
@@ -206,13 +205,15 @@ class Controller(object):
 
     def on_time_change(self, event, *args, **kwargs):
         p = event.GetPosition()
-        player.player.player.set_position(p/100.0)
+        if player.player.player != None:
+            player.player.player.set_position(p/100.0)
         event.Skip()
 
     def on_timer(self, *args, **kwargs):
         if not self.window.time_slider.HasFocus():
-            progress = player.player.player.get_position()*100
-            self.window.time_slider.SetValue(progress)
+            if player.player.player != None:
+                progress = player.player.player.get_position()*100
+                self.window.time_slider.SetValue(progress)
 
     def on_close(self, event):
         log.debug("Exiting...")
