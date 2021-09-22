@@ -19,7 +19,7 @@ class interface(base.baseInterface):
     if config.app != None: # Workaround for cx_freeze 6.2 in python 3.7.
         enabled = config.app["services"]["tidal"].get("enabled")
         # This should not be enabled if credentials are not set in config.
-        if config.app["services"]["tidal"]["username"] == "" or config.app["services"]["tidal"]["password"] == "":
+        if config.app["services"]["tidal"]["refresh_token"] == "" or config.app["services"]["tidal"]["access_token"] == "" or config.app["services"]["tidal"]["session_id"] == "" or config.app["services"]["tidal"]["token_type"] == "":
             enabled = False
     else:
         enabled = False
@@ -36,11 +36,13 @@ class interface(base.baseInterface):
             quality = tidalapi.Quality.high
         # We need to instantiate a config object to pass quality settings.
         _config = tidalapi.Config(quality=quality)
-        username = config.app["services"]["tidal"]["username"]
-        password = config.app["services"]["tidal"]["password"]
+        session_id = config.app["services"]["tidal"]["session_id"]
+        token_type = config.app["services"]["tidal"]["token_type"]
+        access_token = config.app["services"]["tidal"]["access_token"]
+        refresh_token = config.app["services"]["tidal"]["refresh_token"]
         log.debug("Using quality: %s" % (quality,))
         self.session = tidalapi.Session(config=_config)
-        self.session.login(username=username, password=password)
+        self.session.load_oauth_session(session_id, token_type, access_token, refresh_token)
 
     def get_file_format(self):
         """ Returns the file format (mp3 or flac) depending in quality set. """
@@ -186,23 +188,16 @@ class settings(base.baseSettings):
         self.avoid_transcoding = wx.CheckBox(self, wx.NewId(), _("Avoid transcoding when downloading"))
         self.map.append(("avoid_transcoding", self.avoid_transcoding))
         sizer.Add(self.avoid_transcoding, 0, wx.ALL, 5)
-        username = wx.StaticText(self, wx.NewId(), _("Tidal username or email address"))
-        self.username = wx.TextCtrl(self, wx.NewId())
-        usernamebox = wx.BoxSizer(wx.HORIZONTAL)
-        usernamebox.Add(username, 0, wx.ALL, 5)
-        usernamebox.Add(self.username, 0, wx.ALL, 5)
-        sizer.Add(usernamebox, 0, wx.ALL, 5)
-        self.map.append(("username", self.username))
-        password = wx.StaticText(self, wx.NewId(), _("Password"))
-        self.password = wx.TextCtrl(self, wx.NewId(), style=wx.TE_PASSWORD)
-        passwordbox = wx.BoxSizer(wx.HORIZONTAL)
-        passwordbox.Add(password, 0, wx.ALL, 5)
-        passwordbox.Add(self.password, 0, wx.ALL, 5)
-        sizer.Add(passwordbox, 0, wx.ALL, 5)
-        self.map.append(("password", self.password))
-        self.get_account = wx.Button(self, wx.NewId(), _("You can subscribe for a tidal account here"))
-        self.get_account.Bind(wx.EVT_BUTTON, self.on_get_account)
-        sizer.Add(self.get_account, 0, wx.ALL, 5)
+        if config.app["services"]["tidal"]["access_token"] != "" and config.app["services"]["tidal"]["refresh_token"] != "" and config.app["services"]["tidal"]["session_id"] != "" and config.app["services"]["tidal"]["token_type"] != "":
+            self.deauthorize_account = wx.Button(self, wx.ID_ANY, _("Deauthorize account"))
+            sizer.Add(self.deauthorize_account, 0, wx.ALL, 5)
+            # Connect here the authorization code function.
+        else:
+            self.authorize_account = wx.Button(self, wx.ID_ANY, _("Authorize account"))
+            sizer.Add(self.authorize_account, 0, wx.ALL, 5)
+            self.get_account = wx.Button(self, wx.NewId(), _("You can subscribe for a tidal account here"))
+            self.get_account.Bind(wx.EVT_BUTTON, self.on_get_account)
+            sizer.Add(self.get_account, 0, wx.ALL, 5)
         quality = wx.StaticText(self, wx.NewId(), _("Audio quality"))
         self.quality = wx.ComboBox(self, wx.NewId(), choices=[i for i in self.get_quality_list().values()], value=_("High"), style=wx.CB_READONLY)
         qualitybox = wx.BoxSizer(wx.HORIZONTAL)

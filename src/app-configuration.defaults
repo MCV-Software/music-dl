@@ -6,8 +6,10 @@ output_device = string(default="Default")
 [services]
 [[tidal]]
 enabled = boolean(default=True)
-username = string(default="")
-password = string(default="")
+session_id=String(default="")
+token_type=String(default="")
+access_token=String(default="")
+refresh_token=String(default="")
 quality=string(default="high")
 avoid_transcoding = boolean(default=False)
 include_albums = boolean(default=True)
