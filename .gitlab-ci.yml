@@ -34,40 +34,6 @@ stages:
     - '&$env:PYTHON3_32 -m pip uninstall enum34 -y'
 ### Updates all translation templates for weblate
 
-.update_translation_templates:
-  stage: generate_docs
-  image: ubuntu
-  interruptible: true
-  script:
-    - apt-get install -y git
-    - 'python -m pip install --upgrade babel'
-    - cd src
-    - 'python setup.py extract_messages -o ../scripts/musicdl.pot --msgid-bugs-address "manuel@manuelcortez.net" --copyright-holder "Manuel Cortez" --input-dirs .'
-    - 'python setup.py update_catalog --input-file ../scripts/musicdl.pot --domain musicdl --output-dir locales --ignore-obsolete true'
-    - cd ..
-    - 'git config user.name "Gitlab Runner"'
-    - 'git config  user.email "manuel@manuelcortez.net"'
-    - 'git add scripts'
-    - 'git add src/locales'
-    - 'git remote set-url --push origin git@gitlab.com:$CI_PROJECT_PATH'
-    - 'git commit -m "Updated locales [skip ci]"'
-    - 'git push origin HEAD:$CI_COMMIT_REF_NAME'
-  only:
-    - master
-
-.test:
-  <<: *configure_environment
-  stage: test
-  script:
-    - cd src
-    - '&$env:PYTHON3_32 -m pip install --upgrade coverage'
-    - '&$env:PYTHON3_32 -m coverage run run_tests.py'
-    - '&$env:PYTHON3_32 -m coverage report --omit="test*"'
-  coverage: '/TOTAL.+ ([0-9]{1,3}%)/'
-  only:
-    - master
-    - schedules
-
 buildexe:
   <<: *configure_environment
   stage: build
@@ -84,7 +50,7 @@ buildexe:
     - cd ..
     - move src\music_dl.zip artifacts\music_dl.zip
   only:
-    - master
+    - schedules
   artifacts:
     paths:
       - artifacts
@@ -101,6 +67,6 @@ upload:
     - python ../scripts/generate_update_file.py
     - python ../scripts/upload.py
   only:
-    - master
+#    - master
     - tags
     - schedules
