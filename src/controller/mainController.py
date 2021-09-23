@@ -206,13 +206,14 @@ class Controller(object):
     def on_time_change(self, event, *args, **kwargs):
         p = event.GetPosition()
         if player.player.player != None:
-            player.player.player.set_position(p/100.0)
+            progress = int((player.player.player.get_length()/100)*p)
+            player.player.player.set_position(progress)
         event.Skip()
 
     def on_timer(self, *args, **kwargs):
         if not self.window.time_slider.HasFocus():
             if player.player.player != None:
-                progress = player.player.player.get_position()*100
+                progress = (player.player.player.get_position()/player.player.player.get_length())*100
                 self.window.time_slider.SetValue(progress)
 
     def on_close(self, event):
