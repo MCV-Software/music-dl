@@ -9,6 +9,7 @@ import webbrowser
 import wx
 import tidalapi
 import config
+import threading
 from update.utils import seconds_to_string
 from .import base
 
@@ -189,15 +190,14 @@ class settings(base.baseSettings):
         self.map.append(("avoid_transcoding", self.avoid_transcoding))
         sizer.Add(self.avoid_transcoding, 0, wx.ALL, 5)
         if config.app["services"]["tidal"]["access_token"] != "" and config.app["services"]["tidal"]["refresh_token"] != "" and config.app["services"]["tidal"]["session_id"] != "" and config.app["services"]["tidal"]["token_type"] != "":
-            self.deauthorize_account = wx.Button(self, wx.ID_ANY, _("Deauthorize account"))
-            sizer.Add(self.deauthorize_account, 0, wx.ALL, 5)
-            # Connect here the authorization code function.
+            self.account_button = wx.Button(self, wx.ID_ANY, _("Deauthorize account"))
         else:
-            self.authorize_account = wx.Button(self, wx.ID_ANY, _("Authorize account"))
-            sizer.Add(self.authorize_account, 0, wx.ALL, 5)
-            self.get_account = wx.Button(self, wx.NewId(), _("You can subscribe for a tidal account here"))
-            self.get_account.Bind(wx.EVT_BUTTON, self.on_get_account)
-            sizer.Add(self.get_account, 0, wx.ALL, 5)
+            self.account_button = wx.Button(self, wx.ID_ANY, _("Authorize account"))
+        self.account_button.Bind(wx.EVT_BUTTON, self.on_toggle_authorize_account)
+        sizer.Add(self.account_button, 0, wx.ALL, 5)
+        self.get_account = wx.Button(self, wx.NewId(), _("You can subscribe for a tidal account here"))
+        self.get_account.Bind(wx.EVT_BUTTON, self.on_get_account)
+        sizer.Add(self.get_account, 0, wx.ALL, 5)
         quality = wx.StaticText(self, wx.NewId(), _("Audio quality"))
         self.quality = wx.ComboBox(self, wx.NewId(), choices=[i for i in self.get_quality_list().values()], value=_("High"), style=wx.CB_READONLY)
         qualitybox = wx.BoxSizer(wx.HORIZONTAL)
@@ -228,3 +228,37 @@ class settings(base.baseSettings):
 
     def on_get_account(self, *args, **kwargs):
         webbrowser.open_new_tab("https://tidal.com")
+
+    def on_toggle_authorize_account(self, event):
+        if config.app["services"]["tidal"]["access_token"] != "" and config.app["services"]["tidal"]["refresh_token"] != "":
+            config.app["services"]["tidal"]["access_token"] = ""
+            config.app["services"]["tidal"]["refresh_token"] = ""
+            config.app["services"]["tidal"]["token_type"] = ""
+            config.app["services"]["tidal"]["session_id"] = ""
+            config.app.write()
+            self.account_button.SetLabel(_("Authorize account"))
+            return wx.MessageDialog(self, _("Your Tidal account has been removed from MusicDL successfully."), _("Account removed")).ShowModal()
+        dlg = wx.MessageDialog(self, _("In order to use Tidal on MusicDL, you need to authorise your account. You will need to log-in in your web browser and grant access to the application. After doing that, you will be able to come back here and continue using the app. Would you like to authorize your account?"), _("Account authorization"), wx.YES_NO|wx.ICON_QUESTION)
+        if dlg.ShowModal() == wx.ID_YES:
+            session = tidalapi.Session()
+            login_link, future = session.login_oauth()
+            # Sometimes, Tidal just returns the domain name of the URL without a procotol.
+            if not "http" in login_link.verification_uri_complete:
+                url = "https://{}".format(login_link.verification_uri_complete)
+            else:
+                url = login_link.vericication_uri_complete
+            webbrowser.open_new_tab(url)
+        threading.Thread(target=self._manage_authorization, args=[session, future]).start()
+
+    def _manage_authorization(self, session, future):
+        future.result()
+        if session.session_id != None:
+            config.app["services"]["tidal"]["session_id"] = session.session_id
+            config.app["services"]["tidal"]["token_type"] = session.token_type
+            config.app["services"]["tidal"]["access_token"] = session.access_token
+            config.app["services"]["tidal"]["refresh_token"] = session.refresh_token
+            config.app.write()
+            self.account_button.SetLabel(_("Deauthorize account"))
+            wx.CallAfter(wx.MessageDialog(self, _("your Tidal account has been authorized successfully!"), _("Success")).ShowModal)
+        else:
+            wx.CallAfter(wx.MessageDialog(self, _("There was an error authorizing your Tidal account. This might be caused because a problem in the authorization workflow or due to a timeout. Please remember that you have to authorize your device withing the 5 minutes after you started the process. Please Try again."), _("Authorization error"), wx.ICON_ERROR).ShowModal)
