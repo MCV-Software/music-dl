@@ -53,6 +53,8 @@ class audioPlayer(object):
             if item.download_url == "":
                 item.get_download_url()
             log.debug("playing {0}...".format(item.download_url,))
+            if hasattr(self, "player") and self.player != None and self.player.is_playing:
+                self.player.stop()
             self.player = stream.URLStream(item.download_url)
             if self.player.play() == -1:
                 log.debug("Error when playing the file {0}".format(item.title,))
@@ -123,14 +125,10 @@ class audioPlayer(object):
         if self.player != None and self.player.is_playing == False and self.stopped == False and len(self.player) == self.player.position:
             if self.queue_pos >= len(self.queue):
                 self.stopped = True
-                self.playing_all = False
-                return
-            elif self.playing_all == False:
-                self.stopped = True
                 return
             elif self.queue_pos < len(self.queue):
                 self.queue_pos += 1
-            self.play(self.queue[self.playing_track])
+            self.play(self.queue[self.queue_pos])
 
     def playback_error(self, event):
         pub.sendMessage("notify", title=_("Error"), message=_("There was an error while trying to access the file you have requested."))
