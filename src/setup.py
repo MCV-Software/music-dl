@@ -9,6 +9,19 @@ from babel.messages import frontend as babel
 i18n.setup()
 import application
 
+def find_sound_lib_datafiles():
+    import os
+    import platform
+    import sound_lib
+    path = os.path.join(sound_lib.__path__[0], 'lib')
+    if platform.architecture()[0] == '32bit' or platform.system() == 'Darwin':
+        arch = 'x86'
+    else:
+        arch = 'x64'
+    dest_dir = os.path.join('sound_lib', 'lib', arch)
+    source = os.path.join(path, arch)
+    return (source, dest_dir)
+
 def find_accessible_output2_datafiles():
     import accessible_output2
     path = os.path.join(accessible_output2.__path__[0], 'lib')
@@ -22,10 +35,9 @@ if sys.platform == 'win32':
 build_exe_options = dict(
         build_exe="dist",
         optimize=1,
-        include_msvcr=True,
         zip_include_packages=["accessible_output2"],
         replace_paths = [("*", "")],
-        include_files=["bootstrap.exe", "app-configuration.defaults", "cacerts.txt", "locales", "plugins", "libvlc.dll", "libvlccore.dll", find_accessible_output2_datafiles()],
+        include_files=["bootstrap.exe", "app-configuration.defaults", "cacerts.txt", "locales",  find_sound_lib_datafiles(), find_accessible_output2_datafiles()],
         )
 
 executables = [
