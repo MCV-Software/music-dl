@@ -122,7 +122,8 @@ class audioPlayer(object):
 
     def player_function(self):
         """ Check if the stream has reached the end of the file  so it will play the next song. """
-        if self.player != None and self.player.is_playing == False and self.stopped == False and len(self.player) == self.player.position:
+        if self.player != None and self.player.is_playing == False and self.stopped == False and len(self.player)-self.player.position < 50000:
+
             if self.queue_pos >= len(self.queue):
                 self.stopped = True
                 return
