@@ -1,56 +1,45 @@
-# This CI configuration file assumes we are going to use gitlab Shared runners at gitlab.com
-# due to gitlab possibilities, we use a mix of Windows and docker containers (the python image) to build the project.
-# the next variables are customized to the filepaths used when installing python and nsis with chocolatey on the windows runners.
 variables:
   PYTHON3_32: "C:\\python38\\python.exe"
   NSIS: "C:\\program files (x86)\\nsis\\makensis.exe"
 
-# The project defines 3 stages:
-# 1. Generate_docs: generates the documentation and update translation files. This uses the python docker image.
-# 2. Build: Creates the executable file by using a windows runner.
-# 3. Upload: Puts everything in an ftp directory. I had to use a docker container here because the Windows runner has all ports blocked.
 stages:
   - test
   - generate_docs
   - build
   - upload
 
-# This configures the environment for both channels
-.configure_environment: &configure_environment
+program32:
   interruptible: true
   tags:
-    - shared-windows
     - windows
-    - windows-1809
+    - windows10
+  stage: build
+  variables:
+    PYTHON: "C:\\python37-32\\python.exe"
   before_script:
     - Set-Variable -Name "time" -Value (date -Format "%H:%m")
     - echo ${time}
     - echo "started by ${GITLAB_USER_NAME}"
-    - choco install python --version 3.8.7 -y -ForceX86
-    - choco install nsis -y -ForceX86
-    - '&$env:PYTHON3_32 -V'
-    - '&$env:PYTHON3_32 -m pip install --upgrade pip'
-    - '&$env:PYTHON3_32 -m pip install --upgrade -r requirements.txt'
-    - '&$env:PYTHON3_32 -m pip uninstall enum34 -y'
-### Updates all translation templates for weblate
-
-buildexe:
-  <<: *configure_environment
-  stage: build
+    - '&$env:PYTHON -V'
+    - '&$env:PYTHON -m pip install --upgrade pip'
+    - '&$env:PYTHON -m venv env'
+    - 'env\Scripts\Activate.ps1'
+    - 'python -m pip install --upgrade -r requirements.txt'
   script:
     - cd src
-    - '&$env:PYTHON3_32 write_version_data.py'
-    - '&$env:PYTHON3_32 setup.py build'
+    - 'python write_version_data.py'
+    - 'python setup.py build'
     - '&$env:NSIS installer.nsi'
     - cd ..
     - mkdir artifacts
     - move src\music_dl* artifacts
     - cd scripts
-    - '&$env:PYTHON3_32 prepare_zipversion.py'
+    - 'python prepare_zipversion.py'
     - cd ..
     - move src\music_dl.zip artifacts\music_dl.zip
   only:
     - schedules
+    - master
   artifacts:
     paths:
       - artifacts
@@ -67,6 +56,6 @@ upload:
     - python ../scripts/generate_update_file.py
     - python ../scripts/upload.py
   only:
-#    - master
+    - master
     - tags
     - schedules
