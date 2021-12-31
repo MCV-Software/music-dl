@@ -33,6 +33,7 @@ program64:
     - cd ..
     - move src\music_dl.zip artifacts\music_dl_x64.zip
     - 'move src/dist artifacts/program64'
+    - 'move src/installer.nsi artifacts'
   only:
     - schedules
     - master
@@ -90,7 +91,7 @@ generate_versions:
     - echo "started by ${GITLAB_USER_NAME}"
   script:
     - 'cd artifacts'
-    - '&$env:NSIS ..\src\installer.nsi'
+    - '&$env:NSIS installer.nsi'
     - 'Remove-Item -path program32 -recurse'
     - 'Remove-Item -path program64 -recurse'
   only:
