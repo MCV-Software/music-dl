@@ -1,12 +1,45 @@
-variables:
-  PYTHON3_32: "C:\\python38\\python.exe"
-  NSIS: "C:\\program files (x86)\\nsis\\makensis.exe"
-
 stages:
   - test
   - generate_docs
   - build
+  - versions
   - upload
+
+program64:
+  interruptible: true
+  tags:
+    - windows
+    - windows10
+  stage: build
+  variables:
+    PYTHON: "C:\\python37\\python.exe"
+  before_script:
+    - Set-Variable -Name "time" -Value (date -Format "%H:%m")
+    - echo ${time}
+    - echo "started by ${GITLAB_USER_NAME}"
+    - '&$env:PYTHON -V'
+    - '&$env:PYTHON -m pip install --upgrade pip'
+    - '&$env:PYTHON -m venv env'
+    - 'env\Scripts\Activate.ps1'
+    - 'python -m pip install --upgrade -r requirements.txt'
+  script:
+    - cd src
+    - 'python write_version_data.py'
+    - 'python setup.py build'
+    - cd ..
+    - 'mkdir artifacts'
+    - cd scripts
+    - 'python prepare_zipversion.py'
+    - cd ..
+    - move src\music_dl.zip artifacts\music_dl_x64.zip
+    - 'move src/dist artifacts/program64'
+  only:
+    - schedules
+    - master
+  artifacts:
+    paths:
+      - artifacts
+    expire_in: 1 day
 
 program32:
   interruptible: true
@@ -29,17 +62,38 @@ program32:
     - cd src
     - 'python write_version_data.py'
     - 'python setup.py build'
-    - '&$env:NSIS installer.nsi'
     - cd ..
-    - mkdir artifacts
-    - move src\music_dl* artifacts
     - cd scripts
     - 'python prepare_zipversion.py'
     - cd ..
-    - move src\music_dl.zip artifacts\music_dl.zip
+    - move src\music_dl.zip artifacts\music_dl_x86.zip
+    - 'move src/dist artifacts/program32'
   only:
     - schedules
     - master
+  artifacts:
+    paths:
+      - artifacts
+    expire_in: 1 day
+
+generate_versions:
+  stage: versions
+  tags:
+    - windows
+    - windows10
+  variables:
+    NSIS: "C:\\program files (x86)\\nsis\\makensis.exe"
+  before_script:
+    - Set-Variable -Name "time" -Value (date -Format "%H:%m")
+    - echo ${time}
+    - echo "started by ${GITLAB_USER_NAME}"
+  script:
+    - 'cd artifacts'
+    - '&$env:NSIS installer.nsi'
+  only:
+    - tags
+    - master
+    - schedules
   artifacts:
     paths:
       - artifacts

@@ -1,11 +1,12 @@
 !include "MUI2.nsh"
 !include "LogicLib.nsh"
+!include "x64.nsh"
 Unicode true
 CRCCheck on
 ManifestSupportedOS all
 XPStyle on
 Name "MusicDL"
-OutFile "music_dl_0.7_setup.exe"
+OutFile "music_dl_setup.exe"
 InstallDir "$PROGRAMFILES\musicDL"
 InstallDirRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\musicDL" "InstallLocation"
 RequestExecutionLevel admin
@@ -13,7 +14,7 @@ SetCompress auto
 SetCompressor /solid lzma
 SetDatablockOptimize on
 VIAddVersionKey ProductName "MusicDL"
-VIAddVersionKey LegalCopyright "Copyright 2019 - 2020 Manuel Cortez."
+VIAddVersionKey LegalCopyright "Copyright 2019 - 2022 MCV Software."
 VIAddVersionKey ProductVersion "0.7"
 VIAddVersionKey FileVersion "0.7"
 VIProductVersion "0.7.0.0"
@@ -24,7 +25,7 @@ var StartMenuFolder
 !insertmacro MUI_PAGE_STARTMENU startmenu $StartMenuFolder
 !insertmacro MUI_PAGE_INSTFILES
 !define MUI_FINISHPAGE_LINK "Visit MusicDL website"
-!define MUI_FINISHPAGE_LINK_LOCATION "https://manuelcortez.net/music_dl"
+!define MUI_FINISHPAGE_LINK_LOCATION "https://mcvsoftware.com/music_dl"
 !define MUI_FINISHPAGE_RUN "$INSTDIR\musicDL.exe"
 !insertmacro MUI_PAGE_FINISH
 !insertmacro MUI_UNPAGE_CONFIRM
@@ -36,7 +37,11 @@ var StartMenuFolder
 Section
 SetShellVarContext All
 SetOutPath "$INSTDIR"
-File /r dist\*
+${If} ${RunningX64}
+File /r program64\*
+${Else}
+File /r program32\*
+${EndIf}
 CreateShortCut "$DESKTOP\musicDL.lnk" "$INSTDIR\musicDL.exe"
 !insertmacro MUI_STARTMENU_WRITE_BEGIN startmenu
 CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
@@ -65,5 +70,8 @@ Delete "$DESKTOP\MusicDL.lnk"
 RMDir /r "$SMPROGRAMS\$StartMenuFolder"
 SectionEnd
 Function .onInit
+${If} ${RunningX64}
+StrCpy $instdir "$programfiles64\music-dl"
+${EndIf}
 !insertmacro MUI_LANGDLL_DISPLAY
 FunctionEnd
