@@ -71,7 +71,7 @@ RMDir /r "$SMPROGRAMS\$StartMenuFolder"
 SectionEnd
 Function .onInit
 ${If} ${RunningX64}
-StrCpy $instdir "$programfiles64\music-dl"
+StrCpy $instdir "$programfiles64\musicDL"
 ${EndIf}
 !insertmacro MUI_LANGDLL_DISPLAY
 FunctionEnd
