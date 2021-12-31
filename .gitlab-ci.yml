@@ -90,7 +90,7 @@ generate_versions:
     - echo "started by ${GITLAB_USER_NAME}"
   script:
     - 'cd artifacts'
-    - '&$env:NSIS installer.nsi'
+    - '&$env:NSIS ..\src\installer.nsi'
     - 'Remove-Item -path program32 -recurse'
     - 'Remove-Item -path program64 -recurse'
   only:
