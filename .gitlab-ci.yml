@@ -63,6 +63,7 @@ program32:
     - 'python write_version_data.py'
     - 'python setup.py build'
     - cd ..
+    - 'mkdir artifacts'
     - cd scripts
     - 'python prepare_zipversion.py'
     - cd ..
@@ -90,6 +91,8 @@ generate_versions:
   script:
     - 'cd artifacts'
     - '&$env:NSIS installer.nsi'
+    - 'Remove-Item -path program32 -recurse'
+    - 'Remove-Item -path program64 -recurse'
   only:
     - tags
     - master
