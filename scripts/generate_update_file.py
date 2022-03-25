@@ -4,7 +4,7 @@ import json
 import datetime
 
 print("Generating update files for Socializer...")# Determine if we are going to write stable or alpha update file.
-version = datetime.datetime.now().strftime("%Y.%m.%D")
+version = datetime.datetime.now().strftime("%Y.%m.%d")
 version_type = "latest"
 print("Version detected: %s" % (version_type,))
 
