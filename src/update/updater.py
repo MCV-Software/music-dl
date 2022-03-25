@@ -13,7 +13,7 @@ def do_update(update_type="alpha"):
     if hasattr(sys, "frozen") == False:
         return
     endpoint = application.update_url
-    version = application.update_next_version
+    version = application.version
     try:
         return update.perform_update(endpoint=endpoint, current_version=version, app_name=application.name, update_type=update_type, update_available_callback=available_update_dialog, progress_callback=progress_callback, update_complete_callback=update_finished)
     except ConnectionError:
