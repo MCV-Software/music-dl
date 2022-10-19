@@ -94,7 +94,8 @@ generate_versions:
     - mkdir artifacts
     - 'cd build'
     - '&$env:NSIS installer.nsi'
-    - move *.exe *.zip ../artifacts
+    - move *.exe ../artifacts
+    - move *.zip ../artifacts
   only:
     - tags
     - master
