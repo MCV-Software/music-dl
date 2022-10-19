@@ -12,7 +12,7 @@ program64:
     - windows10
   stage: build
   variables:
-    PYTHON: "C:\\python37\\python.exe"
+    PYTHON: "C:\\python310\\python.exe"
   before_script:
     - Set-Variable -Name "time" -Value (date -Format "%H:%m")
     - echo ${time}
@@ -27,19 +27,19 @@ program64:
     - 'python write_version_data.py'
     - 'python setup.py build'
     - cd ..
-    - 'mkdir artifacts'
+    - 'mkdir build'
     - cd scripts
     - 'python prepare_zipversion.py'
     - cd ..
-    - move src\music_dl.zip artifacts\music_dl_x64.zip
-    - 'move src/dist artifacts/program64'
-    - 'move src/installer.nsi artifacts'
+    - move src\music_dl.zip build\music_dl_x64.zip
+    - 'move src/dist build/program64'
+    - 'move src/installer.nsi build'
   only:
     - schedules
     - master
   artifacts:
     paths:
-      - artifacts
+      - build
     expire_in: 1 day
 
 program32:
@@ -49,7 +49,7 @@ program32:
     - windows10
   stage: build
   variables:
-    PYTHON: "C:\\python37-32\\python.exe"
+    PYTHON: "C:\\python310-32\\python.exe"
   before_script:
     - Set-Variable -Name "time" -Value (date -Format "%H:%m")
     - echo ${time}
@@ -58,24 +58,25 @@ program32:
     - '&$env:PYTHON -m pip install --upgrade pip'
     - '&$env:PYTHON -m venv env'
     - 'env\Scripts\Activate.ps1'
+    - 'python -m pip install https://github.com/josephsl/wxpy32whl/raw/main/wxPython-4.2.0-cp310-cp310-win32.whl'
     - 'python -m pip install --upgrade -r requirements.txt'
   script:
     - cd src
     - 'python write_version_data.py'
     - 'python setup.py build'
     - cd ..
-    - 'mkdir artifacts'
+    - 'mkdir build'
     - cd scripts
     - 'python prepare_zipversion.py'
     - cd ..
-    - move src\music_dl.zip artifacts\music_dl_x86.zip
-    - 'move src/dist artifacts/program32'
+    - move src\music_dl.zip build\music_dl_x86.zip
+    - 'move src/dist build/program32'
   only:
     - schedules
     - master
   artifacts:
     paths:
-      - artifacts
+      - build
     expire_in: 1 day
 
 generate_versions:
@@ -90,10 +91,10 @@ generate_versions:
     - echo ${time}
     - echo "started by ${GITLAB_USER_NAME}"
   script:
-    - 'cd artifacts'
+    - mkdir artifacts
+    - 'cd build'
     - '&$env:NSIS installer.nsi'
-    - 'Remove-Item -path program32 -recurse'
-    - 'Remove-Item -path program64 -recurse'
+    - move *.exe *.zip ../artifacts
   only:
     - tags
     - master
@@ -104,16 +105,16 @@ generate_versions:
     expire_in: 1 day
 
 upload:
-  stage: upload
+  image:
+    name: amazon/aws-cli
+    entrypoint: [""]
   tags:
-    - linux
-  image: python
-  interruptible: true
-  script:
-    - cd artifacts
-    - python ../scripts/generate_update_file.py
-    - python ../scripts/upload.py
+    - docker
   only:
-    - master
     - tags
-    - schedules
+    - master
+  interruptible: true
+  stage: upload
+  script:
+    - aws --version
+    - aws --endpoint-url https://s3.us-west-001.backblazeb2.com s3 cp artifacts s3://$S3_BUCKET/music_dl/ --recursive
