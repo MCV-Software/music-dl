@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import youtube_dl
+import yt_dlp
 import logging
 import wx
 import config
@@ -23,7 +23,7 @@ class interface(base.baseInterface):
         type = "video"
         max_results = config.app["services"]["youtube"]["max_results"]
         log.debug("Retrieving data from Youtube...")
-        ydl = youtube_dl.YoutubeDL({'dump_single_json': True, 'quiet': True, 'ignore_errors': True, 'no_warnings': True, 'logger': log, 'format': 'bestaudio/best', 'outtmpl': u'%(id)s%(ext)s'})
+        ydl = yt_dlp.YoutubeDL({'dump_single_json': True, 'quiet': True, 'ignore_errors': True, 'no_warnings': True, 'logger': log, 'format': 'm4a/bestaudio/best', 'extract_flat': 'in_playlist', 'noplaylist':'True'})
         with ydl:
             search_param = "ytsearch{}:{}".format(max_results, text)
             result = ydl.extract_info(search_param, download=False)
@@ -46,7 +46,7 @@ class interface(base.baseInterface):
         log.debug("Getting download URL for {0}".format(url,))
         if "playlist?list=" in url:
             return self.search_from_playlist(url)
-        ydl = youtube_dl.YoutubeDL({'quiet': True, 'dump_single_json': True, 'ignore_errors': True, 'no_warnings': True, 'logger': log, 'prefer-free-formats': True, 'format': 'bestaudio', 'outtmpl': u'%(id)s%(ext)s'})
+        ydl = yt_dlp.YoutubeDL({'quiet': True, 'dump_single_json': True, 'ignore_errors': True, 'no_warnings': True, 'logger': log, 'format': 'm4a/bestaudio/best'})
         with ydl:
             result = ydl.extract_info(url, download=False)
             if 'entries' in result:
@@ -65,7 +65,7 @@ class interface(base.baseInterface):
         id = url.split("=")[1]
         max_results = 50
         log.debug("Retrieving data from Youtube...")
-        ydl = youtube_dl.YoutubeDL({'quiet': True, 'dump_single_json': True, 'ignore_errors': True, 'no_warnings': True, 'logger': log, 'format': 'bestaudio/best', 'outtmpl': u'%(id)s%(ext)s'})
+        ydl = yt_dlp.YoutubeDL({'quiet': True, 'dump_single_json': True, 'ignore_errors': True, 'no_warnings': True, 'logger': log, 'format': 'm4a/bestaudio/best'})
         with ydl:
             result = ydl.extract_info(url, download=False)
         self.results = []
@@ -85,16 +85,18 @@ class interface(base.baseInterface):
 
     def get_download_url(self, url):
         log.debug("Getting download URL for {0}".format(url,))
-        ydl = youtube_dl.YoutubeDL({'quiet': True, 'dump_single_json': True, 'no_warnings': True, 'logger': log, 'prefer_insecure': True, 'format': 'bestaudio/best', 'outtmpl': u'%(id)s%(ext)s'})
+        ydl = yt_dlp.YoutubeDL({'quiet': True, 'dump_single_json': True, 'no_warnings': True, 'logger': log, 'format': 'm4a/bestaudio/best', 'prefer-insecure': True, "4": True})
         with ydl:
             result = ydl.extract_info(url, download=False)
-            if 'entries' in result:
-                video = result['entries'][0]
-            else:
-                video = result
+            audio_formats = self.get_audio_formats(result["formats"])
         # From here we should extract the first format so it will contain audio only.
-        log.debug("Download URL: {0}".format(video["formats"][0]["url"],))
-        return video["formats"][0]["url"]
+        log.debug("Download URL: {0}".format(audio_formats[0]["url"],))
+        return audio_formats[0]["url"]
+
+    def get_audio_formats(self, formats):
+        valid_formats = ["m4a", "ogg", "mp3"]
+        return [format for format in formats if format["ext"] in valid_formats and format["protocol"] in "https"]
+
 
     def format_track(self, item):
         return "{0} {1}".format(item.title, item.duration)
