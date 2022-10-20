@@ -136,12 +136,12 @@ class Controller(object):
         ev.Skip()
 
     def on_play_pause(self, *args, **kwargs):
-        if player.player.player.is_playing() == 1:
-            self.window.play.SetLabel(_(u"Play"))
+        if player.player.player.playback_time != None and player.player.player.pause == False:
+            self.window.play.SetLabel(_("Play"))
             return player.player.pause()
         else:
-            self.window.play.SetLabel(_(u"Pause"))
-            return player.player.player.play()
+            self.window.play.SetLabel(_("Pause"))
+            player.player.player.pause = False
 
     def on_next(self, *args, **kwargs):
         return utils.call_threaded(player.player.next)
@@ -212,9 +212,9 @@ class Controller(object):
 
     def on_timer(self, *args, **kwargs):
         if not self.window.time_slider.HasFocus():
-            if player.player.player != None:
-                progress = (player.player.player.get_position()/player.player.player.get_length())*100
-                self.window.time_slider.SetValue(progress)
+            if player.player.player.playback_time != None:
+                progress = (player.player.player.playback_time/(player.player.player.playback_time+player.player.player.playtime_remaining))*100
+                self.window.time_slider.SetValue(int(progress))
 
     def on_close(self, event):
         log.debug("Exiting...")
