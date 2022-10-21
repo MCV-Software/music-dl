@@ -4,7 +4,7 @@ bs4
 pypubsub
 yt-dlp
 python-mpv
-nuitka
+cx_freeze
 configobj
 winpaths
 mutagen
